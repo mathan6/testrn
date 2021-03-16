@@ -1,0 +1,197 @@
+
+
+import React, { useState, useEffect } from 'react';
+import {Text,View,FlatList,StyleSheet,ImageBackground, Image,TouchableOpacity,Platform,Alert} from 'react-native';
+import {COLORS} from './Styles/colors';
+import VoucherRewardItem from "./VoucherRewardItem";
+import { StylesAll } from "./commanStyle/objectStyle";
+
+
+import { Ltout,loginAction,loginPhoneAction } from './actions/loginActions'
+import { useDispatch,useSelector } from "react-redux";
+import { purgeStoredState } from "redux-persist";
+ 
+
+
+
+const HomeScreen = ( {navigation} ) => {
+   
+  const dispatch = useDispatch(); /// ======>>>Redux Hook <<<=====//
+  const LoginStatus = useSelector((state) => state.loginDetails);
+  const{loginData} = LoginStatus
+  const[favourite , setFavourite] = useState([]);
+
+
+  const loginAlertWithTwoButton = () => {
+    Alert.alert(
+      'Alert',
+      'Please Login to Reservation',
+      [{
+        text: "Cancel",
+        onPress: () => {
+
+        },
+         style: "cancel",
+      },
+       {
+         text: "OK",
+         onPress: () => {
+          //navigation.navigate('Detail');
+       },
+      
+       }]
+
+    );
+  };
+
+ 
+  useEffect(() => {
+ 
+    const unsubscribe = navigation.addListener('focus', () => {
+   
+     console.log('focusfocusfocusfocusfocusfocusfocus');
+
+    if (loginData !== null){
+      let abort = new AbortController();
+      var form = new FormData();
+       form.append('api_token',loginData.token);
+
+       console.log('formformformform',form);
+
+      fetch(
+        'http://tokyo.shiftlogics.com/api/favourite/viewFavourite',
+        {
+          method: 'POST',
+          headers: new Headers({
+             Accept: 'application/json',
+            'Content-Type': 'multipart/form-data',
+          }),
+          body: form,
+        },
+        {signal: abort.signal},
+      )
+        .then((response) => response.json())
+  
+        .then((data) => {
+
+          console.log('datadatadatadata',data);
+
+          if (data.status === 'success') {
+            setFavourite(data.data);
+          } else {
+            
+          }
+        })
+        .catch((e) => console.log(e));
+  
+      return () => {
+        abort.abort();
+      };
+
+    }else{
+     // loginAlertWithTwoButton();
+    }
+
+    });
+    return () => {
+      unsubscribe;
+    };
+
+
+    }, [ ]);
+
+    const onPress2 = () => {
+      navigation.navigate('NewFile');
+      console.log('Hi mathan');
+    }
+    
+
+    const renderItem = ({item}) => {
+      return (
+        <View style={StylesAll.rewardLists}>
+          <View style={{height: 200}}>
+            <Image
+              source={{uri: `http://shiftlogics.com/Tokyo/${item.photo}`}}
+              style={[
+                StylesAll.imageStyle,
+                {borderTopLeftRadius: 10, borderTopRightRadius: 10,backgroundColor:COLORS.app_brownlightheme},
+              ]}
+              resizeMode="cover"
+            />
+          </View>
+  
+          <View style={{flexDirection: 'row', padding: 15, alignItems: 'center'}}>
+            <View style={{flexDirection: 'column', flex: 1, paddingRight: 10}}>
+              <Text style={StylesAll.md_Title} numberOfLines={3}>
+                {item.title}
+              </Text>
+              <Text></Text>
+              <Text numberOfLines={2}>Download our app and get this exclusive voucher!</Text>
+            </View>
+            <View>
+              <TouchableOpacity onPress={() =>{
+                navigation.navigate('Voucherdetail',{dataValue : item,isVoucher : false});
+              }}>
+                <View style={StylesAll.sm_Button}>
+                  <Text style={StylesAll.btnText}>Invite</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      );
+    };
+
+    const EmptyListMessage = ({item}) => {
+
+      if (loginData === null) {
+        return (
+          <View style={[StylesAll.alertMsg,{flex:1}]}>
+            <Image
+              resizeMode="cover"
+              style={{width: 40, height: 40}}
+              source={require('./Image/opps.png')}
+            />
+            <Text style={[{marginTop: 5}, StylesAll.boldFont]}>Oops, login is required!</Text>
+          </View>
+        );
+      } else {
+        return (
+          <View style={StylesAll.alertMsg}>
+            <Image
+              style={{width: 40, height: 40}}
+              source={require('./Image/opps.png')}
+              resizeMode="cover"
+            />
+            <Text style={[{marginTop: 5}, StylesAll.boldFont]}>
+               No new voucher at this time!
+            </Text>
+          </View>
+        );
+      }
+    };
+
+    
+    return (
+
+      
+         <View style={{backgroundColor:COLORS.app_bgtheme,flex:1}}>
+            <FlatList  
+            contentContainerStyle={{padding:30}}
+   
+            showsVerticalScrollIndicator={false}
+
+            data= {favourite}
+ 
+            renderItem={renderItem}
+            
+            ListEmptyComponent={EmptyListMessage}
+            
+            />
+            
+        </View>
+          );
+        }
+        export default HomeScreen;
+ 
+        
