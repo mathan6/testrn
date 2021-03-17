@@ -48,6 +48,8 @@ import TopUp from './TopUp';
 import SampleTab from './SampleTab';
 import Timer from './TimerEx';
 import SplashScreen from './SplashScreen';
+import Reserve from './Reservation';
+
 
 
 
@@ -102,7 +104,9 @@ const App = () => {
             fontWeight: 'bold',
             fontFamily: 'Roboto-Regular',
           },
-        }}>
+        }}
+        headerMode='none'
+        >
           
           {/* <Stack.Screen
           name="Timer"
@@ -128,17 +132,28 @@ const App = () => {
           component={SplashScreen}
         />
        <Stack.Screen
+          name="Home"
+          options={{headerShown: false}}
+          component={Home}
+        />
+         
+         <Stack.Screen 
+          name="Reserve"
+          options={{headerShown: false}}
+          component={Reserve}
+           />
+          {/* <Stack.Screen
           name="Post"
           options={{headerShown: false}}
           component={Post}
         />
- 
+  */}
 
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Home"
           component={Home}
           options={{title: 'Home'}}
-        />
+        /> */}
 
         <Stack.Screen
           name="Login"

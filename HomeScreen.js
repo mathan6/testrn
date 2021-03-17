@@ -176,6 +176,7 @@ const HomeScreen = ( {navigation} ) => {
 
       
          <View style={{backgroundColor:COLORS.app_bgtheme,flex:1}}>
+           
             <FlatList  
             contentContainerStyle={{padding:30}}
    

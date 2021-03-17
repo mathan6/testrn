@@ -136,6 +136,7 @@ const Home = ({navigation}) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
+            paddingRight: 20,
           }}>
           <View style={{padding: 20}}>
             <Image
@@ -152,15 +153,16 @@ const Home = ({navigation}) => {
           </TouchableOpacity>
         </View>
         
-
+        { loginData == null ? null:
         <Text
-          style={[
-            {padding: 10, paddingLeft: 30},
-            COLORS.dashboard_name,
-            StylesAll.mediamFont,
-          ]}>
-          { (loginData == null) ? null : `Hi, ${loginData.name}` } 
-        </Text>
+        style={[
+          {padding: 10, paddingLeft: 30},
+          COLORS.dashboard_name,
+          StylesAll.mediamFont,
+        ]}>
+       Hi, {loginData.name} 
+      </Text>}
+        
 
         <View style={{flex: 1.2, paddingLeft: 20, paddingBottom: 10}}>
           <Text
@@ -205,6 +207,63 @@ const Home = ({navigation}) => {
             //keyExtractor={(item, index) => index.toString()}
             renderItem={renderItem}
           />
+          <View style={{flexDirection:"row" ,justifyContent:"space-around" ,paddingTop:15}}>
+
+          <TouchableOpacity onPress={() =>{
+            navigation.navigate('menuDashboard')
+          }}>
+          <View  style={styles.labelBox}>
+          <Image source={require('./Image/menuNew.png')} style={styles.labelIcons}/>
+          <Text  style={StylesAll.boldFont}>Menu</Text>
+
+          </View>
+
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() =>{
+            navigation.navigate('ScanQr')
+          }}>
+          <View style={styles.labelBox}>
+          <Image source={require('./Image/orderNew.png')}  style={styles.labelIcons}  />
+          <Text  style={StylesAll.boldFont}>Order</Text>
+
+          </View>
+
+          </TouchableOpacity>
+
+
+          <TouchableOpacity onPress={() =>{
+            navigation.navigate('Reserve')
+          }}>
+          <View style={styles.labelBox}>
+          <Image source={require('./Image/reserveNew.png')}  style={styles.labelIcons}/>
+
+          <Text  style={StylesAll.boldFont}>Reserve</Text>
+
+          </View>
+
+          </TouchableOpacity>
+
+
+          <TouchableOpacity onPress={() =>{
+             navigation.navigate('Outlet')
+          }}>
+
+          <View style={styles.labelBox}> 
+          <Image source={require('./Image/outletNew.png')} style={styles.labelIcons}/>
+
+          <Text style={StylesAll.boldFont}>Outlets</Text>
+
+
+          </View>
+
+
+          </TouchableOpacity>
+
+
+
+
+        </View>
 
           {/* <Carousel
         layout="default"
@@ -435,4 +494,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto-Bold',
     fontSize: 20,
   },
+  labelIcons:{width:25 ,height:25 ,marginBottom:10  } ,
+
+  labelBox:{alignItems:"center"}
 });

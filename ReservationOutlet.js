@@ -28,8 +28,7 @@ useEffect(() => {
  
   Geolocation.getCurrentPosition((pos) => {
     const crd = pos.coords;
-    console.log('lat',crd.latitude);
-    console.log('long',crd.longitude);
+  
     setPosition({
       latitude: crd.latitude,
       longitude: crd.longitude,
@@ -51,9 +50,19 @@ useEffect(() => {
       <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
       <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
          <View style={[StylesAll.flexWtrapper]}>
-          <View style={{flex:1}}>
+
+
+         <TouchableOpacity onPress={()=>navigation.goBack()}>
+<View style={[StylesAll.commonHeader,{paddingBottom:15}]}>
+<Image source={require('./Image/back.png')}/>
+<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>OUTLETS</Text>
+</View>
+</TouchableOpacity>
+
+           
+          
           <MapView
-              style={{flex:1}}
+              style={{flex:2}}
               ref={mapRef}
               mapType="standard"
               showsUserLocation={setShowUserLocation}
@@ -86,7 +95,7 @@ useEffect(() => {
             </View>
           </View>
 
-          <View style={{paddingHorizontal: 30, paddingVertical: 20}}>
+          <View style={{paddingHorizontal: 44, paddingVertical: 20}}>
             <Text style={[StylesAll.boldFont]}>Address</Text>
  
             <Text>{route.params?.dataValue.address}</Text>
@@ -95,12 +104,12 @@ useEffect(() => {
 
             <Text>{route.params?.dataValue.name}</Text>
           </View>
-        </View>
+  
 
         <View
           style={[
             StylesAll.flexWtrapper,
-            {justifyContent: 'flex-end', paddingHorizontal: 15},
+            {justifyContent: 'flex-end', padding: 20,flex:1},
           ]}>
           <TouchableOpacity>
             <View style={StylesAll.commonButton}>

@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react'
-import  {View,Text,Button,Image,TouchableOpacity,StyleSheet,Share,Dimensions,Linking,StatusBar} from 'react-native';
+import  {View,Text,Button,Image,TouchableOpacity,StyleSheet,Share,Dimensions,Linking,StatusBar,SafeAreaView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { TextInput } from 'react-native-gesture-handler';
  import {StylesAll} from './commanStyle/objectStyle';
@@ -128,6 +128,24 @@ const MyInvites = ({navigation}) => {
       
             <View style={StylesAll.flexScreen}>
             <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
+            <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+        <View style={{marginBottom: 20,paddingHorizontal:20}}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <View
+              style={[
+                StylesAll.commonHeader,
+                {paddingHorizontal: 0, paddingTop: 0},
+              ]}>
+              <Image source={require('./Image/back.png')} />
+              <Text
+                style={[StylesAll.main_Title, {marginBottom: 0, fontSize: 20}]}>
+               INVITE
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+            
             <View style={{flexDirection: 'column',alignItems: 'center'}}>
         
              <Image source={require('./Image/girls.jpeg')} 
@@ -205,7 +223,7 @@ const MyInvites = ({navigation}) => {
             </TouchableOpacity>
 
             </View>
-
+            </SafeAreaView>
         </View>
 );
 }

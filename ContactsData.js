@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from "react";
-import {View,StyleSheet,TouchableOpacity,FlatList,backgroundColor,Text,Platform,PermissionsAndroid,SafeAreaView, StatusBar,TextInput,Share,Linking} from "react-native";
+import {View,StyleSheet,TouchableOpacity,FlatList,backgroundColor,Text,Platform,PermissionsAndroid,SafeAreaView, StatusBar,TextInput,Share,Linking,Image} from "react-native";
 import Contacts from 'react-native-contacts';
 import { StylesAll } from "./commanStyle/objectStyle";
 
@@ -158,10 +158,11 @@ const  ContactsData = ({navigation,route}) => {
   const renderItem = ({ item }) => {
     return(
      <View style={styles.item}>
+ 
      <View style={{flexDirection:'column'}}>
-     <Text style={styles.title,StylesAll.LoginBoldFont2}>{item.givenName+ " " +item.familyName }</Text>
+     <Text style={[styles.title,StylesAll.LoginBoldFont2,{paddingBottom: 10}]}>{item.givenName+ " " +item.familyName }</Text>
             {item.phoneNumbers.map(phone => (
-         <Text style={styles.phones,StylesAll.boldFontLight,COLORS.app_browntheme}>{phone.number}</Text>
+         <Text style={styles.phones,StylesAll.boldFontLight,COLORS.grey_200}>{phone.number}</Text>
                ))}
       </View>
       
@@ -192,11 +193,23 @@ const  ContactsData = ({navigation,route}) => {
  
   return (
 
-    <View style={{flex: 1, flexDirection: 'column',padding: 20,backgroundColor:'#fafbfb'}}>
+    <View style={{flex: 1, flexDirection: 'column',padding: 30,backgroundColor:'#fafbfb'}}>
     <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
     <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
-    <Text style={[{padding:10},StylesAll.boldFont]}>Search for Contacts</Text>
-    <View style={{backgroundColor:COLORS.app_bgtheme}}>
+
+    <View style={{marginBottom:20}}>
+<TouchableOpacity onPress={()=>navigation.goBack()}>
+<View style={[StylesAll.commonHeader ,{paddingHorizontal:0 ,paddingTop:0}]}>
+<Image source={require('./Image/back.png')}/>
+ 
+</View>
+</TouchableOpacity>
+
+</View>
+
+
+    <Text style={[{marginBottom:10},StylesAll.boldFont]}>Search for Contacts</Text>
+    <View style={{backgroundColor:COLORS.app_bgtheme,marginBottom:10}}>
  
   <TextInput
     autoCapitalize="none"
@@ -205,17 +218,16 @@ const  ContactsData = ({navigation,route}) => {
     value={query}
     onChangeText={queryText => handleSearch(queryText)}
     placeholder="Enter Name"
-    style={[{ backgroundColor: COLORS.profile_list_bg, paddingHorizontal: 20,height:45 ,borderRadius: 30},StylesAll.boldFont]}
+    style={[{ backgroundColor: COLORS.profile_list_bg, paddingHorizontal: 20,height:45 ,borderRadius: 30,marginVertical:20},StylesAll.boldFont]}
   />
-
  
-
   <Text style={[{paddingTop: 10,paddingBottom: 5},StylesAll.boldFont]}>All Contacts</Text>
 
  </View>
 
       <FlatList
         data={data}
+        showsVerticalScrollIndicator={false}
         //ListHeaderComponent={renderHeader}
         renderItem={renderItem}
         //stickyHeaderIndices={[0]}
@@ -224,8 +236,8 @@ const  ContactsData = ({navigation,route}) => {
       <TouchableOpacity onPress={() =>{
         onShare()
       }}>
-      <View style={{backgroundColor: COLORS.app_browntheme,margin:20,borderRadius:20,justifyContent:'center',alignItems:'center'}}>
-      <Text style={[{padding:15,color:'#fff'},StylesAll.boldFont]}> Invite All </Text>
+      <View style={{backgroundColor: COLORS.app_browntheme,margin:20,borderRadius:50,justifyContent:'center',alignItems:'center'}}>
+      <Text style={[{padding:15,color:'#fff'},StylesAll.boldFont]}> SUBMIT </Text>
       </View>
       </TouchableOpacity>
      
@@ -246,7 +258,7 @@ const styles = StyleSheet.create({
    flexDirection:'row',
    justifyContent:'space-between',
    alignItems:'center',
-    padding: 10,
+ 
     marginVertical: 10,
  
   },

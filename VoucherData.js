@@ -241,6 +241,13 @@ navigation.navigate('Voucherdetail',{dataValue : item,isVoucher:true});
       flexDirection: 'column',backgroundColor:COLORS.app_bgtheme}}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.app_bgtheme}></StatusBar>
       <SafeAreaView style={{flex: 1}}>
+      <TouchableOpacity onPress={()=>navigation.goBack()}>
+      <View style={StylesAll.commonHeader}>
+<Image source={require('./Image/back.png')}/>
+<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>VOUCHER</Text>
+</View>
+</TouchableOpacity>
+
         <FlatList
           showsVerticalScrollIndicator={false}
           numColumns={1}
@@ -248,7 +255,7 @@ navigation.navigate('Voucherdetail',{dataValue : item,isVoucher:true});
           ListEmptyComponent={EmptyListMessage}
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
-          contentContainerStyle={{padding:30}}
+          contentContainerStyle={{padding:33}}
         />
       </SafeAreaView>
       <View>{isLoadingList ? <ActivityIndi /> : <View></View>}</View>

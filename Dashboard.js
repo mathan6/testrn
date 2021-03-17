@@ -232,13 +232,23 @@ const Dashboard = ({navigation}) => {
       <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
 
         {loginData === null ? <LoginEmpty/> :   
-      <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+      <SafeAreaView style={{flex: 1, flexDirection: 'column',backgroundColor:'#FFF'}}>
+  <View style={{marginBottom:10,paddingHorizontal:20}}>
+<TouchableOpacity onPress={()=>navigation.goBack()}>
+<View style={[StylesAll.commonHeader ,{paddingHorizontal:0 ,paddingTop:0}]}>
+<Image source={require('./Image/back.png')}/>
+<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>MEMBER</Text>
+</View>
+</TouchableOpacity>
+
+</View>
 
         
         <View style={StylesAll.Wallet_layer1}>
           <Text>Wallet Balance</Text>
           <Text></Text>
-          <Text style={StylesAll.wl_ammount}>RM {userData.wallet}</Text>
+        
+          <Text style={StylesAll.wl_ammount}>RM {(Math.round(userData.wallet * 100) / 100).toFixed(2)} </Text>
         </View>
 
         <View style={StylesAll.commonWrapper}>
@@ -300,10 +310,11 @@ const Dashboard = ({navigation}) => {
             </View>
 
             <ImageBackground
+               imageStyle={{ borderRadius:15,}}
               source={require('./Image/member_card.png')}
               style={{width: '100%', height: 232}}
               >
-              <View style={{padding: 20, position: 'relative'}}>
+              <View style={{paddingVertical: 30, position: 'relative'}}>
                 <View style={StylesAll.memberStatus}>
                   <Text
                     style={[
@@ -327,28 +338,29 @@ const Dashboard = ({navigation}) => {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                     paddingTop: 30,
+                    paddingHorizontal:20
                   }}>
                   <View>
                     <Text
                       style={[
                         StylesAll.whitecolor,
                         StylesAll.boldFont,
-                        {fontSize: 17},
+                        {fontSize: 15,marginBottom:10},
                       ]}>
                       {userData.name}
                     </Text>
 
-                    <Text style={[StylesAll.whitecolor]}>
+                    <Text style={[StylesAll.whitecolor,{fontSize:12,paddingBottom:5}]}>
                       ID:{userData.referral_code}
                     </Text>
 
-                    <Text style={[StylesAll.whitecolor]}>
+                    <Text style={[StylesAll.whitecolor,{fontSize:12}]}>
                       Member Since :{' '}
                       {moment(userData.created_at).format('DD:mm:yyyy')}{' '}
                     </Text>
                     <Text></Text>
-                    <Text>
-                      <Text style={[StylesAll.whitecolor]}>Your Points: </Text>
+                    <View style={{flexDirection:'row',alignItems:'center'}}>
+                      <Text style={[StylesAll.whitecolor,{fontSize:12}]}>Your Points: </Text>
                       <Text
                         style={[
                           StylesAll.whitecolor,
@@ -357,12 +369,12 @@ const Dashboard = ({navigation}) => {
                         ]}>
                         {userData.point} Points
                       </Text>
-                    </Text>
+                    </View>
                   </View>
 
                   <View>
                   <Image  source={require('./Image/order.png')}
-                      style={{width:50,height:50}}
+                       
                       
                       />
                   </View>

@@ -53,7 +53,7 @@ const Detail = ( {navigation} ) => {
    useEffect(() => {  
     
     if (status === "failure"){
-      console.log("failurefailurefailurefailurefailurefailurefailurefailure");
+    
       dispatch(Ltout(purgeStoredState))
     } 
 
@@ -64,22 +64,21 @@ const Detail = ( {navigation} ) => {
      }
 
      const onPress1 = () => {
-        console.log('Hi mathan');
         navigation.navigate('WebViewComman',{urlString : 'https://www.facebook.com/tokyosecretmalaysia'})
      }
   
      const onPress2 = () => {
        navigation.navigate('feedBack')
-       console.log('Hi mathan');
+       
      }
   
    const onPress3 = () => {
-       console.log('Hi mathan');
+   
        navigation.navigate('WebViewComman',{urlString : 'https://www.instagram.com/tokyosecretmy/?hl=en'})
      }
   
       const onPress4 = () => {
-       console.log('Hi mathan');
+      
        navigation.navigate('WebViewComman',{urlString : 'https://tokyosecret.com/index.php?route=information/information&information_id=5'})
      }
   
@@ -101,10 +100,23 @@ const Detail = ( {navigation} ) => {
       <View style={StylesAll.flexScreen}>
       <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
       <SafeAreaView style={StylesAll.flexScreen}>
+
+
+
+      <TouchableOpacity onPress={()=>navigation.goBack()}>
+<View style={[StylesAll.commonHeader ,{paddingHorizontal:25}]}>
+<Image source={require('./Image/back.png')}/>
+<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>PROFILE</Text>
+</View>
+</TouchableOpacity>
+
+
         
            <View style={{flex:1}}>
            <View style = {styles.loginHeaderView}>
-           <Image style={styles.search}
+
+<View style={{flexDirection:"row" ,alignItems:"center"}}> 
+<Image style={styles.search}
             source={require('./Image/user.png')}
             resizeMode= 'contain'
             />
@@ -121,6 +133,10 @@ const Detail = ( {navigation} ) => {
           </Text>
            </View>
            </TouchableOpacity>
+</View>
+          
+
+
            </View>
      
       
@@ -128,7 +144,7 @@ const Detail = ( {navigation} ) => {
          <TouchableOpacity onPress={onPress2}>
          <View style = {styles.ListHeaderView}>
          <Image style={styles.list}
-          source={require('./Image/profile_feedback.png')}/>
+          source={require('./Image/feedback1.png')}/>
          <Text style={styles.logintext1}>
           Feedback
          </Text>
@@ -138,7 +154,7 @@ const Detail = ( {navigation} ) => {
          <TouchableOpacity onPress={onPress1}>
          <View style = {styles.ListHeaderView}>
          <Image style={styles.list}
-          source={require('./Image/profile_fb.png')}/>
+          source={require('./Image/facebook.png')}/>
          <Text style={styles.logintext1}>
           Join Us on Facebook
          </Text>
@@ -148,7 +164,7 @@ const Detail = ( {navigation} ) => {
         <TouchableOpacity onPress={onPress3}>
         <View style = {styles.ListHeaderView}>
          <Image style={styles.list}
-          source={require('./Image/instagrams1.png')}/>
+          source={require('./Image/instagram.png')}/>
         <Text style={styles.logintext1}>
         Join Us on Instagram
         </Text>
@@ -158,7 +174,7 @@ const Detail = ( {navigation} ) => {
         <TouchableOpacity onPress={onPress4}>
         <View style = {styles.ListHeaderView}>
          <Image style={styles.list}
-          source={require('./Image/profile_terms.png')}/>
+          source={require('./Image/terms_of_use.png')}/>
        <Text style={styles.logintext1}>
         Terms Of Use
         </Text>
@@ -168,7 +184,7 @@ const Detail = ( {navigation} ) => {
          <TouchableOpacity onPress={onPress5}>
         <View style = {styles.ListHeaderView}>
          <Image style={styles.list}
-           source={require('./Image/profile_pp.png')}/>
+           source={require('./Image/privacy_policy.png')}/>
        <Text style={styles.logintext1}>
         Privacy Policy
         </Text>
@@ -179,8 +195,8 @@ const Detail = ( {navigation} ) => {
         {(loginData === null ) ?  <View/> :
          <TouchableOpacity onPress={onPress6}>
          <View style = {styles.ListHeaderView}>
-          <Image style={styles.list}
-            source={require('./Image/logout.png')}/>
+         <Image style={[styles.list ,{width:20 ,height:20 ,position:"relative" ,right:-4}]}
+            source={require('./Image/logout.png')}  resizeMode="contain"/>
         <Text style={styles.logintext1}>
          Logout
          </Text>
@@ -270,9 +286,8 @@ const styles = StyleSheet.create({
   
     listView: {
       flex:1,
-      backgroundColor : COLORS.profile_list_bg,
-      paddingLeft: 20,
-      paddingRight: 20,
+      backgroundColor :"#F2F2F2",
+     paddingHorizontal:25,
       paddingTop: 20
      },
   
@@ -286,8 +301,8 @@ const styles = StyleSheet.create({
   
     loginHeaderView:{
      backgroundColor : COLORS.app_bgtheme,flexDirection:"row",
-     alignItems:"center",
-     flex:0.3
+   
+     paddingHorizontal:25 ,paddingVertical:50
     },
      ListHeaderView:{
      flexDirection:"row",
@@ -306,8 +321,8 @@ const styles = StyleSheet.create({
   
     logintext1:{
       color : COLORS.profile_list_title,
-      
-      paddingLeft : 10
+      fontSize:16,
+      paddingLeft : 16,color:"#000"
     },
       logintext2:{
       color : 'gray',
@@ -317,29 +332,10 @@ const styles = StyleSheet.create({
     },
      search:{
       width:60,
-      height:60,
-      margin:20,
+      height:60, marginRight:15
+
+    
     },
     
     
   });
-
-  
-/*
-
-const Post = ({navigation}) => {
-    return (
-        <View style = {{backgroundColor : 'red'}}>
-            <Text> Welcomemathan
-            </Text>
-            <TouchableOpacity>
-                <View style={{backgroundColor : "red"}}>
-                    <Text> NEXT
-                        </Text>
-                </View>
-            </TouchableOpacity>
-        </View>
-    )
-}
-
-*/

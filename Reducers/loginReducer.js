@@ -95,6 +95,20 @@ function loginReducer(
             status : extractStatus3,
           };
 
+          case LOGIN_SOCIAL_GOOGLE :
+
+            let jsonData4 = action.payload;
+
+            let extractData4 = jsonData4.data;
+  
+            let extractStatus4 = jsonData4.status;
+  
+            return{
+              loginData : extractData4,
+              status : extractStatus4,
+            };
+
+
     case LOG_OUT:
        return {token: '',status: null,loginData: null};
 

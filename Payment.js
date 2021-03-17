@@ -1,5 +1,5 @@
 import React,{useEffect} from 'react';
-import {View, Text, StatusBar, SafeAreaView, Image} from 'react-native';
+import {View, Text, StatusBar, SafeAreaView, Image,TouchableOpacity} from 'react-native';
 import {StylesAll} from "./commanStyle/objectStyle"
 
 import QRCode from 'react-native-qrcode-image';
@@ -31,6 +31,24 @@ import { purgeStoredState } from "redux-persist";
     <View style={StylesAll.commonWrapper}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
       <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+ 
+        <View style={{marginBottom: 20}}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <View
+              style={[
+                StylesAll.commonHeader,
+                {paddingHorizontal: 0, paddingTop: 0},
+              ]}>
+              <Image source={require('./Image/back.png')} />
+              <Text
+                style={[StylesAll.main_Title, {marginBottom: 0, fontSize: 20}]}>
+                {route.params?.isPayment === true ? 'PAY' : 'TOP UP'}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+              
+
         <View style={{flex: 1, justifyContent: 'center'}}>
           <View style={[StylesAll.qrBox,{justifyContent:'center',alignItems:'center'}]}>
           <QRCode
@@ -39,12 +57,15 @@ import { purgeStoredState } from "redux-persist";
           bgColor='#FFFFFF'
           fgColor='#000000'
           />
+          <View style={{position:"absolute" , top:"55%" ,left:"55%"}}>
+<Image source={require('./Image/QRimage.jpeg')} style={{width:50 ,height:50,}} resizeMode="contain"/>
+</View>
           </View>
 
           <View style={StylesAll.qrbottomBox}>
             <Text style={StylesAll.btnText}>Wallet</Text>
 
-            <Text style={StylesAll.btnText}>RM {route.params?.memberData.wallet}</Text>
+            <Text style={StylesAll.btnText}>RM {(Math.round(route.params?.memberData.wallet * 100) / 100).toFixed(2)} </Text>
           </View>
         </View>
       </SafeAreaView>

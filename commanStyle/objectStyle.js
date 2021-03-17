@@ -12,7 +12,13 @@ import {COLORS} from '../Styles/colors';
         letterSpacing: 1,
         marginBottom: 10,
       },
-    
+
+      commonHeader:{paddingHorizontal:33,
+                    flexDirection:"row",
+                    alignItems:"center",
+                    paddingTop:20
+                    },
+
       commonWrapper: {
         paddingHorizontal: 30,
         paddingVertical: 15,
@@ -48,9 +54,19 @@ import {COLORS} from '../Styles/colors';
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingVertical:10
+        paddingVertical:13
       },
-    
+      commonButtondisabled:{
+        backgroundColor: '#D3C5A0',
+       
+        borderRadius: 20,
+       paddingHorizontal:40,
+       
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical:13
+      },
       btnText: {color: '#fff', fontFamily: 'Roboto-Medium'},
     
       ltguestWrapper: {
@@ -61,29 +77,29 @@ import {COLORS} from '../Styles/colors';
     
       fbButton: {
         backgroundColor: '#2874f0',
-        paddingHorizontal: 12,
-        paddingVertical: 10,
+        paddingHorizontal: 10, 
+        paddingVertical: 11,
         borderRadius: 50, flexDirection:"row" ,justifyContent:"center" ,alignItems:"center",
       },
       googleButton: {
         borderRadius: 50,
         borderWidth: 1,
-        paddingHorizontal: 12,
-        
+        paddingHorizontal: 10,
+       
         borderColor: '#2874f0',
-        paddingVertical: 10,
+        paddingVertical: 11,
         marginHorizontal: 5,flexDirection:"row" ,justifyContent:"center" ,alignItems:"center"
       },
 
       appleButton: {
-      backgroundColor: '#000',
-      paddingHorizontal: 20,
-      paddingVertical: 12,
-      width: '100%',
-      borderRadius: 50,
-      marginTop: 20, 
-      width: '100%', flexDirection:"row" ,justifyContent:"center" ,alignItems:"center"
-      },
+        backgroundColor: '#000',
+        paddingHorizontal: 20,
+        paddingVertical: 12,
+        width: '100%',
+        borderRadius: 50,
+        marginTop: 20, 
+        width: '100%', flexDirection:"row" ,justifyContent:"center" ,alignItems:"center"
+        },
     
       line1: {borderWidth: 1  , borderColor: '#F3F4F4', width: '45%', height: 1},
     
@@ -114,7 +130,7 @@ import {COLORS} from '../Styles/colors';
     
       listBox: {
         position: 'relative',
-        height: 200,
+        height: 180,
         borderRadius: 10,
         overflow: 'hidden',
         marginBottom: 20,
@@ -132,9 +148,9 @@ import {COLORS} from '../Styles/colors';
       productLists: {
         flexDirection: 'row',
         width: '100%',
-        height: 180,
+        height: 145,
         backgroundColor: '#fff',
-        padding: 20,
+        paddingVertical: 20,paddingHorizontal:13,
         borderRadius: 15,
         marginBottom: 20,
         shadowColor: '#000',
@@ -171,7 +187,7 @@ import {COLORS} from '../Styles/colors';
         backgroundColor: COLORS.app_browntheme,
         paddingHorizontal: 15,
         borderRadius: 20,
-        paddingVertical: 10,
+        paddingVertical: 8,
       },
     
       historyLists: {
@@ -234,8 +250,8 @@ import {COLORS} from '../Styles/colors';
       },
     
       btnIcons: {
-        width: 20,
-        height: 20,
+        width: 15,
+        height: 15,
         marginRight: 10,
       },
     
@@ -269,7 +285,7 @@ import {COLORS} from '../Styles/colors';
         common_Modal:{flex:1 ,flexDirection:"column" ,backgroundColor:"#000000a3" ,padding:30 }, 
         modalBox:{  backgroundColor:"#fff" ,paddingVertical:30 ,paddingHorizontal:20 ,borderRadius:15},
         redeemQrbox:{backgroundColor:"#fff" ,padding:20 ,width:240 ,height:240},
-        inputBox:{borderWidth:1 ,borderColor:"#cccccc" ,borderRadius:50 ,height:45  ,paddingHorizontal:15},
+        inputBox:{borderWidth:1 ,borderColor:"#cccccc" ,borderRadius:50 ,height:45  ,paddingHorizontal:15,marginBottom:15},
         mediumBtn:{minWidth:120 ,borderRadius:50,padding:12},
 
         cancelBtn:{
@@ -333,6 +349,27 @@ import {COLORS} from '../Styles/colors';
        fontSize : 15,
    },
 
+   boldFontNew1: {
+    fontFamily: 'Roboto-Bold',
+    fontSize : 8,
+},
+boldFontNew11: {
+  fontFamily: 'Roboto-Bold',
+  fontSize : 10,
+},
+
+
+   boldFontNew: {
+    fontFamily: 'Roboto-Bold',
+    fontSize : 8,
+},
+
+   boldFont11: {
+    fontFamily: 'Roboto-Bold',
+    fontSize : 13,
+},
+
+ 
    boldFont2: {
     fontFamily: 'Roboto-Bold',
     fontSize : 20,
@@ -343,11 +380,20 @@ import {COLORS} from '../Styles/colors';
     fontSize : 12,
     },
 
+    boldFontLight1: {
+      fontFamily: 'Roboto-Medium',
+      fontSize : 10,
+      },
+
     LoginBoldFont2: {
       fontFamily: 'Roboto-Bold',
       fontSize : 12,
   },
   
+  LoginBoldFont3: {
+    fontFamily: 'Roboto-Bold',
+    fontSize : 14,
+},
    LoginBoldFont: {
     fontFamily: 'Roboto-Bold',
     fontSize : 22,

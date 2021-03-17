@@ -1,6 +1,7 @@
 export const LOGIN_PHONE = "LOGIN_PHONE";
 export const LOGIN_SOCIAL = "LOGIN_SOCIAL"
 export const LOGIN_SOCIAL_GOOGLE = "LOGIN_SOCIAL_GOOGLE"
+export const LOGIN_SOCIAL_APPLE = "LOGIN_SOCIAL_APPLE"
 
 export const LOGIN_REQ = 'LOGIN_REQ';
 export const LOGIN_RESPONSE = 'LOGIN_SUCCESS';

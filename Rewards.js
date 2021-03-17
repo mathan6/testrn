@@ -36,6 +36,16 @@ const Rewards = ( {navigation} ) => {
       flexDirection: 'column',paddingVertical: 20}}>
       <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
       <SafeAreaView style={{flex:  1}}>
+
+      <View style={{marginBottom:20}}>
+    <TouchableOpacity onPress={()=>navigation.goBack()}>
+<View style={[StylesAll.commonHeader ,{paddingHorizontal:25,paddingTop:0}]}>
+<Image source={require('./Image/back.png')}/>
+<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>REWARDS</Text>
+</View>
+</TouchableOpacity>
+
+</View>
         <MyTabs/>
 
           {/* <Tab.Navigator  initialRouteName="Home"

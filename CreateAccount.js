@@ -42,8 +42,6 @@ useEffect(() => {
   return () => clearInterval(secTimer);
 }, []);
 
-
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -57,8 +55,6 @@ useEffect(() => {
      hideDatePicker();
   };
 
-
-
 const createAlertWithTwoButton = ( itemValue, phoneNumber, dataValue ) =>  
 
   Alert.alert(
@@ -70,13 +66,12 @@ const createAlertWithTwoButton = ( itemValue, phoneNumber, dataValue ) =>
         style: 'cancel',
       },
       {text: 'ok', onPress: () => 
-         (itemValue == "success") ?   navigation.navigate('ResentOtp',{phoneNumberData : phoneNumber,loginData : dataValue,isCreate : true}) :  navigation.goBack() 
+         (itemValue == "success") ?   navigation.navigate('ResentOtp',{phoneNumberData : phoneNumber,loginData : dataValue,isCreate : true}) :  {} 
      },
     ],
     {cancelable: false},
   );
-
-  //const [value, onChangeText] = React.useState('+61');
+ 
   const [value1, onChangeText1] = React.useState('');
 
   return (
@@ -98,15 +93,19 @@ const createAlertWithTwoButton = ( itemValue, phoneNumber, dataValue ) =>
            validationSchema={CreateAccountData}
            onSubmit={async (values) => {
             setIsLoadingList(true)
+            console.log('values.phoneCode.slice(1)',values.phoneCode.slice(1));
+
            let abort = new AbortController();
                 var form = new FormData();
                 form.append('name', values.name)
                 form.append('email',values.email)
-                form.append('phone',values.phoneCode + values.phoneNumber)
+                form.append('phone',value.slice(1)  + values.phoneNumber)
                 form.append('password',values.password)
                 form.append('app_secret','tokenhere')
                 form.append('dob',selectedDate)
               
+                console.log('formmmmmm',form);
+
                fetch(
                   'http://tokyo.shiftlogics.com/api/user/register',
                    {
@@ -123,13 +122,30 @@ const createAlertWithTwoButton = ( itemValue, phoneNumber, dataValue ) =>
 
 .then((data) => {
  
+
+  console.log('datadatadatadatadata',data);
+
   setIsLoadingList(false)
 if (data.status === 'success') {
  
     createAlertWithTwoButton( data.status , (value.slice(1)  + values.phoneNumber) , data.data)
  } else {
  
-  createAlertWithTwoButton(data.data.email[0], '','')
+
+if (data.data.phone.length > 0 || data.data.email.length > 0) {
+
+  if (data.data.phone.length > 0){
+    createAlertWithTwoButton(data.data.phone[0], '','')
+  }else{
+    createAlertWithTwoButton(data.data.email[0], '','') 
+  }
+}else{
+  createAlertWithTwoButton(data.data.status, '','')
+}
+
+ 
+
+
 }
 })
 .catch((e) => {

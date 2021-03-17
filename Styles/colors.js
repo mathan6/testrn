@@ -42,7 +42,11 @@ export const COLORS = {
 
     profile_list_bg : '#F2F2F2',
 
-    profile_list_title : '#838383'
+    profile_list_title : '#838383',
+
+    disable_btn : '#D3C5A0',
+
+    snack_bg : '#C02925'
 
 }
 

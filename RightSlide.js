@@ -51,13 +51,6 @@ export default function Drawer({navigation}) {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity   onPress={()=>navigation.navigate('menuDashboard')} >
-            <View style={styles.drawerMenu}>
-              <Text style={[styles.drawerMenutext,global.mediumfont,global.commom_color]}>Menu</Text>
-              <View style={styles.menuSeprator}></ View>
-            </View>
-          </TouchableOpacity>
-
           <TouchableOpacity onPress={()=>navigation.navigate('Dashboard')}>
           <View style={styles.drawerMenu}>
           <Text style={[styles.drawerMenutext,global.mediumfont,global.commom_color]}>Member</Text>

@@ -1,4 +1,4 @@
-import {LOGIN_FAIL, LOGIN_REQ, LOGIN_RESPONSE, LOG_OUT,LOGIN_PHONE,LOGIN_SOCIAL,LOGIN_SOCIAL_GOOGLE} from './Constants';
+import {LOGIN_FAIL, LOGIN_REQ, LOGIN_RESPONSE, LOG_OUT,LOGIN_PHONE,LOGIN_SOCIAL,LOGIN_SOCIAL_GOOGLE,LOGIN_SOCIAL_APPLE} from './Constants';
 import {
   Alert} from "react-native";
 export const loginAction = (values, code, load) => async (dispatch) => {
@@ -52,18 +52,32 @@ export const loginSocialAction = (idValue,name,email,navigation) => async(dispat
           .then((response) => response.json())
           .then((data) => {
  
-            dispatch({type: LOGIN_SOCIAL, payload: data});
- 
-              if (data.status === 'success')  {
-                if (data.data.phone_verified == "1"){
-                  navigation.navigate('loginWithPhone');
-                }else{
-                  navigation.navigate('Home');
-                  console.log("phone verified0");
+            dispatch({type: LOGIN_SOCIAL_APPLE, payload: data});
+  
+            Alert.alert(
+              data.status,
+              "",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                { text: "OK", onPress: () => {
+                  if (data.status === 'success')  {
+                  if (data.data.phone_verified == "1"){
+                    navigation.navigate('loginWithPhone');
+                  }else{
+                    navigation.navigate('Home');
+                    console.log("phone verified0");
+                  }
                 }
-               } else {
-                 console.log("data value",data);
-               }
+                } }
+              ],
+              { cancelable: false }
+            );
+
+
               })
               .catch((e) => {
                console.log(e);   
@@ -74,6 +88,77 @@ export const loginSocialAction = (idValue,name,email,navigation) => async(dispat
 }
 
 //    NSString *req = [NSString stringWithFormat:@"google_id=%@&email=%@&name=%@&dob=",userId,email,fullName];
+
+//http://tokyo.shiftlogics.com/api/user/loginapple
+
+ 
+
+
+
+export const loginSocialAppleAction = (idValue,name,email,navigation) => async(dispatch) => {
+
+  console.log("funcation");
+  let abort = new AbortController();
+  var form = new FormData();
+  form.append('apple_id',idValue),
+  form.append('name',email),
+  form.append('email',name),
+  form.append('dob',""),
+
+
+  console.log("formformformform",form);
+
+       fetch(
+          'http://tokyo.shiftlogics.com/api/user/loginapple',
+           {
+              method: 'POST',
+              headers: new Headers({
+              Accept: 'application/json',
+              'Content-Type': 'multipart/form-data',
+             }),
+              body: form,
+          },
+          {signal: abort.signal}, 
+           )
+          .then((response) => response.json())
+          .then((data) => { 
+            dispatch({type: LOGIN_SOCIAL_GOOGLE, payload: data});
+
+                 console.log("data value",data);
+
+            
+                Alert.alert(
+                  data.status,
+                  "",
+                  [
+                    {
+                      text: "Cancel",
+                      onPress: () => console.log("Cancel Pressed"),
+                      style: "cancel"
+                    },
+                    { text: "OK", onPress: () => {
+                      if (data.status === 'success')  {
+                      if (data.data.phone_verified == "1"){
+                        navigation.navigate('loginWithPhone');
+                      }else{
+                        navigation.navigate('Home');
+                        console.log("phone verified0");
+                      }
+                    }
+                    } }
+                  ],
+                  { cancelable: false }
+                );
+                
+
+              })
+              .catch((e) => {
+               console.log(e);   
+              })
+              return () => {
+              abort.abort();
+            };
+}
 
 
 export const loginSocialGoogleAction = (idValue,name,email,navigation) => async(dispatch) => {
@@ -111,7 +196,7 @@ export const loginSocialGoogleAction = (idValue,name,email,navigation) => async(
                 if (data.data.phone_verified == "1"){
                   navigation.navigate('loginWithPhone');
                 }else{
-                  navigation.navigate('Home');
+                  navigation.navigate('Post');
                   console.log("phone verified0");
                 }
                } else {

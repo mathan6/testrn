@@ -7,11 +7,12 @@ import {COLORS} from './Styles/colors';
 
 import Friends from './Friends';
 import HomeScreen from './HomeScreen';
+import { StylesAll } from './commanStyle/objectStyle';
 
 
 export default function MyTabBar({ state, descriptors, navigation }) {
   return (
-    <View style={{flexDirection: 'row',backgroundColor: '#fafbfb',height:50,justifyContent:"center",alignItems:"center" }}>
+    <View style={{flexDirection: 'row',backgroundColor: '#fafbfb',justifyContent:"center",alignItems:"center" }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
@@ -52,8 +53,8 @@ export default function MyTabBar({ state, descriptors, navigation }) {
             style={{ flex: 1, alignItems:"center"}}
           >
            
-            <View  style={{backgroundColor:isFocused? COLORS.app_browntheme : COLORS.app_bgtheme ,borderRadius:50 ,paddingHorizontal:20 ,paddingVertical:15,width: 130,alignItems:'center',justifyContent:'center'}}>
-            <Text style={{ color: isFocused ? 'white' : 'black'}}>
+            <View  style={{backgroundColor:isFocused? COLORS.app_browntheme : COLORS.app_bgtheme ,borderRadius:50 ,paddingHorizontal:20 ,paddingVertical:11,width: 140,alignItems:'center',justifyContent:'center'}}>
+            <Text style={isFocused ? [{fontSize:15 ,color:"#fff" } ,StylesAll.mediamFont ]   :[{fontSize:15 ,color:"#000" } ,StylesAll.mediamFont] }>
               {label}
             </Text>
 

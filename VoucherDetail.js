@@ -382,9 +382,10 @@ import { COLORS } from './Styles/colors';
         <Modal animationType="none" transparent={true} visible={modalVisible}>
       <View style={[StylesAll.common_Modal, {justifyContent: 'center'}]}>
       <View style={StylesAll.modalBox}>
-      <Text style={[StylesAll.main_Title, {textAlign: 'center'}]}>
-        Congratulations!
-      </Text>
+      <View >
+           <Image    source={require('./Image/congrat.png')}   resizeMode="contain"   style={{width: "100%", height: 120 ,position:"absolute" ,top:-100}} />
+
+           </View>
 
       <Text style={[StylesAll.commom_color, StylesAll.mediumfont]}>
         Redeem Successful! You may view your Voucher at "Rewards"

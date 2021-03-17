@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text,Dimensions,StatusBar, View, StyleSheet, Image, ScrollView, ImageBackground, FlatList,TouchableOpacity ,Platform,TouchableHighlight,Button,PermissionsAndroid,Linking} from 'react-native';
+import { Text,Dimensions,StatusBar, View, StyleSheet, Image, ScrollView, ImageBackground, FlatList,TouchableOpacity ,Platform,TouchableHighlight,Button,PermissionsAndroid,Linking,SafeAreaView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import MapView from 'react-native-maps'
 import Geolocation from '@react-native-community/geolocation';
@@ -142,7 +142,16 @@ const gh =(cor)=>{
 
 return(
 
-    <View style={{flex: 1,flexDirection : 'column'}}>
+    <View style={{flex: 1,flexDirection : 'column',backgroundColor:'#fff'}}>
+<SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+<TouchableOpacity onPress={()=>navigation.goBack()}>
+<View style={[StylesAll.commonHeader ,{paddingBottom:15}]}>
+<Image source={require('./Image/back.png')}/>
+<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>OUTLETS</Text>
+</View>
+</TouchableOpacity>
+
+
         <View style={{flex: 1.5}}>
         <MapView
          ref={mapRef}
@@ -163,10 +172,10 @@ return(
       <MapView.Marker
        coordinate={position} />   
       </MapView>
-      <View style={{flex:1, backgroundColor: 'white',marginBottom: 0,width: '100%',borderRadius: 20}}>
+      <View style={styles.outletData}>
  
               <FlatList 
-                 backgroundColor= 'white'
+                
                  showsVerticalScrollIndicator={false}
                  ItemSeparatorComponent={FlatListItemSeparator}
                  data= {outlet}
@@ -178,8 +187,8 @@ return(
             gh(item.coordinates)
             
             }>
-             <View style={{flex:1,paddingHorizontal: 20,paddingVertical:15}}>
-             <View style={{flexDirection: 'row',justifyContent: 'space-between'}}>
+             <View style={{flex:1,paddingHorizontal: 20,paddingVertical:15 }}>
+             <View style={{flexDirection: 'row',justifyContent: 'space-between' ,alignItems:"center"}}>
              <View style={{flex: 0.8,alignContent:'center',alignItems: 'center',justifyContent: 'center',paddingHorizontal:30}}>
              <View style={{width:100,height: 100}}>
              <Image  source={{
@@ -190,10 +199,9 @@ return(
              />
              </View>
              </View>
-             <View style={{flex: 2,flexDirection:'column',justifyContent: 'space-evenly',padding:5}}>
-             <Text numberOfLines={1}  style={StylesAll.boldFont}>{item.outlet_name}</Text>
-             <Text numberOfLines={2} style={[{marginTop:10,color:'gray'},StylesAll.lightmediamFont]}>{item.address}</Text>
-             <Text style={[{marginTop:10},StylesAll.VerylightFont]} >{item.work_hour}</Text>
+             <View style={{flex: 2,flexDirection:'column' ,paddingHorizontal:9}}>
+             <Text numberOfLines={2}  style={StylesAll.boldFont}>{item.outlet_name}</Text>
+             <Text numberOfLines={3} style={[{color:'gray'},StylesAll.lightmediamFont,{marginTop:5}]}>{item.address}</Text>
              </View>
              
              </View>
@@ -207,6 +215,7 @@ return(
          </View>
 
         <View>{isLoadingList ? <ActivityIndi/>:<View></View> }</View>
+        </SafeAreaView>
     </View>
     );
 
@@ -252,4 +261,10 @@ body: {
     
     margin: 10,
   },
+  outletData:{
+
+  flex:1, backgroundColor: "#fff",marginBottom: 0,width: '100%',borderTopRightRadius: 20 ,borderTopLeftRadius:20,
+  }
+
+
 });

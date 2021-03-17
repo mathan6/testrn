@@ -40,6 +40,10 @@ import {FlatList, ScrollView, TextInput} from 'react-native-gesture-handler';
 import {color} from 'react-native-reanimated';
 import { useIsFocused } from '@react-navigation/native'
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+
   
 const ReservationSchema = yup.object({
   reserName: yup.string().required('kindly enter name field'),
@@ -115,8 +119,10 @@ const Reservation = ({navigation}) => {
   const [selectedDate, setSelectedDate] = useState('Date');
   const [selectedTime, setSelectedTime] = useState('Time');
 
-  const [adult, setAdult] = useState(1);
-  const [children, setChildren] = useState(1);
+  const [adult, setAdult] = useState(0);
+  const [children, setChildren] = useState(0);
+
+ const [paxName ,setPaxName] = useState('Pax');
 
   const [outlet, setOutlet] = useState([]);
 
@@ -129,7 +135,7 @@ const Reservation = ({navigation}) => {
   const [case2, setCase2] = useState(false);
   const [case3, setCase3] = useState(false);
   const [case4, setCase4] = useState(false);
-
+  
   const [currentSelectedOutLet, setCurrentSelectedOutlet] = useState({});
 
   const [currentId, setCurrentId] = useState('');
@@ -140,6 +146,31 @@ const Reservation = ({navigation}) => {
   const [selectedFlateList, setSelectedFlateList] = useState(null);
 
   const [currentMyReservation, setCurrentMyReservation] = useState(null);
+
+  const [ markedDates, setMarkedDates ] = useState({});
+
+  const [value, onChangeText] = React.useState('+60');
+
+
+  const markDate = (dateString) => {
+   
+      setMarkedDates(
+          (markedDates[dateString] = {
+            customStyles: {
+              container: {
+                backgroundColor: 'black',
+              },
+              text: {
+                color: 'black',
+                fontWeight: 'bold'
+              },
+            },
+ 
+          })
+      );
+  };
+ 
+ 
 
   const renderMyReservationItem = ({item}) => (
     <TouchableOpacity>
@@ -309,7 +340,7 @@ const Reservation = ({navigation}) => {
   };
 
   const decrement = () => {
-    if (adult == 1) {
+    if (adult == 0) {
     } else {
       setAdult((prevCount) => prevCount - 1);
     }
@@ -321,7 +352,7 @@ const Reservation = ({navigation}) => {
   };
 
   const decrementChildren = () => {
-    if (children == 1) {
+    if (children == 0) {
       console.log('test....');
     } else {
       setChildren((prevCount) => prevCount - 1);
@@ -332,8 +363,8 @@ const Reservation = ({navigation}) => {
   const step0 = () => {
     setSelectedDate('Date');
     setSelectedTime('Time');
-    setAdult(1);
-    setChildren(1);
+    setAdult(0);
+    setChildren(0);
     setCase1(true);
     setCase2(false);
     setCase3(false);
@@ -350,7 +381,6 @@ const Reservation = ({navigation}) => {
           today.getDate(),
       );
     }
-
     setCase1(false);
     setCase2(true);
     setShow(true);
@@ -394,24 +424,23 @@ const Reservation = ({navigation}) => {
     return (
       <View
         style={{
-          padding: 20,
+          padding: 15,
           backgroundColor: 'white',
           flexDirection: 'row',
           justifyContent: 'space-between',
+          alignItems:'center',
+         
         }}>
         <Text style={StylesAll.boldFont2}>Select Outlet</Text>
         <TouchableOpacity
           onPress={() => {
             setModalVisible(false);
           }}
-          style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+          >
           <View
             style={{
-              width: 50,
-              height: 50,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              marginBottom: 10,
+              width: 40,
+              height: 40,
             }}>
             <Image
               resizeMode="contain"
@@ -472,9 +501,14 @@ const Reservation = ({navigation}) => {
     <View style={{flex: 1, flexDirection: 'column',padding: 20,backgroundColor:'#fafbfb'}}>
     <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
     <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
-      <View style={{flex: 1}}>
-        <Text style={[{textAlign:'center',textAlign:'center',padding:10},StylesAll.boldFont2]}>MY RESERVATION</Text>
-        <FlatList
+    <TouchableOpacity onPress={()=>navigation.goBack()}>
+<View style={[StylesAll.commonHeader ,{paddingHorizontal:15 ,paddingTop:0}]}>
+<Image source={require('./Image/back.png')}/>
+<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>MY RESERVATION</Text>
+</View>
+</TouchableOpacity>
+      <View style={{flex: 1,paddingTop: 20}}>
+         <FlatList
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           data={viewReservation}
@@ -521,13 +555,13 @@ const Reservation = ({navigation}) => {
                     />
                   </View>
 
-                  <View style={{flexDirection: 'column', margin: 10, flex: 2}}>
+                  <View style={{flexDirection: 'column', margin: 10, flex: 1.5}}>
                     <View>
                       <Text
                         style={{
                           color: '#000',
                           fontFamily: 'Roboto-Bold',
-                          fontSize: 15,
+                          fontSize: 12,
                         }}>
                         {item.outlet_name}@
                       </Text>
@@ -535,7 +569,7 @@ const Reservation = ({navigation}) => {
                         style={{
                           color: '#000',
                           fontFamily: 'Roboto-Bold',
-                          fontSize: 15,
+                          fontSize: 12,
                         }}
                         numberOfLines={1}>
                         {item.address}
@@ -564,7 +598,7 @@ const Reservation = ({navigation}) => {
                           resizeMode="cover"
                         />
                         <Text
-                          style={[{marginLeft: 3}, StylesAll.lightmediamFont]}
+                          style={[{marginLeft: 3}, StylesAll.boldFontNew]}
                           numberOfLines={1}>
                           {item.date}
                         </Text>
@@ -590,7 +624,7 @@ const Reservation = ({navigation}) => {
                         <Text
                           style={[
                             {color: 'black', marginLeft: 2},
-                            StylesAll.lightmediamFont,
+                            StylesAll.boldFontNew,
                           ]}
                           numberOfLines={1}>
                           {item.time}
@@ -617,9 +651,9 @@ const Reservation = ({navigation}) => {
                         <Text
                           style={[
                             {color: 'black', marginLeft: 2},
-                            StylesAll.lightmediamFont,
+                            StylesAll.boldFontNew,
                           ]}>
-                          {item.pax1}-{item.pax2}
+                           {item.pax1}-{item.pax2}
                         </Text>
                       </View>
                     </View>
@@ -628,7 +662,8 @@ const Reservation = ({navigation}) => {
                       style={{
                         flexDirection: 'row',
                         alignItems: 'center',
-                        padding: 10,
+                        paddingVertical: 10,
+                       
                       }}>
                       <View
                         style={{flex: 1, height: 1, backgroundColor: 'lightgray'}}
@@ -638,17 +673,17 @@ const Reservation = ({navigation}) => {
                     <View style={{flexDirection: 'row'}}>
                       <View style={{flex: 1.5, flexDirection: 'column'}}>
                         <Text
-                          style={[{color: 'gray'}, StylesAll.boldFontLight]}>
+                          style={[{color: 'gray'}, StylesAll.boldFontNew1]}>
                           Submitted
                         </Text>
                         <Text
-                          style={[{color: 'black'}, StylesAll.boldFontLight]}>
+                          style={[{color: 'black'}, StylesAll.boldFontLight1]}>
                           {Moment(item.created_at).format('yyy-MM-DD, hh:mm a')}
                         </Text>
                       </View>
                       <View style={{flex: 1, flexDirection: 'column'}}>
                         <Text
-                          style={[{color: 'gray'}, StylesAll.boldFontLight]}>
+                          style={[{color: 'gray'}, StylesAll.boldFontNew1]}>
                           Status
                         </Text>
 
@@ -656,7 +691,7 @@ const Reservation = ({navigation}) => {
                           <Text
                             style={[
                               {color: COLORS.appBrown},
-                              StylesAll.boldFontLight,
+                              StylesAll.boldFontNew11,
                             ]}>
                             Pending
                           </Text>
@@ -664,7 +699,7 @@ const Reservation = ({navigation}) => {
                           <Text
                             style={[
                               {color: COLORS.app_browntheme},
-                              StylesAll.boldFontLight,
+                              StylesAll.boldFontNew11,
                             ]}>
                             Accepted
                           </Text>
@@ -672,7 +707,7 @@ const Reservation = ({navigation}) => {
                           <Text
                             style={[
                               {color: COLORS.appBrown},
-                              StylesAll.boldFontLight,
+                              StylesAll.boldFontNew11,
                             ]}>
                             Cancelled
                           </Text>
@@ -680,7 +715,7 @@ const Reservation = ({navigation}) => {
                           <Text
                             style={[
                               {color: COLORS.appBrown},
-                              StylesAll.boldFontLight,
+                              StylesAll.boldFontNew11,
                             ]}>
                             Completed
                           </Text>
@@ -690,10 +725,10 @@ const Reservation = ({navigation}) => {
 
                     <View
                       style={{flex: 1, flexDirection: 'column', marginTop: 5}}>
-                      <Text style={[{color: 'gray'}, StylesAll.boldFontLight]}>
+                      <Text style={[{color: 'gray'}, StylesAll.boldFontNew1]}>
                         Remarks
                       </Text>
-                      <Text style={[{color: 'black'}, StylesAll.boldFontLight]}>
+                      <Text style={[{color: 'black'}, StylesAll.boldFontLight1]}>
                         {item.description}
                       </Text>
                     </View>
@@ -731,10 +766,10 @@ const Reservation = ({navigation}) => {
                     <TouchableOpacity
                       style={{
                         position: 'absolute',
-                        right: 0,
-                        top: 0,
-                        width: 40,
-                        height: 40,
+                        right: 5,
+                        top: 5,
+                        width: 35,
+                        height: 35,
                       }}
                       onPress={() => {
                         setSelectedFlateList(false);
@@ -764,15 +799,15 @@ const Reservation = ({navigation}) => {
                         }}>
                         <Image
                           resizeMode="contain"
-                          style={{width: 25, height: 25}}
+                          style={{width: 15, height: 15}}
                           source={require('./Image/iicon.png')}
                         />
                         <Text
                           style={{
                             color: 'white',
-                            marginLeft: 10,
-                            fontFamily: 'Roboto-Bold',
-                            fontSize: 15,
+                            marginLeft: 5,
+                            fontFamily: 'Roboto-Medium',
+                            fontSize: 12,
                           }}>
                           Cancel Reservation
                         </Text>
@@ -801,15 +836,15 @@ const Reservation = ({navigation}) => {
                         }}>
                         <Image
                           resizeMode="contain"
-                          style={{width: 25, height: 25, tintColor: 'white'}}
+                          style={{width: 15, height: 15, tintColor: 'white'}}
                           source={require('./Image/opps.png')}
                         />
                         <Text
                           style={{
                             color: 'white',
-                            marginLeft: 10,
-                            fontFamily: 'Roboto-Bold',
-                            fontSize: 15,
+                            marginLeft: 5,
+                            fontFamily: 'Roboto-Medium',
+                            fontSize: 12,
                           }}>
                           View More
                         </Text>
@@ -831,24 +866,25 @@ const Reservation = ({navigation}) => {
           onRequestClose={() => {
             Alert.alert('Model has been closed');
           }}>
+            <View style={{ flex: 1,
+              justifyContent: 'flex-end',backgroundColor:'#00000061'}}>
           <View
             style={{
-              flex: 1,
-              justifyContent: 'center',
-              backgroundColor: 'gray',
               paddingHorizontal: 25,
-              paddingTop: 100,
-              paddingVertical: 40,
+              paddingVertical: 25,
+              
             }}>
             <ScrollView>
               <View
                 style={{
-                  backgroundColor: 'white',
+                  flex: 1,  
+                  backgroundColor:'white',
                   borderRadius: 10,
-                  paddingHorizontal: 0,
+                 
                   flexDirection: 'column',
-                  flex: 1,
                 }}>
+
+                <View>
                 <TouchableOpacity
                   onPress={() => {
                     openModel1();
@@ -856,8 +892,10 @@ const Reservation = ({navigation}) => {
                   style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
                   <View
                     style={{
-                      width: 50,
-                      height: 50,
+                      paddingTop:5,
+                      paddingRight:5,
+                      width: 40,
+                      height: 40,
                       flexDirection: 'row',
                       justifyContent: 'center',
                     }}>
@@ -872,20 +910,22 @@ const Reservation = ({navigation}) => {
                     />
                   </View>
                 </TouchableOpacity>
+                  </View>
+                 <View style={{backgroundColor:'white'}}>
                 <View
                   style={{
                     flexDirection: 'row',
-                    paddingHorizontal:10,
+                    paddingLeft: 15,
                     justifyContent: 'center',
                     alignItems: 'center',
                   }}>
-                  <View style={{flex: 1.2}}>
+                  <View style={{height:100,width:100}}>
                     <Image
                       source={{
                         uri: `http://shiftlogics.com/Tokyo/${currentSelectedOutLet.out_image}`,
                       }}
                       resizeMode="cover"
-                      style={{height: 120, width: '100%'}}></Image>
+                      style={{height: '100%', width: '100%'}}></Image>
                   </View>
 
                   <View
@@ -903,9 +943,6 @@ const Reservation = ({navigation}) => {
                     <Text style={StylesAll.boldFont}>
                       {currentSelectedOutLet.outlet_name}
                     </Text>
-                    <Text style={[StylesAll.boldFontLight]}>
-                      {currentSelectedOutLet.email}
-                    </Text>
                     <Text
                       style={[
                         {color: 'gray', paddingTop: 10},
@@ -914,6 +951,8 @@ const Reservation = ({navigation}) => {
                       {currentSelectedOutLet.address}
                     </Text>
                   </View>
+                </View>
+
                 </View>
 
                 <View style={{backgroundColor: COLORS.app_browntheme}}>
@@ -939,8 +978,8 @@ const Reservation = ({navigation}) => {
 
                       <Text
                         style={[
-                          {color: 'white', marginLeft: 2},
-                          StylesAll.boldFont,
+                          {color: 'white', marginLeft: 5},
+                          StylesAll.boldFontLight,
                         ]}>
                         {selectedDate}
                       </Text>
@@ -949,7 +988,7 @@ const Reservation = ({navigation}) => {
                     <View
                       style={{
                         backgroundColor: COLORS.app_browntheme,
-                        marginLeft: 2,
+                        marginLeft: 0.5,
                         flex: 1,
                         flexDirection: 'row',
                         justifyContent: 'center',
@@ -962,8 +1001,8 @@ const Reservation = ({navigation}) => {
                       />
                       <Text
                         style={[
-                          {color: 'white', marginLeft: 2},
-                          StylesAll.boldFont,
+                          {color: 'white', marginLeft: 5},
+                          StylesAll.boldFontLight,
                         ]}>
                         {selectedTime}
                       </Text>
@@ -972,7 +1011,7 @@ const Reservation = ({navigation}) => {
                     <View
                       style={{
                         backgroundColor: COLORS.app_browntheme,
-                        marginLeft: 2,
+                        marginLeft: 0.5,
                         flex: 1,
                         flexDirection: 'row',
                         justifyContent: 'center',
@@ -985,27 +1024,39 @@ const Reservation = ({navigation}) => {
                       />
                       <Text
                         style={[
-                          {color: 'white', marginLeft: 2},
-                          StylesAll.boldFont,
+                          {color: 'white', marginLeft: 5},
+                          StylesAll.boldFontLight,
                         ]}>
-                        {adult}-{children}
+
+                        { 
+                         adult === 0 && children === 0 ? 
+                           
+                          paxName :     adult + "+" +children
+
+                        }  
+                         
+                        
                       </Text>
                     </View>
                   </View>
                 </View>
 
-                <View>
+                <View style={{flexDirection:'column'}}>
                   {case1 ? (
-                    <View style={{flexDirection: 'column'}}>
-                      <View style={{backgroundColor: 'white', flex: 1}}>
+                    <View style={{padding:10}}>
+                      <View style={{flexDirection: 'column',flex:1}}>
                         <Text
                           style={[
                             {padding: 10, color: 'black'},
-                            StylesAll.boldFont,
+                            StylesAll.boldFont11,
+                          
                           ]}>
                           Select Visit Date
-                        </Text>
+                        </Text >
+
+                        <View style={{height: 350}}>
                         <Calendar
+                          
                           // Initially visible month. Default = Date()
                           //current={'2021-01-01'}
                           // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
@@ -1016,9 +1067,10 @@ const Reservation = ({navigation}) => {
                           onDayPress={(day) => {
                             console.log('selected day', day.dateString);
                             setSelectedDate(day.dateString);
+                           // markDate(day.dateString);
                           }}
-                          // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
                           monthFormat={'yyyy MM'}
+                        
                           // Handler which gets executed when visible month changes in calendar. Default = undefined
                           onMonthChange={(month) => {
                             console.log('month changed', month);
@@ -1032,31 +1084,58 @@ const Reservation = ({navigation}) => {
                           disableMonthChange={true}
                           // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
                           firstDay={1}
-                        />
-                      </View>
+                           
+                         
+                          // markedDates={{
+                          //   [Date()]: { selected: true, selectedColor: 'red' },
+                          //   }}
+                        //   style={{
+                           
+                        //     height : 200
+                        // }}
+                           
 
+                       
+                        // markedDates={markedDates}
+                        // markingType={'period'}
+                          theme={{
+                            arrowColor: COLORS.app_browntheme,
+                            //  selected: 'red',
+                            // selectedDayBackgroundColor: 'red',
+                            // selectedDayTextColor: 'red',
+                        }}
+                        />
+                        </View>
+
+                        </View>
+                        <View style={{justifyContent:'flex-start',flex:1}}>
                       <TouchableOpacity onPress={() => step1()}>
                         <View
                           style={{
-                            padding: 15,
+                            padding: 10,
                             alignItems: 'center',
                             justifyContent: 'center',
                             backgroundColor: COLORS.app_browntheme,
                             borderRadius: 50,
-                            marginTop: 40,
-                            margin: 10,
+                            marginVertical:10
                           }}>
                           <Text style={[StylesAll.boldFont, {color: 'white'}]}>
                             NEXT
                           </Text>
                         </View>
                       </TouchableOpacity>
-                    </View>
+                      </View>
+
+                      </View>
+
+                     
+
+                    
                   ) : (
                     <View>
                       {case2 ? (
-                        <View>
-                          <View style={{backgroundColor: 'white'}}>
+                        <View style={{padding:10}}>
+                          <View style={{backgroundColor: 'white',height:350}}>
                             {show && (
                               <DateTimePicker
                                 testID="dateTimePicker"
@@ -1073,13 +1152,13 @@ const Reservation = ({navigation}) => {
                             <View
                               style={{
                                 backgroundColor: COLORS.white,
-                                padding: 15,
+                                padding: 10,
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 backgroundColor: COLORS.app_browntheme,
                                 borderRadius: 50,
-                                marginTop: 40,
-                                margin: 10,
+                                marginVertical:10
+                                
                               }}>
                               <Text
                                 style={[StylesAll.boldFont, {color: 'white'}]}>
@@ -1091,20 +1170,22 @@ const Reservation = ({navigation}) => {
                       ) : (
                         <View>
                           {case3 ? (
-                            <View style={{flexDirection: 'column'}}>
-                              <View style={{backgroundColor: 'white'}}>
+                            <View style={{padding:10,flex:1}}>
+                            <View style={{height:350}}>
+                              <View style={{flexDirection:'column'}}>
                                 <View
                                   style={{
-                                    flexDirection: 'column',
+                                    flexDirection: 'row',
                                     backgroundColor: 'White',
                                     marginLeft: 10,
                                     marginRight: 10,
-                                    justifyContent: 'center',
+                                    justifyContent: 'space-between',
                                     alignItems: 'center',
-                                    marginTop: 40,
-                                    marginBottom: 40,
+                                    marginTop: 10,
+                                    marginBottom: 10,
+                                  
                                   }}>
-                                  <Text style={{color: 'black', padding: 20}}>
+                                  <Text style={[{padding: 20},StylesAll.boldFont11]}>
                                     Pax (Adult)
                                   </Text>
                                   <View
@@ -1116,14 +1197,22 @@ const Reservation = ({navigation}) => {
                                       justifyContent: 'center',
                                       alignItems: 'center',
                                     }}>
-                                    <TouchableOpacity onPress={decrement}>
+                                    <TouchableOpacity onPress={decrement}  >
                                       <View
-                                        style={{
+                                        style={adult == 0 ? {
                                           backgroundColor:
-                                            COLORS.app_browntheme,
-                                          borderRadius: 40 / 2,
-                                          width: 40,
-                                          height: 40,
+                                             COLORS.disable_btn,
+                                          borderRadius: 30 / 2,
+                                          width: 30,
+                                          height: 30,
+                                          alignItems: 'center',
+                                          justifyContent: 'center',
+                                        } : {
+                                          backgroundColor:
+                                             COLORS.app_browntheme,
+                                          borderRadius: 30 / 2,
+                                          width: 30,
+                                          height: 30,
                                           alignItems: 'center',
                                           justifyContent: 'center',
                                         }}>
@@ -1132,22 +1221,22 @@ const Reservation = ({navigation}) => {
                                     </TouchableOpacity>
 
                                     <Text
-                                      style={{
+                                      style={[{
                                         paddingLeft: 20,
                                         paddingRight: 20,
-                                      }}>
+                                      },StylesAll.boldFont11]}>
                                       {adult}
                                     </Text>
 
                                     <TouchableOpacity onPress={increment}>
                                       <View
                                         style={{
-                                          flex: 1,
+                                       
                                           backgroundColor:
                                             COLORS.app_browntheme,
-                                          borderRadius: 40 / 2,
-                                          width: 40,
-                                          height: 40,
+                                          borderRadius: 30 / 2,
+                                          width: 30,
+                                          height: 30,
                                           alignItems: 'center',
                                           justifyContent: 'center',
                                         }}>
@@ -1155,8 +1244,24 @@ const Reservation = ({navigation}) => {
                                       </View>
                                     </TouchableOpacity>
                                   </View>
-                                  <Text style={{color: 'black', padding: 20}}>
-                                    Pax (Children)
+                                  </View>
+
+                                  <View style={{ height: 1, backgroundColor: COLORS.grey_line}} />
+
+                                  <View
+                                  style={{
+                                    flexDirection: 'row',
+                                    backgroundColor: 'White',
+                                    marginLeft: 10,
+                                    marginRight: 10,
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    marginTop: 0,
+                                    marginBottom: 10,
+                                  }}>
+
+                                  <Text style={[{ padding: 20,color:'#000'},StylesAll.boldFont11]}>
+                                    Children(Adult)
                                   </Text>
                                   <View
                                     style={{
@@ -1171,13 +1276,22 @@ const Reservation = ({navigation}) => {
                                     <TouchableOpacity
                                       onPress={decrementChildren}>
                                       <View
-                                        style={{
-                                          flex: 1,
+                                        style={children === 0 ? {
+                                         
+                                          backgroundColor:
+                                            COLORS.disable_btn,
+                                          borderRadius: 30 / 2,
+                                          width: 30,
+                                          height: 30,
+                                          alignItems: 'center',
+                                          justifyContent: 'center',
+                                        } :{
+                                         
                                           backgroundColor:
                                             COLORS.app_browntheme,
-                                          borderRadius: 40 / 2,
-                                          width: 40,
-                                          height: 40,
+                                          borderRadius: 30 / 2,
+                                          width: 30,
+                                          height: 30,
                                           alignItems: 'center',
                                           justifyContent: 'center',
                                         }}>
@@ -1186,10 +1300,10 @@ const Reservation = ({navigation}) => {
                                     </TouchableOpacity>
 
                                     <Text
-                                      style={{
+                                      style={[{
                                         paddingLeft: 20,
                                         paddingRight: 20,
-                                      }}>
+                                      },StylesAll.boldFont11]}>
                                       {children}
                                     </Text>
 
@@ -1199,9 +1313,9 @@ const Reservation = ({navigation}) => {
                                         style={{
                                           backgroundColor:
                                             COLORS.app_browntheme,
-                                          borderRadius: 40 / 2,
-                                          width: 40,
-                                          height: 40,
+                                          borderRadius: 30 / 2,
+                                          width: 30,
+                                          height: 30,
                                           alignItems: 'center',
                                           justifyContent: 'center',
                                         }}>
@@ -1209,18 +1323,24 @@ const Reservation = ({navigation}) => {
                                       </View>
                                     </TouchableOpacity>
                                   </View>
+                                  
                                 </View>
+                                <View style={{ height: 1, backgroundColor: COLORS.grey_line}} />
                               </View>
+                             
+                              </View>
+
+                              <View style={{justifyContent:'flex-end',flex:1}}>
                               <TouchableOpacity onPress={() => step3()}>
                                 <View
                                   style={{
                                     backgroundColor: COLORS.app_browntheme,
-                                    padding: 15,
+                                    padding: 10,
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     borderRadius: 50,
-                                    marginTop: 40,
-                                    margin: 10,
+                                    paddingVertical:10,
+                                  
                                   }}>
                                   <Text
                                     style={[
@@ -1231,6 +1351,8 @@ const Reservation = ({navigation}) => {
                                   </Text>
                                 </View>
                               </TouchableOpacity>
+                              </View>
+
                             </View>
                           ) : (
                             <View>
@@ -1321,7 +1443,8 @@ const Reservation = ({navigation}) => {
                                       <View
                                         style={{
                                           backgroundColor: 'white',
-                                          padding: 10,
+                                          paddingHorizontal: 15,
+                                          paddingVertical: 10,
                                           flexDirection: 'column',
                                         }}>
                                         <TextInput
@@ -1329,24 +1452,23 @@ const Reservation = ({navigation}) => {
                                             backgroundColor: COLORS.textbox_bg,
                                             borderWidth: 1,
                                             borderColor: COLORS.grey_line,
-                                            paddingHorizontal:15,
-                                            borderRadius: 30,
-                                            marginBottom: 5,
-                                            marginTop: 5,
+                                            paddingHorizontal:10,
+                                            borderRadius: 50,
+                                            marginTop: 10,
                                             height:45,
                                           }}
                                           onChangeText={props.handleChange(
                                             'reserName',
                                           )}
                                           value={props.values.reserName}
-                                          placeholder={'Name'}
+                                          placeholder={'Your Name*'}
                                         />
                                         <Text style={{color: COLORS.redTheme}}>
                                           {props.touched.reserName &&
                                             props.errors.reserName}
                                         </Text>
 
-                                        <TextInput
+                                        {/* <TextInput
                                           style={{
                                             backgroundColor: COLORS.textbox_bg,
                                             borderWidth: 1,
@@ -1366,23 +1488,60 @@ const Reservation = ({navigation}) => {
                                         <Text style={{color: COLORS.redTheme}}>
                                           {props.touched.reserPhone &&
                                             props.errors.reserPhone}
+                                        </Text> */}
+
+          <View style={{backgroundColor:COLORS.textbox_bg, 
+                    height: 45,
+                  borderColor:COLORS.grey_line,
+                  borderWidth: 1,
+                  borderRadius: 50,
+                  flexDirection: 'row',
+                  paddingHorizontal: 10,
+                  }}>
+            <TextInput
+               defaultValue={'+60'}
+              style={{flex:0.15}}
+              onChangeText={(text) => onChangeText(text)}
+              value={value} keyboardType="number-pad"
+            />
+            <View style={{width:1 ,height:15 ,borderWidth:1,  position:"relative",top:13 ,borderColor:"black"}}></View>
+
+
+
+            <TextInput
+              style={StylesAll.inputwrap2}
+              onChangeText={props.handleChange(
+                'reserPhone',
+              )}
+              value={props.values.reserPhone}
+              placeholder={
+                'Mobile Number*'
+              }
+              keyboardType="number-pad"
+            />
+             
+          </View>
+          <Text style={{color: COLORS.redTheme}}>
+                                          {props.touched.reserPhone &&
+                                            props.errors.reserPhone}
                                         </Text>
+
+
 
                                         <TextInput
                                           style={{
                                             backgroundColor: COLORS.textbox_bg,
                                             borderWidth: 1,
                                             borderColor: COLORS.grey_line,
-                                            paddingHorizontal:15,
+                                            paddingHorizontal:10,
                                             borderRadius: 30,
-                                            marginBottom: 5,
                                             height:45,
                                           }}
                                           onChangeText={props.handleChange(
                                             'reserDescription',
                                           )}
                                           value={props.values.reserDescription}
-                                          placeholder={'Notes'}></TextInput>
+                                          placeholder={'Notes*'}></TextInput>
                                         <Text style={{color: COLORS.redTheme}}>
                                           {props.touched.reserDescription &&
                                             props.errors.reserDescription}
@@ -1488,6 +1647,8 @@ const Reservation = ({navigation}) => {
                 </View>
               </View>
             </ScrollView>
+
+            </View>
           </View>
         </Modal>
 
@@ -1502,7 +1663,7 @@ const Reservation = ({navigation}) => {
             style={{
               flex: 1,
               paddingHorizontal: 25,
-              backgroundColor: 'gray',
+              backgroundColor: '#00000061',
               justifyContent: 'center',
               flexDirection: 'column',
               paddingVertical: 40,
@@ -1512,7 +1673,7 @@ const Reservation = ({navigation}) => {
                 flex: 1,
                 borderRadius: 20,
                 overflow: 'hidden',
-                marginTop: 50,
+                marginTop: 100,
               }}>
               <FlatList
                 backgroundColor="white"
@@ -1536,7 +1697,7 @@ const Reservation = ({navigation}) => {
                             uri: `http://shiftlogics.com/Tokyo/${item.out_image}`,
                           }}
                           resizeMode="cover"
-                          style={{height: 120, width: '100%'}}></Image>
+                          style={{height: 100, width: '100%'}}></Image>
                       </View>
 
                       <View
@@ -1545,8 +1706,8 @@ const Reservation = ({navigation}) => {
                           flexDirection: 'column',
                           marginLeft: 15,
                           marginRight: 10,
-                          marginBottom: 20,
-                          marginTop: 20,
+                          marginBottom: 10,
+                          marginTop: 10,
                           justifyContent: 'center',
                           alignItems: 'flex-start',
                           alignContent: 'center',
@@ -1554,9 +1715,7 @@ const Reservation = ({navigation}) => {
                         <Text style={StylesAll.boldFont}>
                           {item.outlet_name}
                         </Text>
-                        <Text style={[StylesAll.boldFontLight]}>
-                          {item.email}
-                        </Text>
+                        
                         <Text
                           style={[
                             {color: 'gray', paddingTop: 10},

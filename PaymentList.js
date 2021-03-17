@@ -1,6 +1,6 @@
 
 import React,{useEffect,useState} from 'react';
-import {Text,Dimensions,StatusBar,View,StyleSheet,Image,ScrollView,ImageBackground,FlatList,TouchableOpacity} from 'react-native'
+import {Text,Dimensions,StatusBar,View,StyleSheet,Image,ScrollView,ImageBackground,FlatList,TouchableOpacity,SafeAreaView} from 'react-native'
 import {NavigationContainer} from '@react-navigation/native';
 import  {COLORS} from './Styles/colors'
 import ActivityIndi from "./ActivityIndi";
@@ -90,7 +90,12 @@ const PaymentList = ({navigation}) => {
       }, [ ]);
  
     return(
-            <View style={StylesAll.commonWrapper}>
+           
+<View style={[StylesAll.commonWrapper, {padding: 0}]}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
+      <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+        
+              
                 <FlatList
                  showsVerticalScrollIndicator={false}
                  data= {transactionHistory}
@@ -101,7 +106,7 @@ const PaymentList = ({navigation}) => {
                  />
 
                 <View>{isLoadingList ? <ActivityIndi/>:<View></View> }</View>     
-  
+              </SafeAreaView>
             </View>
 
     );

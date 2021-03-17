@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import ActivityIndi from './ActivityIndi';
-import { COLORS } from "./Styles/colors";
+import {COLORS} from './Styles/colors';
 import DepartmentSection from './DepartmentSection';
 import {StylesAll} from './commanStyle/objectStyle';
 
@@ -55,8 +55,7 @@ const Menu = ({navigation, route}) => {
   const [dataSourceCords, setDataSourceCords] = useState([]);
 
   useEffect(() => {
-
-    navigation.setOptions({ title: route.params?.productId.name })
+    navigation.setOptions({title: route.params?.productId.name});
     console.log('route.params?.productId', route.params?.productId.name);
 
     console.log('mathan tesing');
@@ -140,81 +139,90 @@ const Menu = ({navigation, route}) => {
   const ItemView = (item, key) => {
     return (
       <View key={key}>
-            {item.product.map((eee) => {
-              return (
-                <View  style={StylesAll.productLists}>
-                  
-                  <View style={{ flex:1,justifyContent:'center',alignItems:'center'}}>
-                  
-                  {eee.image.map((ee) => {
-     
-                    return (
-                     
-                      <Image
+        {item.product.map((eee) => {
+          return (
+            <View style={StylesAll.productLists}>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                {eee.image.map((ee) => {
+                  return (
+                    <Image
                       source={{
                         uri: `http://shiftlogics.com/Tokyo/${ee.image}`,
                       }}
-                      style={{width: '100%' ,height:100}}
-                      resizeMode='contain'
+                      style={{width: '100%', height: 100}}
+                      resizeMode="contain"
                     />
-                    
-                    );
-                  })
-                  }
-
-          </View>  
+                  );
+                })}
+              </View>
               <View style={{flex: 1}}>
-           <View style={{flex: 1}}>
-             <Text numberOfLines={3} style={StylesAll.md_Title}>
-               {eee.cateName}
-             </Text>
-             <Text></Text>
-   
-             <Text numberOfLines={2}>
-             {eee.productName}
-             </Text>
-           </View>
-           <View
-             style={{
-               flexDirection: 'row',
-               justifyContent: 'flex-end',
-               flex: 1,
-               alignItems: 'flex-end',
-             }}>
-                 <Text style={{color:COLORS.app_browntheme}}>RM{eee.sellingPrice}</Text>
+                <View style={{flex: 1}}>
+                  <Text numberOfLines={3} style={StylesAll.md_Title}>
+                    {eee.cateName}
+                  </Text>
+                  <Text></Text>
+
+                  <Text numberOfLines={2}>{eee.productName}</Text>
                 </View>
-               </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    flex: 1,
+                    alignItems: 'flex-end',
+                  }}>
+                  
+                  <Text style={[ StylesAll.mediamFont,  {color:COLORS.app_browntheme}]}>RM {(Math.round(eee.sellingPrice * 100) / 100).toFixed(2)}</Text>
                 </View>
-              );
-            })}
-          
-        
+              </View>
+            </View>
+          );
+        })}
       </View>
     );
   };
 
- 
   const getItem = (item) => {
     // Function for click on an item
     alert('Id : ' + item.id + ' Title : ' + item.title);
   };
 
   return (
-    <View style={[StylesAll.commonWrapper ,{padding:0}]}>
+    <View style={[StylesAll.commonWrapper, {padding: 0}]}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
       <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
-           <ScrollView
-            ref={(ref) => {
-              setRef(ref);
-            }}  
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{paddingHorizontal:6}}>
-            {dataSource.map(ItemView)}
-          </ScrollView>
-  
+        <View style={{marginBottom: 20}}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <View
+              style={[
+                StylesAll.commonHeader,
+                {paddingHorizontal: 0, paddingTop: 0},
+              ]}>
+              <Image source={require('./Image/back.png')} />
+              <Text
+                style={[StylesAll.main_Title, {marginBottom: 0, fontSize: 20}]}>
+                {(route.params?.productId.name)}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView
+          ref={(ref) => {
+            setRef(ref);
+          }}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{paddingHorizontal: 6}}>
+          {dataSource.map(ItemView)}
+        </ScrollView>
       </SafeAreaView>
       <View>{isLoadingList ? <ActivityIndi /> : <View></View>}</View>
-      </View>
+    </View>
   );
 };
 

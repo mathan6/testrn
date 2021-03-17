@@ -58,6 +58,16 @@ const menuDashboard = ({navigation}) => {
       <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
       <SafeAreaView
         style={{flex: 1, flexDirection: 'column'}}>
+    <View style={{marginBottom}}>
+<TouchableOpacity onPress={()=>navigation.goBack()}>
+<View style={[StylesAll.commonHeader ,{paddingHorizontal:0 ,paddingTop:0}]}>
+<Image source={require('./Image/back.png')}/>
+<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>MENU</Text>
+</View>
+</TouchableOpacity>
+
+</View>
+
         <FlatList
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}

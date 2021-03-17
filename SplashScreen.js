@@ -5,7 +5,7 @@ import {COLORS} from './Styles/colors';
     const SplashScreen = ({ navigation }) => {
     useEffect(() => {
         setTimeout(() => {
-            navigation.navigate('Post')
+            navigation.navigate('Home')
         }, 3000);
     }, []);
 

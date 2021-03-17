@@ -1,4 +1,3 @@
-
 import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
@@ -20,20 +19,25 @@ import {Formik} from 'formik';
 import * as yup from 'yup';
 import {StylesAll} from './commanStyle/objectStyle';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
 const FeedBackData = yup.object({
   email: yup
     .string()
-    .required('Kindly enter your email id')
-    .email('Please enter valid email'),
-  subject: yup.string().required('Kindly enter your Subject'),
-  description: yup.string().required('Kindly enter your description'),
+   ,
+  subject: yup.string(),
+  description: yup.string(),
 });
 
 const feedBack = ({navigation}) => {
+
   const [isLoadingList, setIsLoadingList] = useState(Boolean);
+
+
+  const [errorCheck, seterrorCheck] = useState(false);
+
+  const [errorMsg, setErrormsg] = useState('');
+
+
 
   const createAlertWithTwoButton = (itemValue) =>
     Alert.alert(
@@ -54,6 +58,34 @@ const feedBack = ({navigation}) => {
       <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
 
       <SafeAreaView style={StylesAll.flexScreen}>
+
+
+      {errorCheck ? (
+              <View style={styles.errorSnackbar}>
+                <Image
+                  resizeMode="cover"
+                  style={{width: 30, height: 30, tintColor: '#fff'}}
+                  source={require('./Image/opps.png')}
+                />
+
+                <View style={{flexDirection: 'column', paddingLeft: 13}}>
+                  <Text style={StylesAll.whitecolor}>Tokyo Secret</Text>
+                  <Text style={[StylesAll.mediamFont, StylesAll.whitecolor]}>
+                    {errorMsg}
+                  </Text>
+                </View>
+              </View>
+            ) : null}
+
+
+
+<TouchableOpacity onPress={()=>navigation.goBack()}>
+<View style={StylesAll.commonHeader}>
+<Image source={require('./Image/back.png')}/>
+<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>FEEDBACK</Text>
+</View>
+</TouchableOpacity>
+
         <Formik
           initialValues={{
             email: '',
@@ -63,6 +95,8 @@ const feedBack = ({navigation}) => {
           validationSchema={FeedBackData}
           onSubmit={async (values) => {
             setIsLoadingList(true);
+            seterrorCheck(false);
+
             let abort = new AbortController();
             var form = new FormData();
             form.append('title', values.subject);
@@ -84,11 +118,19 @@ const feedBack = ({navigation}) => {
 
               .then((data) => {
                 if (data.status === 'success') {
-                  console.log('datadatadata', data);
+                 
                   createAlertWithTwoButton(data.data);
+                  seterrorCheck(false)
+                  setErrormsg('')
+
                   setIsLoadingList(false);
-                } else {
+                } else if (data.status==="failure") {
+
+                 seterrorCheck(true)
+                  setErrormsg(data.data)
                   setIsLoadingList(false);
+
+
                 }
               })
               .catch((e) => console.log(e));
@@ -98,22 +140,28 @@ const feedBack = ({navigation}) => {
           }}>
           {(props) => (
             <View style={StylesAll.innerWrapper}>
-                <Image source={require('./Image/tokyo.png')} />
-                <View style={[StylesAll.flexWtrapper, {paddingTop: 30}]}>
+
+
+
+               <Image
+                source={require('./Image/MainLogo.png')}
+                style={{width:160 ,height:100}}   resizeMode="contain"
+                />
+
+                <View style={[StylesAll.flexWtrapper, {paddingTop: 20}]}>
                 <ScrollView showsVerticalScrollIndicator={false}>
                 <Text style={[StylesAll.main_Title, {}]}>
                   Your feedback matters
                 </Text>
-                <Text>How was your experience with us ?</Text>
+                <Text style={StylesAll.commom_color}>How was your experience with us ?</Text>
                 <Text></Text>
                
                 <TextInput style={StylesAll.inputBox} 
                       onChangeText = {props.handleChange('email')}
-                      placeholder="Email"
+                      placeholder="Email*"
                      values =  {props.values.email}
                 />
 
-                <Text style={{color:'red',paddingVertical : 5}}>{props.touched.email && props.errors.email} </Text> 
                 
                 <TextInput style={StylesAll.inputBox}
                       onChangeText = {props.handleChange('subject')}
@@ -121,7 +169,6 @@ const feedBack = ({navigation}) => {
                        values =  {props.values.subject}
                 />
 
-              <Text style={{color:'red',paddingVertical : 5}}>{props.touched.subject && props.errors.subject} </Text>
                
                 <TextInput
                   style={[
@@ -130,23 +177,22 @@ const feedBack = ({navigation}) => {
                       borderColor: '#cccccc',
                       borderRadius: 11,
                       paddingHorizontal: 15,
-                      paddingVertical: 50,
+                      paddingVertical: 10, minHeight:120
                     },
                   ]}
                   multiline={true}
-                  placeholder="Describe you feedback"
+                  placeholder="Describe you feedback* "
                   onChangeText = {props.handleChange('description')}
                   values =  {props.values.description}
                 />
-                <Text style={{color:'red',paddingVertical : 5}}>{props.touched.description && props.errors.description} </Text>
 
                 </ScrollView>
               </View>
 
                  
               <View style={{flex: 0.2, justifyContent: 'flex-end'}}>
-                <TouchableOpacity onPress={props.handleSubmit}>
-                  <View style={StylesAll.commonButton}>
+                <TouchableOpacity onPress={props.handleSubmit}    disabled={ !props.dirty} >
+                  <View style={props.dirty ? StylesAll.commonButton :StylesAll.commonButtondisabled } >
                     <Text style={StylesAll.btnText}>SUBMIT</Text>
                   </View>
                 </TouchableOpacity>
@@ -160,124 +206,7 @@ const feedBack = ({navigation}) => {
       <View>{isLoadingList ? <ActivityIndi/>:<View></View> }</View>
     </View>
 
-    //     <View style={{flex:1 ,backgroundColor:"#fff" ,padding: 0 ,paddingTop: 0,}}>
-    //       <ScrollView
-    // >
-
-    // <View>
-    // <ImageBackground source = {require('./Image/feedback.png')}
-    // style={{width:"100%" ,marginTop : 20}} resizeMode="cover"
-    //  >
-
-    //     <Formik
-    //    initialValues={{
-    //     email: '',
-    //     subject : '',
-    //     description : '',
-    //    }}
-    //     validationSchema={FeedBackData}
-    //     onSubmit={async (values) => {
-    //       setIsLoadingList(true)
-    //     let abort = new AbortController();
-    //     var form = new FormData();
-    //     form.append('title',values.subject);
-    //     form.append('email',values.email);
-    //     form.append('description',values.description);
-    //    fetch(
-    //      'http://tokyo.shiftlogics.com/api/user/feedback',
-    //      {
-    //            method: 'POST',
-    //            headers: new Headers({
-    //            Accept: 'application/json',
-    //            'Content-Type': 'multipart/form-data',
-    //        }),
-    //        body: form,
-    //      },
-    //      {signal: abort.signal},
-    //     )
-    //      .then((response) => response.json())
-
-    //      .then((data) => {
-    //        if (data.status === 'success') {
-    //           console.log("datadatadata",data);
-    //           createAlertWithTwoButton(data.data)
-    //           setIsLoadingList(false)
-    //        } else {
-    //           setIsLoadingList(false)
-    //        }
-    //      })
-    //      .catch((e) => console.log(e));
-    //    return () => {
-    //      abort.abort();
-    //    };
-    //   }}>
-
-    // {(props) => (
-
-    // <View style={{flex :1 ,backgroundColor:"#fff",      padding:10,marginTop : 100,marginLeft: 20,marginRight: 20,borderRadius : 10,shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.50,
-    // shadowRadius:4.84,}}>
-
-    // {/* <TextInput style={styles.phoneCodeText}
-    //     placeholder="Enter the Phonenumaber"
-    //     onChangeText= {props.handleChange('phoneNumber')}
-    //     values = {props.values.phoneNumber}></TextInput>
-    //     </View>
-
-    //     <Text style={{color:'red'}}>{props.touched.phoneNumber && props.errors.phoneNumber}</Text>
-    //    */}
-
-    // <Text style={styles.welcome}>Send us your feedback</Text>
-    // <View style={styles.searchbar}>
-    //  <Image style={styles.group}
-    //       source={require('./Image/email-symbol.png')}/>
-    //       <TextInput placeholder="Email" style={styles.textInput}
-    //        onChangeText = {props.handleChange('email')}
-    //        values =  {props.values.email}
-    //       ></TextInput>
-
-    // </View>
-    // <Text style={{color:'red'}}>{props.touched.email && props.errors.email} </Text>
-    // <View style={styles.searchbar}>
-    // <Image style={styles.group}
-    //             source={require('./Image/subject-symbol.png')}/>
-    //       <TextInput placeholder="Subject" style={styles.textInput}
-    //       onChangeText = {props.handleChange('subject')}
-    //       values =  {props.values.subject}
-    //       ></TextInput>
-
-    // </View>
-    // <Text style={{color:'red'}}>{props.touched.subject && props.errors.subject} </Text>
-    // <Text style = {{fontSize : 12, margin:5,}}>Describe your feedback</Text>
-
-    // <TextInput placeholder="" style={styles.textInput1} multiline={true}
-    //  onChangeText = {props.handleChange('description')}
-    //  values =  {props.values.description}
-    // ></TextInput>
-    // <Text style={{color:'red'}}>{props.touched.description && props.errors.description} </Text>
-    // <TouchableOpacity onPress={props.handleSubmit}>
-
-    // <View style = {styles.submit}>
-    // <Text style = {{color : '#fff'}}>
-    //      SUBMIT
-    // </Text>
-    // </View>
-
-    // </TouchableOpacity>
-    // </View>
-
-    // )}
-    // </Formik>
-
-    // </ImageBackground>
-    // </View>
-    // <View>{isLoadingList ? <ActivityIndi/>:<View></View> }</View>
-    // </ScrollView>
-    // </View>
+    
   );
 };
 
@@ -322,6 +251,13 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     backgroundColor: 'lightgray',
+  },
+  errorSnackbar: {
+    backgroundColor: '#C02925',
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 35,
   },
 });
 
