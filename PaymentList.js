@@ -91,7 +91,7 @@ const PaymentList = ({navigation}) => {
  
     return(
            
-<View style={[StylesAll.commonWrapper, {padding: 0}]}>
+<View style={[StylesAll.commonWrapper, {padding: 0,paddingTop:40}]}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
       <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
         

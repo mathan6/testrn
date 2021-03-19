@@ -1,5 +1,5 @@
 import React , { useRef,useState,useEffect } from 'react';
-import {  Dimensions,Text,Constants, View, StyleSheet,Alert, Image, ScrollView, ImageBackground, FlatList,TouchableOpacity ,TextInput} from 'react-native';
+import {  Dimensions,Text,Constants, View, StyleSheet,Alert, Image, ScrollView, ImageBackground, FlatList,TouchableOpacity ,TextInput,StatusBar,SafeAreaView} from 'react-native';
 import Moment from 'moment';
 import {StylesAll} from './commanStyle/objectStyle'
 import {Formik} from 'formik';
@@ -53,7 +53,23 @@ const loginWithPhone = ({navigation }) => {
    
 
     return (
-          <View style = {{flex  : 1, margin:10}}>
+      <View
+      style={{flex: 1, flexDirection: 'column', backgroundColor: '#fafbfb'}}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
+      <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+      <View style={{marginBottom: 10, marginHorizontal: 20}}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <View
+              style={[
+                StylesAll.commonHeader,
+                {paddingHorizontal: 0, paddingTop: 0},
+              ]}>
+              <Image source={require('./Image/back.png')} />
+            </View>
+          </TouchableOpacity>
+        </View>
+
+
           <Formik
                 initialValues={{
                    phoneNumber: '',
@@ -114,7 +130,7 @@ const loginWithPhone = ({navigation }) => {
 
                 }}>
                 {(props) => (
-                  <View style={{flex:1,padding:20}}>
+                  <View style={{flex:1,padding:30}}>
 
                       <Text style = {{fontSize : 20,fontWeight : "bold"}}>Enter your number</Text>
                        <Text style = {{fontSize : 10,paddingTop : 10}}>your're just one step away from chef-made food. </Text>
@@ -130,7 +146,7 @@ const loginWithPhone = ({navigation }) => {
               onChangeText={(text) => onChangeText(text)}
               value={value} keyboardType="number-pad"
             />
-            <View style={{width:1 ,height:15 ,borderWidth:1,position:"relative",top:13 ,borderColor:"#cccccc"}}></View>
+            <View style={{width:1 ,height:15 ,borderWidth:1,position:"relative",top:13 ,borderColor:"#000"}}></View>
 
             <TextInput
               style={StylesAll.inputwrap2}
@@ -156,7 +172,7 @@ const loginWithPhone = ({navigation }) => {
 
           <View>
                        <TouchableOpacity onPress={props.handleSubmit} >
-                       <View style = {{justifyContent : "center", height : 50,backgroundColor :COLORS.app_browntheme,alignItems : "center",marginBottom : 20,borderRadius : 20}}>
+                       <View style = {{justifyContent : "center", height : 50,backgroundColor :COLORS.app_browntheme,alignItems : "center",marginBottom : 20,borderRadius : 50}}>
           <Text style = {{fontSize : 15,fontWeight : "bold",color : "#fff"}}> NEXT</Text>
           </View>
                       </TouchableOpacity> 
@@ -168,7 +184,8 @@ const loginWithPhone = ({navigation }) => {
               </Formik>
  
 
-<View>{isLoadingList ? <ActivityIndi/>:<View></View> }</View>     
+<View>{isLoadingList ? <ActivityIndi/>:<View></View> }</View> 
+</SafeAreaView>    
        </View>
     );
 };

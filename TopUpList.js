@@ -72,7 +72,7 @@ const TopUpList = ({navigation}) => {
     
           .then((data) => {
             if (data.status === 'success') {
-               console.log('datadatadatadata',data);
+               console.log('datadatadatadata1111',data);
                 setTransactionHistory(data.data);
                setIsLoadingList(false)
             } else {
@@ -174,7 +174,7 @@ const TopUpList = ({navigation}) => {
 
             //         </View>
 
-            <View style={StylesAll.commonWrapper}>
+            <View style={[StylesAll.commonWrapper,{paddingTop:40}]}>
                 <FlatList
                 
                 showsVerticalScrollIndicator={false}

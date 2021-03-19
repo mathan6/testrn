@@ -52,7 +52,7 @@ export const loginSocialAction = (idValue,name,email,navigation) => async(dispat
           .then((response) => response.json())
           .then((data) => {
  
-            dispatch({type: LOGIN_SOCIAL_APPLE, payload: data});
+            dispatch({type: LOGIN_SOCIAL, payload: data});
   
             Alert.alert(
               data.status,
@@ -122,7 +122,7 @@ export const loginSocialAppleAction = (idValue,name,email,navigation) => async(d
            )
           .then((response) => response.json())
           .then((data) => { 
-            dispatch({type: LOGIN_SOCIAL_GOOGLE, payload: data});
+            dispatch({type: LOGIN_SOCIAL_APPLE, payload: data});
 
                  console.log("data value",data);
 
@@ -196,7 +196,7 @@ export const loginSocialGoogleAction = (idValue,name,email,navigation) => async(
                 if (data.data.phone_verified == "1"){
                   navigation.navigate('loginWithPhone');
                 }else{
-                  navigation.navigate('Post');
+                  navigation.navigate('Home');
                   console.log("phone verified0");
                 }
                } else {

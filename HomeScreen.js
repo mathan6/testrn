@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import {Text,View,FlatList,StyleSheet,ImageBackground, Image,TouchableOpacity,Platform,Alert} from 'react-native';
 import {COLORS} from './Styles/colors';
@@ -49,14 +47,12 @@ const HomeScreen = ( {navigation} ) => {
  
     const unsubscribe = navigation.addListener('focus', () => {
    
-     console.log('focusfocusfocusfocusfocusfocusfocus');
-
     if (loginData !== null){
       let abort = new AbortController();
       var form = new FormData();
        form.append('api_token',loginData.token);
 
-       console.log('formformformform',form);
+       
 
       fetch(
         'http://tokyo.shiftlogics.com/api/favourite/viewFavourite',
@@ -74,7 +70,7 @@ const HomeScreen = ( {navigation} ) => {
   
         .then((data) => {
 
-          console.log('datadatadatadata',data);
+     
 
           if (data.status === 'success') {
             setFavourite(data.data);
@@ -100,10 +96,7 @@ const HomeScreen = ( {navigation} ) => {
 
     }, [ ]);
 
-    const onPress2 = () => {
-      navigation.navigate('NewFile');
-      console.log('Hi mathan');
-    }
+   
     
 
     const renderItem = ({item}) => {
@@ -130,10 +123,10 @@ const HomeScreen = ( {navigation} ) => {
             </View>
             <View>
               <TouchableOpacity onPress={() =>{
-                navigation.navigate('Voucherdetail',{dataValue : item,isVoucher : false});
+                navigation.navigate('RewardDetails',{dataValue : item, isVoucher : false});
               }}>
                 <View style={StylesAll.sm_Button}>
-                  <Text style={StylesAll.btnText}>Invite</Text>
+                  <Text style={StylesAll.btnText}>Use now</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -141,6 +134,11 @@ const HomeScreen = ( {navigation} ) => {
         </View>
       );
     };
+
+
+
+
+
 
     const EmptyListMessage = ({item}) => {
 
@@ -194,5 +192,3 @@ const HomeScreen = ( {navigation} ) => {
           );
         }
         export default HomeScreen;
- 
-        

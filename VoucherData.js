@@ -35,6 +35,7 @@ import BottomView from './BottomView';
 const VoucherData = ({navigation}) => {
   const [voucherData, setVoucherData] = useState([]);
   const [isLoadingList, setIsLoadingList] = useState(true);
+  const [checkToken ,setChecktoken] =useState(false)
   
   const [voucherDataValue, setVoucherDataVaue] = useState(voucherData);
 
@@ -48,23 +49,11 @@ const VoucherData = ({navigation}) => {
   const {token} = LoginStatus;
   const {loginData} = LoginStatus;
 
+  
+
   const refRBSheet = useRef();
 
-  const loginAlertWithTwoButton = () => {
-    Alert.alert('Alert', 'Please Login to Reservation', [
-      {
-        text: 'Cancel',
-        onPress: () => {},
-        style: 'cancel',
-      },
-      {
-        text: 'OK',
-        onPress: () => {
-          navigation.navigate('Detail');
-        },
-      },
-    ]);
-  };
+ 
 
   const createAlertWithOneButton = (itemValue) =>
     Alert.alert('Alert', itemValue, [
@@ -78,57 +67,68 @@ const VoucherData = ({navigation}) => {
   
 
   useEffect(() => {
-    //loadAPI();
-    // const unsubscribe = navigation.addListener('focus', () => {
-    //   console.log('focusfocusfocusfocus');
-    //   loadAPI();
-    // });
-    // return () => {
-    //   setIsLoadingList(false);
-    //   unsubscribe;
-    // };
+ 
+    const unsubscribe = navigation.addListener('focus', () => {
+    
+      if (loginData === null) {
 
-    if (loginData === null) {
-      console.log('loginDataloginDataloginDataloginData nulllll');
-      setIsLoadingList(false);
-      //loginAlertWithTwoButton();
-    } else {
-      console.log('loginDataloginDataloginDataloginData', token);
-      let abort = new AbortController();
-      var form = new FormData();
-      form.append('api_token', loginData.token);
-      fetch(
-        'http://tokyo.shiftlogics.com/api/voucher/viewVoucherAPP',
-        {
-          method: 'POST',
-          headers: new Headers({
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data',
-          }),
-          body: form,
-        },
-        {signal: abort.signal},
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.status === 'success') {
-            setIsLoadingList(false);
-            console.log('data value ', data.data);
+        setIsLoadingList(false);
+        setChecktoken(true)
 
-            setVoucherData(data.data);
-          } else {
-            setIsLoadingList(false);
-          }
-        })
-        .catch((e) => console.log(e));
-      return () => {
-        abort.abort();
-      };
-    }
+
+       
+      } else {
+        setChecktoken(false)
+
+        var form = new FormData();
+        form.append('api_token', loginData.token);
+        fetch(
+          'http://tokyo.shiftlogics.com/api/voucher/viewVoucherAPP',
+          {
+            method: 'POST',
+            headers: new Headers({
+              Accept: 'application/json',
+              'Content-Type': 'multipart/form-data',
+            }),
+            body: form,
+          },
+          
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data)
+            if (data.status === 'success') {
+              setIsLoadingList(false);
+            
+  
+              setVoucherData(data.data);
+            } else {
+              setIsLoadingList(false);
+            }
+          })
+          .catch((e) => console.log(e));
+       
+      }
+
+
+      
+    });
+
+
+   
+
+
+    return () => {
+    
+
+      unsubscribe;
+    };
+
+
     
   }, [navigation]);
 
-  function onPress2() {}
+ 
 
   const addVoucherAPI = (voucherId) => {
     let abort = new AbortController();
@@ -136,7 +136,7 @@ const VoucherData = ({navigation}) => {
     form.append('api_token', loginData.token);
     form.append('voucherID', voucherId);
 
-    console.log('formformform', form);
+   
 
     fetch(
       'http://tokyo.shiftlogics.com/api/favourite/addFavourite',
@@ -166,7 +166,7 @@ const VoucherData = ({navigation}) => {
 
   const EmptyListMessage = ({item}) => {
 
-    if (loginData === null) {
+    if (checkToken=== true) {
       return (
         <View style={StylesAll.alertMsg}>
           <Image
@@ -221,9 +221,11 @@ const VoucherData = ({navigation}) => {
             <View>
               <TouchableOpacity  onPress={() => {
 
-console.log('itemitemitem',item);
+
 
 navigation.navigate('Voucherdetail',{dataValue : item,isVoucher:true});
+
+
 }}>
                 <View style={StylesAll.sm_Button}>
                   <Text style={StylesAll.btnText}>Redeem</Text>

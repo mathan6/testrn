@@ -12,45 +12,24 @@ const HistoryCardItem = ({item,index}) => {
         <View>
           <View style={StylesAll.historyLists}>
           <View style={StylesAll.hs_row_wrapper}>
-            <Text style={StylesAll.commom_color}>02 Feb 2021 ,9:30 pm</Text>
-
+            <Text style={StylesAll.commom_color}>{item.created_at}</Text>
             <View style={StylesAll.common_successBtn}>
               <Text style={{color: '#967421', fontFamily: 'Roboto-Bold'}}>
-                Success
+                {item.status == "1" ? "Success" : item.status == "2" ? "Canceled" : "Cancel"}
               </Text>
             </View>
           </View>
 
-          <View style={StylesAll.hs_row_wrapper}>
-            <Text style={StylesAll.payId}>Payment ID:PM1000001022</Text>
+          <View style={[StylesAll.hs_row_wrapper]}>
+            <Text style={StylesAll.payId}>Payment ID:{item.paymentID}</Text>
 
-            <Text style={StylesAll.hs_Amount}> - RM 10.00</Text>
+            <Text style={[StylesAll.hs_Amount]}> - RM {(Math.round(item.amount * 100) / 100).toFixed(2)}</Text>
           </View>
         </View>
-
-        <View style={StylesAll.historyLists}>
-          <View style={StylesAll.hs_row_wrapper}>
-            <Text style={StylesAll.commom_color}>02 Feb 2021 ,9:30 pm</Text>
-
-            <View style={StylesAll.common_successBtn}>
-              <Text style={{color: '#967421', fontFamily: 'Roboto-Bold'}}>
-                Success
-              </Text>
-            </View>
-          </View>
-
-          <View style={StylesAll.hs_row_wrapper}>
-            <Text style={StylesAll.payId}>Payment ID:PM1000001022</Text>
-
-            <Text style={StylesAll.hs_Amount}> - RM 10.00</Text>
-          </View>
-        </View>
-         
         </View>
 
     );
 };
-
 
 
 export default HistoryCardItem;

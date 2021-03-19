@@ -49,6 +49,8 @@ import SampleTab from './SampleTab';
 import Timer from './TimerEx';
 import SplashScreen from './SplashScreen';
 import Reserve from './Reservation';
+import RewardDetails from './RewardDetails';
+
 
 
 
@@ -161,6 +163,8 @@ const App = () => {
           options={{title: 'Loginscreen'}}
         />
 
+
+ 
         <Stack.Screen
           name="Loginscreen"
           component={Loginscreen}
@@ -202,6 +206,13 @@ const App = () => {
           options={{title: 'Friends'}}
         />
 
+
+
+<Stack.Screen
+          name="RewardDetails"
+          component={RewardDetails}
+          options={{title: 'RewardDetails'}}
+        />
         <Stack.Screen
           name="MyInvites"
           component={MyInvites}

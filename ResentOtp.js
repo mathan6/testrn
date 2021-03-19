@@ -10,13 +10,13 @@ import {
   TextInput,
   TouchableOpacity,
   StatusBar,
-  SafeAreaView
+  SafeAreaView,
 } from 'react-native';
 import {COLORS} from './Styles/colors';
 import {StylesAll} from './commanStyle/objectStyle';
 import ActivityIndi from './ActivityIndi';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
- import {date} from 'yup/lib/locale';
+import {date} from 'yup/lib/locale';
 
 import {
   Ltout,
@@ -29,39 +29,36 @@ import {purgeStoredState} from 'redux-persist';
 
 const ResentOtp = ({navigation, route}) => {
   const dispatch = useDispatch(); /// ======>>>Redux Hook <<<=====//
-  const LoginStatus = useSelector((state) => state.loginDetails);
 
-  const {status} = LoginStatus;
+  const LoginStatus = useSelector((state) => state.loginDetails);
+  const {loginData} = LoginStatus;
 
   const [apiToken, setApiToken] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
   const [currentOTP, setCurrentOTP] = useState('');
   const [isLoadingList, setIsLoadingList] = useState(false);
-
-  const [seconds, setSeconds] = useState(60);
+ 
   const [done, setDone] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [referralCode, setReferralCode] = useState('');
   const [errorCheck, seterrorCheck] = useState(false);
   const [errorMsg, setErrormsg] = useState('');
 
-
+  const [minutesTimer, setMinutesTimer] = useState(0);
+  const [secondsTimer, setSecondsTimer] = useState(60);
   const foo = useRef();
 
   const applyRefercode = () => {
-
     setIsLoadingList(true);
-
-    if (referralCode === ''){
-          seterrorCheck(true);
-          setErrormsg('kindly enter your referral code');
-    }else{
+    if (referralCode === '') {
+      createAlertWithTwoButton1('Kindly enter your referral code');
+    } else {
       let abort = new AbortController();
       var form = new FormData();
-      form.append('api_token', loginData.token);
-      form.append('referral_code',);
-  
+      form.append('api_token', route?.params.loginData.api_token);
+      form.append('referral_code');
+
       fetch(
         'http://tokyo.shiftlogics.com/api/user/referral',
         {
@@ -76,40 +73,41 @@ const ResentOtp = ({navigation, route}) => {
       )
         .then((response) => response.json())
         .then((data) => {
-         setIsLoadingList(false);
-         console.log('data data',data);
-  
+          setIsLoadingList(false);
+
+          if (data.status === 'success') {
+            setCurrentOTP('');
+            createAlertWithTwoButton1(data.data);
+          } else {
+            createAlertWithTwoButton1(data.data);
+          }
         })
         .catch((e) => console.log(e));
       return () => {
         abort.abort();
       };
     }
-
-
-    
   };
 
-
   useEffect(() => {
-    function tick() {
-      if (seconds >= 0) {
-        setSeconds((prevSeconds) => prevSeconds - 1);
+    let myInterval = setInterval(() => {
+      if (secondsTimer > 0) {
+        setSecondsTimer(secondsTimer - 1);
       }
-    }
-    foo.current = setInterval(() => tick(), 1000);
-  }, []);
-
-  useEffect(() => {
-    console.log('secondssecondssecondsseconds', seconds);
-
-    if (seconds === 0) {
-      setSeconds(0 + 0);
-      console.log('secondssecondssecondsseconds clear ');
-      clearInterval(foo.current);
-      setDone(true);
-    }
-  }, [seconds]);
+      if (secondsTimer === 0) {
+        if (minutesTimer === 0) {
+          clearInterval(myInterval);
+          setDone(true);
+        } else {
+          setMinutesTimer(minutesTimer - 1);
+          setSecondsTimer(59);
+        }
+      }
+    }, 1000);
+    return () => {
+      clearInterval(myInterval);
+    };
+  }, [secondsTimer, minutesTimer]);
 
   const createTwoButttonWithoutOTP = () => {
     Alert.alert('Alert', 'Please Fill OTP Fields', [
@@ -164,22 +162,20 @@ const ResentOtp = ({navigation, route}) => {
       {cancelable: false},
     );
 
-
   const resendOTPAPI = () => {
+    setSecondsTimer(60);
+    setMinutesTimer(0);
     setDone(false);
-    setSeconds(60);
-
-    //   function tick() {
-    //     setSeconds(prevSeconds => prevSeconds - 1)
-    // }
-    //foo.current = setInterval(() => tick(), 1000)
 
     setIsLoadingList(true);
 
     let abort = new AbortController();
     var form = new FormData();
-    form.append('api_token', route?.params.loginData.api_token),
-      form.append('phone', '+' + route.params?.phoneNumberData),
+    form.append('api_token', apiToken),
+      form.append('phone', '+' + phoneNumber),
+
+      console.log('formformformformformformformformformformformform',form);
+
       fetch(
         'http://tokyo.shiftlogics.com/api/user/sendotp',
         {
@@ -197,12 +193,11 @@ const ResentOtp = ({navigation, route}) => {
         .then((data) => {
           setIsLoadingList(false);
 
-          console.log('data value', data);
           if (data.status === 'success') {
             setCurrentOTP('');
             createAlertWithTwoButton1(data.data);
           } else {
-            createAlertWithTwoButton1(data.data);
+            setErrormsg(data.data);
           }
         })
         .catch((e) => {
@@ -217,11 +212,11 @@ const ResentOtp = ({navigation, route}) => {
     navigation.navigate('Home');
     dispatch(Ltout(purgeStoredState));
   };
- 
-  const submitOTPAPI = async () => {
-    console.log('mathan');
 
-    clearInterval(foo.current);
+  const submitOTPAPI = async () => {
+
+    console.log('apiTokenapiTokenapiToken',apiToken);
+    console.log('phoneNumberphoneNumber',phoneNumber);
 
     if (currentOTP.length == 4) {
       setIsLoadingList(true);
@@ -242,247 +237,242 @@ const ResentOtp = ({navigation, route}) => {
 
   useEffect(() => {
     if (route?.params.isCreate == true) {
-      let abort = new AbortController();
-      // var form = new FormData();
-      //   form.append('phone',route?.params.phoneNumberData)
-
-      var form = new FormData();
-      form.append('api_token', route?.params.loginData.token),
+        let abort = new AbortController();
+        var form = new FormData();
+        form.append('api_token', route?.params.loginData.token),
         form.append('phone', '+' + route.params?.phoneNumberData),
-        console.log('formformformform', form);
+        fetch(
+          'http://tokyo.shiftlogics.com/api/user/sendotp',
+          {
+            method: 'POST',
+            headers: new Headers({
+              Accept: 'application/json',
+              'Content-Type': 'multipart/form-data',
+            }),
+            body: form,
+          },
+          {signal: abort.signal},
+        )
+          .then((response) => response.json())
 
-      fetch(
-        'http://tokyo.shiftlogics.com/api/user/sendotp',
-        {
-          method: 'POST',
-          headers: new Headers({
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data',
-          }),
-          body: form,
-        },
-        {signal: abort.signal},
-      )
-        .then((response) => response.json())
+          .then((data) => {
+            if (data.status === 'success') {
+ 
+              setApiToken(route?.params.loginData.token);
+              setPhoneNumber(route.params?.phoneNumberData);
 
-        .then((data) => {
-          if (data.status === 'success') {
-            console.log('datadatadatadata otp otp', data);
-
-            setApiToken(route?.params.loginData.token);
-            setPhoneNumber(route.params?.phoneNumberData);
-
-            setIsLoadingList(false);
-          } else {
-            setIsLoadingList(false);
-            console.log('Test mathan');
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+              setIsLoadingList(false);
+            } else {
+              setIsLoadingList(false);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       return () => {
         abort.abort();
       };
     } else {
-      console.log(
-        'route?.params.loginData.tokenroute?.params.loginData.token',
-        route?.params.loginData.api_token,
-      );
-
-      console.log(
-        'route.params?.phoneNumberDataroute.params?.phoneNumberData',
-        route.params?.phoneNumberData,
-      );
-
       setApiToken(route?.params.loginData.api_token);
       setPhoneNumber(route.params?.phoneNumberData);
     }
   }, []);
 
   return (
-    
-    <View style={{flex: 1, flexDirection: 'column',padding: 20,backgroundColor:'#fafbfb'}}>
-    <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
-    <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+    <View
+      style={{flex: 1, flexDirection: 'column', backgroundColor: '#fafbfb'}}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
+      <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+        {errorCheck ? (
+          <View style={StylesAll.errorSnackbar}>
+            <Image
+              resizeMode="cover"
+              style={{width: 30, height: 30, tintColor: '#fff'}}
+              source={require('./Image/opps.png')}
+            />
 
-    {errorCheck ? (
-              <View style={styles.errorSnackbar}>
-                <Image
-                  resizeMode="cover"
-                  style={{width: 30, height: 30, tintColor: '#fff'}}
-                  source={require('./Image/opps.png')}
-                />
+            <View style={{flexDirection: 'column', paddingLeft: 13}}>
+              <Text style={StylesAll.whitecolor}>Tokyo Secret</Text>
+              <Text style={[StylesAll.mediamFont, StylesAll.whitecolor]}>
+                {errorMsg}
+              </Text>
+            </View>
+          </View>
+        ) : null}
 
-                <View style={{flexDirection: 'column', paddingLeft: 13}}>
-                  <Text style={StylesAll.whitecolor}>Tokyo Secret</Text>
-                  <Text style={[StylesAll.mediamFont, StylesAll.whitecolor]}>
-                    {errorMsg}
-                  </Text>
-                </View>
-              </View>
-            ) : null}
+        <View style={{flex: 1, margin: 20, marginTop: 30}}>
+          <Text
+            style={{
+              fontFamily: 'Roboto-Bold',
+              fontSize: 20,
+              padding: 10,
+              color: 'black',
+            }}>
+            VERIFY TAC
+          </Text>
+          <Text
+            style={{
+              padding: 10,
+              fontFamily: 'Roboto-Medium',
+              fontSize: 15,
+              color: 'gray',
+            }}>
+            Please key in the code send to {route.params?.phoneNumberData} via
+            SMS within the next 60 seconds
+          </Text>
+        </View>
 
-      <View style={{flex: 1, margin: 10,marginTop:30}}>
-        <Text
+        <View
           style={{
-            fontFamily: 'Roboto-Bold',
-            fontSize: 20,
-            padding: 10,
-            color: 'black',
+            flex: 2,
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
           }}>
-          VERIFY TAC
-        </Text>
-        <Text style={{padding: 10, fontFamily: 'Roboto-Medium', fontSize: 12}}>
-          Please key in the code send to {route.params?.phoneNumberData} via SMS
-          within the next 60 seconds
-        </Text>
-      </View>
+          <Text
+            style={{
+              fontFamily: 'Roboto-Medium',
+              fontSize: 20,
+              paddingBottom: 10,
+            }}>
+            00 : {secondsTimer < 10 ? '0' + secondsTimer : secondsTimer}
+          </Text>
 
-      <View
-        style={{
-          flex: 2,
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-        }}>
-        <Text
-          style={{fontFamily: 'Roboto-Bold', fontSize: 17, paddingBottom: 10}}>
-          00:{seconds < 10 ? '0' + seconds : seconds}
-        </Text>
-
-        {done == false ? (
-          <View></View>
-        ) : (
-          <TouchableOpacity
-            onPress={() => resendOTPAPI()}
-            disabled={seconds == 0 ? false : true}>
-            <View
-              style={[
-                {
-                  padding: 10,
-                  width: 180,
-                  backgroundColor: COLORS.app_browntheme,
-                  borderRadius: 50,
-                },
-              ]}>
-              <Text
+          {done == false ? (
+            <View></View>
+          ) : (
+            <TouchableOpacity onPress={() => resendOTPAPI()}>
+              <View
                 style={[
-                  {color: 'white', textAlign: 'center'},
-                  StylesAll.boldFontLight,
+                  {
+                    padding: 10,
+                    width: 180,
+                    backgroundColor: COLORS.app_browntheme,
+                    borderRadius: 50,
+                  },
                 ]}>
-                RESEND CODE
+                <Text
+                  style={[
+                    {color: 'white', textAlign: 'center'},
+                    StylesAll.boldFont,
+                  ]}>
+                  RESEND CODE
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+
+          <OTPInputView
+            style={{width: '80%', height: 100}}
+            pinCount={4}
+            editable={true}
+            autoFocusOnLoad
+            codeInputFieldStyle={styles.underlineStyleBase}
+            codeInputHighlightStyle={styles.underlineStyleHighLighted}
+            code={currentOTP}
+            onCodeChanged={(code) => {
+              setCurrentOTP(code);
+            }}
+            onCodeFilled={(code) => {
+              setCurrentOTP(code);
+            }}
+          />
+        </View>
+        <View style={{flex: 1, justifyContent: 'flex-end', margin: 20}}>
+          <TouchableOpacity
+            onPress={() => {
+              setModalVisible(true);
+            }}>
+            <Text style={{padding: 20, textAlign: 'center'}}>
+              I have a referral code
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => submitOTPAPI()}>
+            <View
+              style={{
+                backgroundColor: COLORS.app_browntheme,
+                borderRadius: 50,
+                padding: 15,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontFamily: 'Roboto-Bold',
+                  fontSize: 15,
+                  color: 'white',
+                }}>
+                SUBMIT
               </Text>
             </View>
           </TouchableOpacity>
-        )}
+        </View>
 
-        <OTPInputView
-          style={{width: '80%', height: 100}}
-          pinCount={4}
-          editable={true}
-          autoFocusOnLoad
-          codeInputFieldStyle={styles.underlineStyleBase}
-          codeInputHighlightStyle={styles.underlineStyleHighLighted}
-          code={currentOTP}
-          onCodeChanged={(code) => {
-            setCurrentOTP(code);
-          }}
-          onCodeFilled={(code) => {
-            setCurrentOTP(code);
-          }}
-        />
-      </View>
-      <View style={{flex: 1, justifyContent: 'flex-end', margin: 20}}>
-        <TouchableOpacity
-          onPress={() => {
-            setModalVisible(true);
-          }}>
-          <Text style={{padding: 20, textAlign: 'center'}}>
-            I have a referral code
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => submitOTPAPI()}>
-          <View
-            style={{
-              backgroundColor: COLORS.app_browntheme,
-              borderRadius: 50,
-              padding: 15,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={{fontFamily: 'Roboto-Bold', fontSize: 15, color: 'white'}}>
-              SUBMIT
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+        <Modal animationType="none" transparent={true} visible={modalVisible}>
+          <View style={[StylesAll.common_Modal, {justifyContent: 'center'}]}>
+            <View style={StylesAll.modalBox}>
+              <Text style={[StylesAll.main_Title]}>Referral Code</Text>
 
-      <Modal animationType="none" transparent={true} visible={modalVisible}>
-        <View style={[StylesAll.common_Modal, {justifyContent: 'center'}]}>
-          <View style={StylesAll.modalBox}>
-            <Text style={[StylesAll.main_Title]}>
-               Referral Code
-            </Text>
+              <TextInput
+                style={{
+                  backgroundColor: '#fff',
+                  borderWidth: 1,
+                  borderColor: COLORS.grey_line,
+                  paddingHorizontal: 10,
+                  borderRadius: 50,
+                  marginTop: 10,
+                  height: 45,
+                }}
+                onChangeText={(text) => setReferralCode(text)}
+                placeholder={'Enter referral code'}
+              />
 
-            <TextInput
-              style={{
-                backgroundColor: '#fff',
-                borderWidth: 1,
-                borderColor: COLORS.grey_line,
-                paddingHorizontal: 10,
-                borderRadius: 50,
-                marginTop: 10,
-                height: 45,
-              }}
-               onChangeText={(text) => setReferralCode(text)}
-              placeholder={'Enter referral code'}
-            />
-
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginTop: 20,
-              }}>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log('on presss');
-                  setModalVisible(false);
-                
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  alignContent: 'center',
+                  marginTop: 20,
                 }}>
-                <View style={[StylesAll.cancelBtn, StylesAll.mediumBtn]}>
-                  <Text
-                    style={[
-                      StylesAll.whitecolor,
-                      StylesAll.boldFont,
-                      {textAlign: 'center'},
-                    ]}>
-                    CLOSE
-                  </Text>
-                </View>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    setModalVisible(false);
+                  }}
+                  style={{flex: 1}}>
+                  <View style={[StylesAll.cancelBtn, StylesAll.mediumBtn1]}>
+                    <Text
+                      style={[
+                        StylesAll.whitecolor,
+                        StylesAll.boldFont,
+                        {textAlign: 'center', padding: 10},
+                      ]}>
+                      CLOSE
+                    </Text>
+                  </View>
+                </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => applyRefercode()}>
-                <View style={[StylesAll.viewBtn, StylesAll.mediumBtn]}>
-                  <Text
-                    style={[
-                      StylesAll.whitecolor,
-                      StylesAll.boldFont,
-                      {textAlign: 'center'},
-                    ]}>
-                    SUBMIT
-                  </Text>
-                </View>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => applyRefercode()}
+                  style={{flex: 1}}>
+                  <View style={[StylesAll.viewBtn, StylesAll.mediumBtn1]}>
+                    <Text
+                      style={[
+                        StylesAll.whitecolor,
+                        StylesAll.boldFont,
+                        {textAlign: 'center', padding: 10},
+                      ]}>
+                      SUBMIT
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
 
-      <View>{isLoadingList ? <ActivityIndi /> : <View></View>}</View>
+        <View>{isLoadingList ? <ActivityIndi /> : <View></View>}</View>
       </SafeAreaView>
     </View>
   );

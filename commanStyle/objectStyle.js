@@ -5,6 +5,16 @@ import {COLORS} from '../Styles/colors';
 
  export const StylesAll = StyleSheet.create({  
 
+
+  errorSnackbar: {
+    backgroundColor: '#C02925',
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 35,
+  },
+
+
     main_Title: {
         fontFamily: 'Roboto-Bold',
         color: '#000',
@@ -42,6 +52,8 @@ import {COLORS} from '../Styles/colors';
         paddingHorizontal: 10,
       },
 
+
+       
       inputwrap1: {flex: 0.1},
     
       inputwrap2: {flex: 1,paddingHorizontal:10},
@@ -286,7 +298,11 @@ import {COLORS} from '../Styles/colors';
         modalBox:{  backgroundColor:"#fff" ,paddingVertical:30 ,paddingHorizontal:20 ,borderRadius:15},
         redeemQrbox:{backgroundColor:"#fff" ,padding:20 ,width:240 ,height:240},
         inputBox:{borderWidth:1 ,borderColor:"#cccccc" ,borderRadius:50 ,height:45  ,paddingHorizontal:15,marginBottom:15},
+        inputBox1:{borderWidth:1 ,borderColor:"#cccccc" ,borderRadius:50 ,height:45  ,paddingHorizontal:15,marginBottom:5},
+
         mediumBtn:{minWidth:120 ,borderRadius:50,padding:12},
+
+        mediumBtn1:{borderRadius:30,padding:5,marginLeft:5},
 
         cancelBtn:{
           backgroundColor:"#CCCCCC" ,
@@ -374,6 +390,12 @@ boldFontNew11: {
     fontFamily: 'Roboto-Bold',
     fontSize : 20,
 },
+
+boldFontLight2: {
+  fontFamily: 'Roboto-Medium',
+  fontSize : 15,
+  },
+
 
    boldFontLight: {
     fontFamily: 'Roboto-Medium',

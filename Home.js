@@ -51,7 +51,18 @@ const Home = ({navigation}) => {
 
   const [viewPostData, setViewPostData] = useState([]);
 
+  
+  const{status} = LoginStatus;
+
+
   useEffect(() => {
+
+    if (status === "failure"){
+       dispatch(Ltout(purgeStoredState))
+    }else{
+      console.log("ssssssssssssucesss");
+    }
+
     let abort = new AbortController();
     var form = new FormData();
 
@@ -183,6 +194,7 @@ const Home = ({navigation}) => {
             itemWidth={ITEM_WIDTH}
             inactiveSlideShift={0}
             useScrollView={true}
+            loop={true}
             autoplay={true}
             //ListHeaderView={listHeaderView}
             autoplayDelay={0.3}
@@ -214,7 +226,7 @@ const Home = ({navigation}) => {
           }}>
           <View  style={styles.labelBox}>
           <Image source={require('./Image/menuNew.png')} style={styles.labelIcons}/>
-          <Text  style={StylesAll.boldFont}>Menu</Text>
+          <Text  style={StylesAll.boldFontLight2}>Menu</Text>
 
           </View>
 
@@ -225,7 +237,7 @@ const Home = ({navigation}) => {
           }}>
           <View style={styles.labelBox}>
           <Image source={require('./Image/orderNew.png')}  style={styles.labelIcons}  />
-          <Text  style={StylesAll.boldFont}>Order</Text>
+          <Text  style={StylesAll.boldFontLight2}>Order</Text>
 
           </View>
 
@@ -238,7 +250,7 @@ const Home = ({navigation}) => {
           <View style={styles.labelBox}>
           <Image source={require('./Image/reserveNew.png')}  style={styles.labelIcons}/>
 
-          <Text  style={StylesAll.boldFont}>Reserve</Text>
+          <Text  style={StylesAll.boldFontLight2}>Reserve</Text>
 
           </View>
 
@@ -252,7 +264,7 @@ const Home = ({navigation}) => {
           <View style={styles.labelBox}> 
           <Image source={require('./Image/outletNew.png')} style={styles.labelIcons}/>
 
-          <Text style={StylesAll.boldFont}>Outlets</Text>
+          <Text style={StylesAll.boldFontLight2}>Outlets</Text>
 
 
           </View>

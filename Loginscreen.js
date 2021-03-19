@@ -76,6 +76,8 @@ const Loginscreen = ({navigation}) => {
 
   const [errorMsg, setErrormsg] = useState('');
 
+   const [accessToken ,setAccessToken] = useState('');
+
 
   const handleResponse = async () => {
     if (Platform.OS === 'ios') {
@@ -85,6 +87,15 @@ const Loginscreen = ({navigation}) => {
           requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
         })
         .then((appleAuthRequestResponse) => {
+
+              dispatch(Ltout(purgeStoredState));
+      dispatch(loginSocialGoogleAction(appleAuthRequestResponse.authorizationCode,appleAuthRequestResponse.fullName.givenName,appleAuthRequestResponse.email,navigation)).then(() => {
+    setIsLoadingList(false);
+    
+  }); 
+
+
+
           let {identityToken, email} = appleAuthRequestResponse;
           console.log('malllll', email);
         });
@@ -136,6 +147,7 @@ const Loginscreen = ({navigation}) => {
           ),
         ).then(() => {
           setIsLoadingList(false);
+          signOut();
         });
       } catch {
         console.log('no return');
@@ -169,31 +181,36 @@ const Loginscreen = ({navigation}) => {
     }
   };
 
-  const getResponseInfo = async (error, result, accToken) => {
+  const getResponseInfo = async (error, result) => {
     if (error) {
       //Alert for the Error
       alert('Error fetching data: ' + error.toString());
     } else {
       console.log('checking mathan');
-      console.log('accTokenaccToken', accToken);
-
+     
       //response alert
       console.log('test mathan', JSON.stringify(result));
       setUserEmail('Email', +result.email);
       setUserName('Welcome ' + result.name);
       setToken('User Token: ' + result.id);
       setProfilePic(result.picture.data.url);
-
+ 
+       console.log('result.emailresult.emailresult.emailresult.emailresult.email',result.email);
+       
       setIsLoadingList(true);
 
+      const userInfo = JSON.stringify(result)
+        console.log('resultresultresultresultresultresult111',result);
+
+      console.log('userInfo.iduserInfo.id',userInfo.id);
       try {
         dispatch(Ltout(purgeStoredState));
         await dispatch(
           loginSocialAction(result.id, result.name, result.email, navigation),
         ).then(() => {
           setIsLoadingList(false);
-          signOut();
-
+      
+          onLogout();
           // navigation.navigate('Home');
         });
       } catch {
@@ -222,7 +239,7 @@ const Loginscreen = ({navigation}) => {
   };
 
   const onLogout = () => {
-    //Clear the state after logout
+    LoginManager.logOut();
     setUserName(null);
     setToken(null);
     setProfilePic(null);
@@ -247,22 +264,17 @@ const Loginscreen = ({navigation}) => {
 
   const loginWithFacebook = () => {
     setIsLoadingList(true);
-
+    
     LoginManager.logInWithPermissions(['public_profile', 'email']).then(
       function (result) {
         if (result.isCancelled) {
           setIsLoadingList(false);
           console.log('==> Login cancelled');
         } else {
-          // console.log(
-          //   "==> Login success with permissions: " +
-          //     result.grantedPermissions.toString()
-
-          // );
-
           AccessToken.getCurrentAccessToken().then((data) => {
             console.log('mathan', data);
-            console.log(data.accessToken.toString());
+            console.log('token.......',data.accessToken.toString());
+            setAccessToken(data.accessToken.toString())
             const processRequest = new GraphRequest(
               '/me?fields=name,email,picture.type(large)',
               null,
@@ -293,7 +305,7 @@ const Loginscreen = ({navigation}) => {
 
  position="top" textMessage="Hello There!" actionHandler={()=>{console.log("snackbar button clicked!")}} actionText="let's go"/> */}
             {errorCheck ? (
-              <View style={styles.errorSnackbar}>
+              <View style={StylesAll.errorSnackbar}>
                 <Image
                   resizeMode="cover"
                   style={{width: 30, height: 30, tintColor: '#fff'}}
@@ -437,11 +449,13 @@ const Loginscreen = ({navigation}) => {
               )}
             </Formik>
             <Text></Text>
-
+            <TouchableOpacity onPress={() =>{
+              navigation.navigate('Home')
+            }}>   
             <Text style={[StylesAll.mediamFont, {textAlign: 'center'}]}>
               Continue as guest
             </Text>
-
+            </TouchableOpacity>   
             <View style={StylesAll.ltguestWrapper}>
               <View
                 style={{
@@ -474,7 +488,7 @@ const Loginscreen = ({navigation}) => {
                   }}
                 />
               </View>
-{Platform.OS==="ios" ?
+              {Platform.OS==="ios" ?
               <TouchableOpacity
                 onPress={() => {
                   handleResponse();
@@ -490,9 +504,7 @@ const Loginscreen = ({navigation}) => {
                   </Text>
                 </View>
               </TouchableOpacity>
-
-:null}
-              
+            :null}        
               <View
                 style={{
                   flexDirection: 'row',
