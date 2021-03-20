@@ -40,11 +40,11 @@ const Friends = ({navigation}) => {
     
             <View style={{flexDirection: 'row', padding: 15, alignItems: 'center'}}>
               <View style={{flexDirection: 'column', flex: 1, paddingRight: 10}}>
-                <Text style={StylesAll.md_Title} numberOfLines={3}>
+                <Text style={[StylesAll.md_Title,{marginBottom:10}]} numberOfLines={1}>
                   {item.name}
                 </Text>
-                <Text></Text>
-                <Text numberOfLines={2}>{item.desc}</Text>
+                
+                <Text numberOfLines={1}>{item.desc}</Text>
               </View>
               <View>
                 <TouchableOpacity onPress={() =>{

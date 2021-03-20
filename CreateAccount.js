@@ -31,21 +31,11 @@ const windowHeight = Dimensions.get('window').height;
 
 const CreateAccountData = yup.object({
   name: yup.string().required('Kindly enter your name'),
-  email: yup
-    .string()
-    .required('Kindly enter your email id')
-    .email('Please enter valid email'),
-  password: yup
-    .string()
-    .required('Kindly enter your password')
-    .min(8, 'It must be 8 Characters'),
-  phoneNumber: yup
-    .string()
-    .required('Kindly enter your phoneNumber')
-    .min(10, 'It must be 10 charactor'),
+  email: yup.string().required('Kindly enter your email id'),
+  phoneNumber: yup.string().required('Kindly enter your phoneNumber'),
 });
 
-const CreateAccount = ({navigation}) => {
+const CreateAccount = ({navigation, route}) => {
   const [dt, setDt] = useState(new Date().toLocaleString());
 
   const [isLoadingList, setIsLoadingList] = useState(false);
@@ -60,11 +50,21 @@ const CreateAccount = ({navigation}) => {
 
   const [errorMsg, setErrormsg] = useState('');
 
+ let ui= setTimeout(() => {
+    if (errorCheck === true) {
+      seterrorCheck(false);
+    }
+  }, 2000);
+
   useEffect(() => {
     let secTimer = setInterval(() => {
       setDt(new Date().toLocaleString());
     }, 1000);
-    return () => clearInterval(secTimer);
+    return () =>{
+      clearInterval(ui);
+      clearInterval(secTimer);
+
+    } 
   }, []);
 
   const showDatePicker = () => {
@@ -96,7 +96,7 @@ const CreateAccount = ({navigation}) => {
               ? navigation.navigate('ResentOtp', {
                   phoneNumberData: phoneNumber,
                   loginData: dataValue,
-                  isCreate: true,
+                  loginfrom: 'Create',
                 })
               : {},
         },
@@ -130,12 +130,12 @@ const CreateAccount = ({navigation}) => {
         ) : null}
         <View style={{marginBottom: 30, marginHorizontal: 20}}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <View
-              style={[
-                StylesAll.commonHeader,
-                {paddingHorizontal: 0, paddingTop: 0},
-              ]}>
-              <Image source={require('./Image/back.png')} />
+            <View style={[StylesAll.commonHeader1]}>
+              <Image
+                source={require('./Image/back.png')}
+                style={StylesAll.headArrow}
+                resizeMode="contain"
+              />
             </View>
           </TouchableOpacity>
         </View>
@@ -157,9 +157,12 @@ const CreateAccount = ({navigation}) => {
             form.append('name', values.name);
             form.append('email', values.email);
             form.append('phone', value.slice(1) + values.phoneNumber);
-            form.append('password', values.password);
+            form.append('password', '00000000');
             form.append('app_secret', 'tokenhere');
-            form.append('dob', selectedDate);
+            form.append(
+              'dob',
+              selectedDate != 'Date of Birth*' ? selectedDate : '',
+            );
 
             console.log('formmmmmm', form);
 
@@ -180,34 +183,39 @@ const CreateAccount = ({navigation}) => {
               .then((data) => {
                 setIsLoadingList(false);
                 if (data.status === 'success') {
+                  console.log('datadata', data);
+
                   createAlertWithTwoButton(
                     data.status,
                     value.slice(1) + values.phoneNumber,
                     data.data,
                   );
                 } else {
-                  if (
-                    data.data.phone.length > 0 ||
-                    data.data.email.length > 0
-                  ) {
-                    if (data.data.phone.length > 0) {
-                      seterrorCheck(true);
-                      setErrormsg(data.data.phone[0]);
-                      //createAlertWithTwoButton(data.data.phone[0], '','')
-                    } else {
-                      seterrorCheck(true);
-                      setErrormsg(data.data.phone[0]);
-                      //createAlertWithTwoButton(data.data.email[0], '','')
-                    }
-                  } else {
+                  console.log('datadata', data.data);
+
+                  if (data.data?.email.length > 0) {
+                    let myData = data.data.email;
+
                     seterrorCheck(true);
-                    setErrormsg(data.data.status);
-                    //createAlertWithTwoButton(data.data.status, '','')
+                    setErrormsg(myData[0]);
+                  } else {
+                    console.log('kavi');
+                  }
+
+                  if (data.data?.phone.length > 0) {
+                    let myData = data.data.phone;
+                    console.log('ph' ,myData)
+
+                    seterrorCheck(true);
+                    setErrormsg(myData[0]);
+
+                  } else {
+                    console.log('kavi');
                   }
                 }
               })
               .catch((e) => {
-                createAlertWithTwoButton(e);
+                console.log(e);
               });
             return () => {
               abort.abort();
@@ -227,35 +235,21 @@ const CreateAccount = ({navigation}) => {
                   <Text>You are just one step away from chef-made food</Text>
                   <Text></Text>
                   <Text></Text>
+
                   <TextInput
                     style={StylesAll.inputBox1}
                     placeholder="Your Name*"
                     onChangeText={props.handleChange('name')}
                     value={props.values.name}></TextInput>
-
-                  <Text style={{color: 'red', padding: 2}}>
-                    {props.touched.name && props.errors.name}
-                  </Text>
+                  <Text></Text>
 
                   <TextInput
                     style={StylesAll.inputBox1}
                     placeholder="Email*"
                     onChangeText={props.handleChange('email')}
                     value={props.values.email}></TextInput>
-                  <Text style={{color: 'red', padding: 2}}>
-                    {props.touched.email && props.errors.email}
-                  </Text>
 
-                  <TextInput
-                    style={StylesAll.inputBox1}
-                    placeholder="Enter the Password"
-                    onChangeText={props.handleChange('password')}
-                    secureTextEntry
-                    value={props.values.password}></TextInput>
-                  <Text style={{color: 'red', padding: 2}}>
-                    {props.touched.password && props.errors.password}
-                  </Text>
-
+                  <Text></Text>
                   <View style={StylesAll.inputFieldBox}>
                     <TextInput
                       defaultValue={'+60'}
@@ -284,10 +278,7 @@ const CreateAccount = ({navigation}) => {
                     />
                   </View>
 
-                  <Text style={{color: 'red'}}>
-                    {props.touched.phoneNumber && props.errors.phoneNumber}
-                  </Text>
-
+                  <Text></Text>
                   <TouchableOpacity onPress={showDatePicker}>
                     <View
                       style={[
@@ -347,6 +338,13 @@ const CreateAccount = ({navigation}) => {
                   height: 70,
                 }}>
                 <TouchableOpacity
+                  disabled={
+                    props.values.name != '' &&
+                    props.values.email != '' &&
+                    props.values.phoneNumber != ''
+                      ? false
+                      : true
+                  }
                   onPress={props.handleSubmit}
                   disabled={!props.dirty}>
                   <View
@@ -359,7 +357,9 @@ const CreateAccount = ({navigation}) => {
                         alignItems: 'center',
                         borderRadius: 20,
                       },
-                      props.dirty
+                      props.values.name != '' &&
+                      props.values.email != '' &&
+                      props.values.phoneNumber != ''
                         ? StylesAll.commonButton
                         : StylesAll.commonButtondisabled,
                     ]}>

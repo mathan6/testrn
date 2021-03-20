@@ -36,6 +36,8 @@ export const COLORS = {
     app_redtheme : '#B92925',
 
     textbox_bg: '#F2F2F7',
+    textbox_bg1: '#F9FAFB',
+
     texbox_line : '#E7E7E8',
 
     dashboard_name :'#858686',

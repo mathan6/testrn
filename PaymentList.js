@@ -74,7 +74,7 @@ const PaymentList = ({navigation}) => {
     
           .then((data) => {
             if (data.status === 'success') {
-               console.log('datadatadatadatamathan',data);
+              
                 setTransactionHistory(data.data);
                setIsLoadingList(false)
             } else {
@@ -91,9 +91,8 @@ const PaymentList = ({navigation}) => {
  
     return(
            
-<View style={[StylesAll.commonWrapper, {padding: 0,paddingTop:40}]}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
-      <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+<View style={[StylesAll.commonWrapper, {paddingTop:40}]}>
+     
         
               
                 <FlatList
@@ -106,7 +105,7 @@ const PaymentList = ({navigation}) => {
                  />
 
                 <View>{isLoadingList ? <ActivityIndi/>:<View></View> }</View>     
-              </SafeAreaView>
+              
             </View>
 
     );

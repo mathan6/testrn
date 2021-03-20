@@ -166,7 +166,7 @@ const  ContactsData = ({navigation,route}) => {
                ))}
       </View>
       
-     <View style={{backgroundColor:COLORS.app_browntheme,borderRadius:15,paddingHorizontal:10}}>
+     <View style={{backgroundColor:COLORS.app_browntheme,borderRadius:50,paddingHorizontal:10}}>
      <TouchableOpacity onPress={() =>{
               
              console.log('item.phoneNumbersitem.phoneNumbers',item.phoneNumbers);
@@ -179,7 +179,7 @@ const  ContactsData = ({navigation,route}) => {
       
 
      }}>
-     <Text style={[{padding:8,color:'white'},StylesAll.boldFontLight]}> Invite</Text>
+     <Text style={[{padding:6,color:'white'},StylesAll.boldFontLight]}> Invite</Text>
      </TouchableOpacity>
  
      </View>
@@ -197,10 +197,10 @@ const  ContactsData = ({navigation,route}) => {
     <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
     <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
 
-    <View style={{marginBottom:20}}>
+    <View style={{marginBottom:44}}>
 <TouchableOpacity onPress={()=>navigation.goBack()}>
 <View style={[StylesAll.commonHeader ,{paddingHorizontal:0 ,paddingTop:0}]}>
-<Image source={require('./Image/back.png')}/>
+<Image source={require('./Image/back.png')}  resizeMode="contain"  style={StylesAll.headArrow}/>
  
 </View>
 </TouchableOpacity>

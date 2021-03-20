@@ -77,14 +77,17 @@ const feedBack = ({navigation}) => {
               </View>
             ) : null}
 
-
+<View style={StylesAll.headWrapper}>
 
 <TouchableOpacity onPress={()=>navigation.goBack()}>
 <View style={StylesAll.commonHeader}>
-<Image source={require('./Image/back.png')}/>
-<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>FEEDBACK</Text>
+<Image source={require('./Image/back.png')} resizeMode="contain" style={StylesAll.headArrow}/>
+<Text style={[StylesAll.headTitle]}>FEEDBACK</Text>
 </View>
 </TouchableOpacity>
+</View>
+
+
 
         <Formik
           initialValues={{
@@ -150,7 +153,7 @@ const feedBack = ({navigation}) => {
 
                 <View style={[StylesAll.flexWtrapper, {paddingTop: 20}]}>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                <Text style={[StylesAll.main_Title, {}]}>
+                <Text style={[StylesAll.main_Title, {fontSize:22}]}>
                   Your feedback matters
                 </Text>
                 <Text style={StylesAll.commom_color}>How was your experience with us ?</Text>
@@ -191,8 +194,23 @@ const feedBack = ({navigation}) => {
 
                  
               <View style={{flex: 0.2, justifyContent: 'flex-end'}}>
-                <TouchableOpacity onPress={props.handleSubmit}    disabled={ !props.dirty} >
-                  <View style={props.dirty ? StylesAll.commonButton :StylesAll.commonButtondisabled } >
+                <TouchableOpacity   disabled={
+                  props.values.email != '' &&
+                  props.values.subject != '' &&
+                  props.values.description != ''
+                    ? false
+                    : true
+                }
+                    onPress={props.handleSubmit}    disabled={ !props.dirty}
+                
+              
+                
+                >
+                  <View style={props.values.email != '' &&
+                      props.values.description != '' &&
+                      props.values.subject != ''
+                        ? StylesAll.commonButton
+                        : StylesAll.commonButtondisabled} >
                     <Text style={StylesAll.btnText}>SUBMIT</Text>
                   </View>
                 </TouchableOpacity>

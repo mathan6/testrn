@@ -56,12 +56,10 @@ const Menu = ({navigation, route}) => {
 
   useEffect(() => {
     navigation.setOptions({title: route.params?.productId.name});
-    console.log('route.params?.productId', route.params?.productId.name);
-
-    console.log('mathan tesing');
+ 
 
     if (route.params?.productId.id) {
-      console.log('route.params?.productId', route.params?.productId.id);
+   
 
       let abort = new AbortController();
 
@@ -84,10 +82,7 @@ const Menu = ({navigation, route}) => {
 
         .then((data) => {
           if (data.status === 'success') {
-            console.log(
-              'data.datadata.datadata.datadata.datadata.data',
-              data.data,
-            );
+          
 
             setCategoryProduct(data.data);
             setDataSource(data.data);
@@ -144,9 +139,9 @@ const Menu = ({navigation, route}) => {
             <View style={StylesAll.productLists}>
               <View
                 style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  flex: 0.5,
+              
+                  
                 }}>
                 {eee.image.map((ee) => {
                   return (
@@ -160,14 +155,14 @@ const Menu = ({navigation, route}) => {
                   );
                 })}
               </View>
-              <View style={{flex: 1}}>
-                <View style={{flex: 1}}>
+              <View style={{flex: 1  ,paddingLeft:10}}>
+                <View >
                   <Text numberOfLines={3} style={StylesAll.md_Title}>
                     {eee.cateName}
                   </Text>
-                  <Text></Text>
+                
 
-                  <Text numberOfLines={2}>{eee.productName}</Text>
+                  <Text numberOfLines={3}>{eee.productName}</Text>
                 </View>
                 <View
                   style={{
@@ -193,19 +188,19 @@ const Menu = ({navigation, route}) => {
   };
 
   return (
-    <View style={[StylesAll.commonWrapper, {padding: 0}]}>
+    <View style={[StylesAll.commonWrapper ,{paddingTop:0}]}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
       <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
-        <View style={{marginBottom: 20}}>
+        <View >
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <View
               style={[
                 StylesAll.commonHeader,
-                {paddingHorizontal: 0, paddingTop: 0},
+              
               ]}>
-              <Image source={require('./Image/back.png')} />
+              <Image source={require('./Image/back.png')}  resizeMode="contain"  style={StylesAll.headArrow}/>
               <Text
-                style={[StylesAll.main_Title, {marginBottom: 0, fontSize: 20}]}>
+                style={[StylesAll.headTitle, {textTransform:"uppercase"}]}>
                 {(route.params?.productId.name)}
               </Text>
             </View>
@@ -217,7 +212,7 @@ const Menu = ({navigation, route}) => {
             setRef(ref);
           }}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingHorizontal: 6}}>
+          contentContainerStyle={{paddingHorizontal: 6 ,paddingTop:30}}>
           {dataSource.map(ItemView)}
         </ScrollView>
       </SafeAreaView>

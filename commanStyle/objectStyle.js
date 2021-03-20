@@ -16,25 +16,38 @@ import {COLORS} from '../Styles/colors';
 
 
     main_Title: {
-        fontFamily: 'Roboto-Bold',
+        fontFamily: 'SFMono-Bold',
         color: '#000',
         fontSize: 25,
         letterSpacing: 1,
         marginBottom: 10,
       },
 
-      commonHeader:{paddingHorizontal:33,
+      commonHeader:{
                     flexDirection:"row",
                     alignItems:"center",
                     paddingTop:20
                     },
 
+                    commonHeader1:{paddingHorizontal:10,
+                      flexDirection:"row",
+                      alignItems:"center",
+                      paddingTop:20
+                      },
+
       commonWrapper: {
-        paddingHorizontal: 30,
+        paddingHorizontal: 25,
         paddingVertical: 15,
         backgroundColor: '#fafbfb',
         flex: 1,
         flexDirection: 'column',
+      },
+      headTitle:{fontSize:22 ,fontFamily: 'SFMono-Bold' , marginLeft:10 ,letterSpacing:0.9},
+      headArrow:{width:25 ,height:25},
+      headWrapper:{
+        paddingHorizontal: 3,
+        flexDirection:"row" ,
+        alignContent:"center",
       },
     
       field_Box: {
@@ -68,6 +81,17 @@ import {COLORS} from '../Styles/colors';
         justifyContent: 'center',
         paddingVertical:13
       },
+      commonButton1: {
+        backgroundColor: '#9A7527',
+        borderRadius: 50,
+       paddingHorizontal:40,
+       
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical:13
+      },
+
       commonButtondisabled:{
         backgroundColor: '#D3C5A0',
        
@@ -79,8 +103,11 @@ import {COLORS} from '../Styles/colors';
         justifyContent: 'center',
         paddingVertical:13
       },
-      btnText: {color: '#fff', fontFamily: 'Roboto-Medium'},
+      btnText: {color: '#fff', fontFamily: 'SFMono-Medium',fontSize:12},
     
+      btnText1: {color: '#fff', fontFamily: 'SFMono-Bold',},
+    
+
       ltguestWrapper: {
         flexDirection: 'column',
    
@@ -117,7 +144,7 @@ import {COLORS} from '../Styles/colors';
     
       qrBox: {
         backgroundColor: '#fff',
-        padding: 40,
+        padding: 40, 
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
@@ -135,7 +162,7 @@ import {COLORS} from '../Styles/colors';
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: '#9A7527',
-        padding: 20,
+        padding: 20, paddingHorizontal:33,
         borderBottomRightRadius: 15,
         borderBottomLeftRadius: 15,
       },
@@ -175,7 +202,7 @@ import {COLORS} from '../Styles/colors';
         elevation: 5,
       },
     
-      md_Title: {color: '#000', fontFamily: 'Roboto-Bold'},
+      md_Title: {color: '#000', fontFamily: 'SFMono-Bold'},
     
       rewardLists: {
         shadowColor: '#000',
@@ -197,7 +224,7 @@ import {COLORS} from '../Styles/colors';
     
       sm_Button: {
         backgroundColor: COLORS.app_browntheme,
-        paddingHorizontal: 15,
+        paddingHorizontal: 12,
         borderRadius: 20,
         paddingVertical: 8,
       },
@@ -215,11 +242,11 @@ import {COLORS} from '../Styles/colors';
         paddingBottom: 15,
       },
     
-      hs_Amount: {fontFamily: 'Roboto-Bold', fontSize: 14},
+      hs_Amount: {fontFamily: 'SFMono-Bold', fontSize: 14},
     
-      payId: {fontFamily: 'Roboto-Bold', color: '#9C9C9C', fontSize: 14},
+      payId: {fontFamily: 'SFMono-Bold', color: '#9C9C9C', fontSize: 14},
     
-      commom_color: {color: '#9C9C9C', fontFamily: 'Roboto-Medium'},
+      commom_color: {color: '#9C9C9C', fontFamily: 'SFMono-Medium'},
     
       common_successBtn: {
         backgroundColor: '#DDDDDD',
@@ -228,18 +255,10 @@ import {COLORS} from '../Styles/colors';
         borderRadius: 20,
       },
     
-      Wallet_layer1:{backgroundColor:"#fff" ,paddingVertical:30 ,paddingHorizontal:30,
-      shadowColor: "#000",
-      shadowOffset: {
-          width: 0,
-          height: 1,
-      },
-      shadowOpacity: 0.18,
-      shadowRadius: 1.00,
-      
-      elevation: 1, borderBottomWidth:3 ,   borderBottomColor: '#F3F4F4',},
+      Wallet_layer1:{backgroundColor:"#fff" ,paddingVertical:30 ,paddingHorizontal:25,
+      borderBottomWidth:3 ,   borderBottomColor: '#F3F4F4',},
     
-      wl_ammount:{fontSize:22 ,fontFamily:"Roboto-Bold" ,color:"#9A7527"},
+      wl_ammount:{fontSize:22 ,fontFamily:"SFMono-Bold" ,color:"#9A7527"},
 
 
       listButton: {
@@ -272,8 +291,8 @@ import {COLORS} from '../Styles/colors';
         padding: 10,
         borderTopLeftRadius: 30,
         borderBottomLeftRadius: 30,
-        position: 'relative',
-        left: 26,
+        position: 'relative', paddingLeft:60
+       
       },
     
       flexWtrapper: {flex: 1},
@@ -281,7 +300,7 @@ import {COLORS} from '../Styles/colors';
         color: '#fff',
       },
       boldFont: {
-        fontFamily: 'Roboto-Bold',
+        fontFamily: 'SFMono-Bold',
       },
 
        flexScreen:{flex:1 ,
@@ -289,7 +308,7 @@ import {COLORS} from '../Styles/colors';
        backgroundColor:"#fafbfb"
        },
       
-        innerWrapper:{paddingHorizontal:40 ,
+        innerWrapper:{paddingHorizontal:30 ,
         paddingVertical:20 ,
         flex:1 ,
         flexDirection:"column"},
@@ -329,7 +348,7 @@ import {COLORS} from '../Styles/colors';
         paddingBottom:10,
         textAlign: 'center',
         color:'#fff',
-        fontFamily: 'Roboto-Bold',
+        fontFamily: 'SFMono-Bold',
         fontSize: 20,
    },
    androidTop: { 
@@ -337,87 +356,87 @@ import {COLORS} from '../Styles/colors';
        padding: 10,
        textAlign: 'center',
        color:'#fff',
-       fontFamily: 'Roboto-Bold',
+       fontFamily: 'SFMono-Bold',
        fontSize: 20,
    },
    lightFont: {
-       fontFamily: 'Roboto-Light',
+       fontFamily: 'SFMono-Light',
        fontSize : 15,
    },
    mediamFont: {
-       fontFamily: 'Roboto-Medium',
-       fontSize : 15,
+       fontFamily: 'SFMono-Medium',
+       fontSize : 14,
    },
 
    VerylightFont: {
-    fontFamily: 'Roboto-Light',
+    fontFamily: 'SFMono-Light',
     fontSize : 12,
 },
 
    lightmediamFont: {
-    fontFamily: 'Roboto-Medium',
+    fontFamily: 'SFMono-Medium',
     fontSize : 10,
 },
 
 
    boldFont: {
-       fontFamily: 'Roboto-Bold',
+       fontFamily: 'SFMono-Bold',
        fontSize : 15,
    },
 
    boldFontNew1: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'SFMono-Bold',
     fontSize : 8,
 },
 boldFontNew11: {
-  fontFamily: 'Roboto-Bold',
+  fontFamily: 'SFMono-Bold',
   fontSize : 10,
 },
 
 
    boldFontNew: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'SFMono-Bold',
     fontSize : 8,
 },
 
    boldFont11: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'SFMono-Bold',
     fontSize : 13,
 },
 
  
    boldFont2: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'SFMono-Bold',
     fontSize : 20,
 },
 
 boldFontLight2: {
-  fontFamily: 'Roboto-Medium',
+  fontFamily: 'SFMono-Medium',
   fontSize : 15,
   },
 
 
    boldFontLight: {
-    fontFamily: 'Roboto-Medium',
+    fontFamily: 'SFMono-Medium',
     fontSize : 12,
     },
 
     boldFontLight1: {
-      fontFamily: 'Roboto-Medium',
+      fontFamily: 'SFMono-Medium',
       fontSize : 10,
       },
 
     LoginBoldFont2: {
-      fontFamily: 'Roboto-Bold',
+      fontFamily: 'SFMono-Bold',
       fontSize : 12,
   },
   
   LoginBoldFont3: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'SFMono-Bold',
     fontSize : 14,
 },
    LoginBoldFont: {
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'SFMono-Bold',
     fontSize : 22,
 },
 
@@ -427,8 +446,27 @@ boldFontLight2: {
     alignItems:'center',
      marginTop: Dimensions.get('window').height/2.7,
      alignContent:'center',
- }
+ },
  
+ shadowLayout:{
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  
+  elevation: 5, 
+},
+headWrapper:{
+  paddingHorizontal: 20,
+flexDirection:"row" ,alignContent:"center",
+ 
+ 
+},
+btm_Menu:{fontSize:14 ,   fontFamily: 'SFMono-Bold',}
+
 });
 
 

@@ -168,16 +168,24 @@ const VoucherData = ({navigation}) => {
 
     if (checkToken=== true) {
       return (
-        <View style={StylesAll.alertMsg}>
+<TouchableOpacity onPress={()=>navigation.navigate('Detail')}>
+<View style={StylesAll.alertMsg}>
           <Image
             resizeMode="cover"
             style={{width: 40, height: 40}}
             source={require('./Image/opps.png')}
           />
-          <Text style={[{marginTop: 5}, StylesAll.boldFont]}>
+          <Text style={[{marginVertical: 10}, StylesAll.boldFont]}>
             Oops, login is required!
           </Text>
+          <Text>You need to login to access  this feature</Text>
         </View>
+
+
+</TouchableOpacity>
+
+       
+
       );
     } else {
       return (
@@ -197,6 +205,14 @@ const VoucherData = ({navigation}) => {
 
   const renderItem = ({item}) => {
     return (
+      <TouchableOpacity  onPress={() => {
+
+
+
+        navigation.navigate('Voucherdetail',{dataValue : item,isVoucher:true});
+        
+        
+        }}>
         <View style={StylesAll.rewardLists}>
           <View style={{height: 200}}>
             <Image
@@ -212,29 +228,22 @@ const VoucherData = ({navigation}) => {
           <View
             style={{flexDirection: 'row', padding: 15, alignItems: 'center'}}>
             <View style={{flexDirection: 'column', flex: 1, paddingRight: 10}}>
-              <Text style={StylesAll.md_Title} numberOfLines={3}>
+              <Text style={StylesAll.md_Title} numberOfLines={1}>
                 {item.title}
               </Text>
-              <Text></Text>
-              <Text numberOfLines={2}>Download our app and get this exclusive voucher!</Text>
+              
+              <Text numberOfLines={1}>Download our app and get this exclusive voucher!</Text>
             </View>
             <View>
-              <TouchableOpacity  onPress={() => {
-
-
-
-navigation.navigate('Voucherdetail',{dataValue : item,isVoucher:true});
-
-
-}}>
+            
                 <View style={StylesAll.sm_Button}>
                   <Text style={StylesAll.btnText}>Redeem</Text>
                 </View>
-              </TouchableOpacity>
+             
             </View>
           </View>
         </View>
-     
+        </TouchableOpacity>
     );
   };
 
@@ -243,12 +252,20 @@ navigation.navigate('Voucherdetail',{dataValue : item,isVoucher:true});
       flexDirection: 'column',backgroundColor:COLORS.app_bgtheme}}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.app_bgtheme}></StatusBar>
       <SafeAreaView style={{flex: 1}}>
-      <TouchableOpacity onPress={()=>navigation.goBack()}>
+<View style={StylesAll.headWrapper}>
+<TouchableOpacity onPress={()=>navigation.goBack()}>
+
       <View style={StylesAll.commonHeader}>
-<Image source={require('./Image/back.png')}/>
-<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>VOUCHER</Text>
+<Image source={require('./Image/back.png')}  resizeMode="contain" style={StylesAll.headArrow}/>
+<Text style={[StylesAll.headTitle   ]}>VOUCHER</Text>
 </View>
 </TouchableOpacity>
+</View>
+
+      
+
+
+
 
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -257,7 +274,7 @@ navigation.navigate('Voucherdetail',{dataValue : item,isVoucher:true});
           ListEmptyComponent={EmptyListMessage}
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
-          contentContainerStyle={{padding:33}}
+          contentContainerStyle={{padding:25}}
         />
       </SafeAreaView>
       <View>{isLoadingList ? <ActivityIndi /> : <View></View>}</View>

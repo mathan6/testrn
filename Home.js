@@ -15,13 +15,9 @@ import {
 } from 'react-native';
 import {COLORS} from './Styles/colors';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
-import ActivityIndi from './ActivityIndi';
 import {StylesAll} from './commanStyle/objectStyle';
 
-import {useNavigation} from '@react-navigation/native';
-import {Ltout, loginAction, loginPhoneAction} from './actions/loginActions';
 import {useDispatch, useSelector} from 'react-redux';
-import {purgeStoredState} from 'redux-persist';
 
 import CarouselCardItem, {
   SLIDER_WIDTH,
@@ -31,15 +27,12 @@ import CarouselCardItem, {
 import SampleData from './SampleData';
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
 
-import Outlet from './Outlet';
 // import { DrawerActions } from '@react-navigation/native';
 
 const Home = ({navigation}) => {
 
 
-  const dispatch = useDispatch(); /// ======>>>Redux Hook <<<=====//
 
   const LoginStatus = useSelector((state) => state.loginDetails);
 
@@ -51,18 +44,7 @@ const Home = ({navigation}) => {
 
   const [viewPostData, setViewPostData] = useState([]);
 
-  
-  const{status} = LoginStatus;
-
-
   useEffect(() => {
-
-    if (status === "failure"){
-       dispatch(Ltout(purgeStoredState))
-    }else{
-      console.log("ssssssssssssucesss");
-    }
-
     let abort = new AbortController();
     var form = new FormData();
 
@@ -81,7 +63,7 @@ const Home = ({navigation}) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 'success') {
-          console.log('datadatadata', data.data);
+         
 
           setViewPostData(data.data);
           setIsLoadingList(false);
@@ -95,33 +77,25 @@ const Home = ({navigation}) => {
     };
   }, []);
 
-  const onPress2 = () => {
-    navigation.navigate('Reservation');
-  };
 
-  const onPress3 = () => {
-    navigation.navigate('menuDashboard');
-  };
-
-  const onPress4 = () => {
-    navigation.navigate('ScanQr');
-  };
 
   const renderItem = ({item}) => {
     return (
-      <View style={[{flex: 1, padding: 10}]}>
+      <View style={[{ padding: 10}]}>
         {item.postImage.map((ee) => {
-          console.log('eeeeeeeemathannn', ee.pImage);
+          
           return (
             <View
               style={[
-                {flex: 1,borderRadius:15},
+                {borderRadius:15 },
                 
-                {overflow: 'hidden'},
+           
+
+                styles.shadowLayout
               ]}>
               <Image
-                source={{uri: `http://shiftlogics.com/Tokyo/${ee.pImage}`}}
-                style={{width: windowWidth / 1.8, height: '100%'}}
+                source={{uri: `http://shiftlogics.com/Tokyo/${ee.pImage}`}} 
+                style={{width: windowWidth / 1.8, height: '100%' ,  borderRadius:12,}}
                 resizeMode="cover"></Image>
             </View>
           );
@@ -130,13 +104,6 @@ const Home = ({navigation}) => {
     );
   };
 
-  const listHeaderView = () => {
-    return (
-      <View>
-        <Text>Header</Text>
-      </View>
-    );
-  };
 
   return (
     <View style={StylesAll.flexScreen}>
@@ -149,14 +116,16 @@ const Home = ({navigation}) => {
             alignItems: 'center',
             paddingRight: 20,
           }}>
-          <View style={{padding: 20}}>
-            <Image
-              style={{width: 150, height: 50}}
-              source={require('./Image/tokyo.png')}></Image>
+          <View style={{paddingHorizontal: 20}}>
+          <Image
+              source={require('./Image/MainLogo.png')}
+              style={{width: 125, height: 100}}
+              resizeMode="contain"
+            />
           </View>
 
           <TouchableOpacity onPress={() => navigation.navigate('Drawer')}>
-            <View style={{padding: 20}}>
+            <View style={{paddingHorizontal: 20 ,paddingTop:0 ,paddingBottom:0}}>
               <Image
                 style={{width: 30, height: 30}}
                 source={require('./Image/mainmenu.png')}></Image>
@@ -167,7 +136,7 @@ const Home = ({navigation}) => {
         { loginData == null ? null:
         <Text
         style={[
-          {padding: 10, paddingLeft: 30},
+          {paddingTop: 10, paddingHorizontal: 30  ,paddingBottom:10},
           COLORS.dashboard_name,
           StylesAll.mediamFont,
         ]}>
@@ -175,7 +144,7 @@ const Home = ({navigation}) => {
       </Text>}
         
 
-        <View style={{flex: 1.2, paddingLeft: 20, paddingBottom: 10}}>
+        <View style={{flex: 1.3, paddingLeft: 20, paddingBottom: 10}}>
           <Text
             style={[
               {paddingTop: 10, paddingLeft: 10, paddingBottom: 10},
@@ -194,9 +163,9 @@ const Home = ({navigation}) => {
             itemWidth={ITEM_WIDTH}
             inactiveSlideShift={0}
             useScrollView={true}
-            loop={true}
             autoplay={true}
             //ListHeaderView={listHeaderView}
+            slideStyle={StylesAll.shadowLayout}
             autoplayDelay={0.3}
           />
         </View>
@@ -226,7 +195,7 @@ const Home = ({navigation}) => {
           }}>
           <View  style={styles.labelBox}>
           <Image source={require('./Image/menuNew.png')} style={styles.labelIcons}/>
-          <Text  style={StylesAll.boldFontLight2}>Menu</Text>
+          <Text  style={StylesAll.btm_Menu}>Menu</Text>
 
           </View>
 
@@ -237,7 +206,7 @@ const Home = ({navigation}) => {
           }}>
           <View style={styles.labelBox}>
           <Image source={require('./Image/orderNew.png')}  style={styles.labelIcons}  />
-          <Text  style={StylesAll.boldFontLight2}>Order</Text>
+          <Text  style={StylesAll.btm_Menu}>Order</Text>
 
           </View>
 
@@ -250,7 +219,7 @@ const Home = ({navigation}) => {
           <View style={styles.labelBox}>
           <Image source={require('./Image/reserveNew.png')}  style={styles.labelIcons}/>
 
-          <Text  style={StylesAll.boldFontLight2}>Reserve</Text>
+          <Text  style={StylesAll.btm_Menu}>Reserve</Text>
 
           </View>
 
@@ -264,7 +233,7 @@ const Home = ({navigation}) => {
           <View style={styles.labelBox}> 
           <Image source={require('./Image/outletNew.png')} style={styles.labelIcons}/>
 
-          <Text style={StylesAll.boldFontLight2}>Outlets</Text>
+          <Text style={StylesAll.btm_Menu}>Outlets</Text>
 
 
           </View>
@@ -481,7 +450,7 @@ const styles = StyleSheet.create({
   logintext1: {
     color: 'black',
     paddingLeft: 3,
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'SFMono-Bold',
     fontSize: 15,
   },
   logintext2: {
@@ -503,10 +472,28 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: 'center',
     color: '#fff',
-    fontFamily: 'Roboto-Bold',
+    fontFamily: 'SFMono-Bold',
     fontSize: 20,
   },
   labelIcons:{width:25 ,height:25 ,marginBottom:10  } ,
 
-  labelBox:{alignItems:"center"}
+  labelBox:{alignItems:"center"},
+
+
+
+
+  shadowLayout:{
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    
+    elevation: 5, 
+  }
+
+
+
 });

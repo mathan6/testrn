@@ -24,6 +24,7 @@ export default function VoucherDetail({navigation,route}) {
 
   const{loginData} = LoginStatus
 
+
   const addFavourite = (id) => {
 
     var form = new FormData();
@@ -83,17 +84,20 @@ navigation.navigate('Rewards')
   
 
   return (
-    <View style={StylesAll.flexWtrapper}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
+    <View style={[StylesAll.flexWtrapper,{backgroundColor:"#fafbfb"}]}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
       <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
        
-       <View style={{paddingBottom:20}}>
+       <View style={[     StylesAll.headWrapper,{   paddingBottom:20}]}>
+
       <TouchableOpacity onPress={()=>navigation.goBack()}>
       <View style={StylesAll.commonHeader}>
-<Image source={require('./Image/back.png')}/>
-<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>VOUCHER</Text>
+<Image source={require('./Image/back.png')} style={StylesAll.headArrow} resizeMode="contain"/>
+<Text style={[StylesAll.headTitle]}>VOUCHER</Text>
 </View>
 </TouchableOpacity>
+
+
 
 </View>
 
@@ -109,18 +113,18 @@ navigation.navigate('Rewards')
         <View style={StylesAll.innerWrapper}>
           <View style={[StylesAll.flexWtrapper, {}]}>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <Text style={StylesAll.main_Title}>{route.params?.dataValue.title}</Text>
+              <Text style={StylesAll.md_Title}>{route.params?.dataValue.title}</Text>
 
-              <View style={{flexDirection: 'row', alignItems: 'center' ,paddingTop:15}}>
+              <View style={{flexDirection: 'row', alignItems: 'center' ,paddingTop:15 }}>
                 <Image
                   source={require('./Image/calendar.png')}
-                  style={{width: 25, height: 20}}
+                  style={{width: 20, height: 20}}
                   resizeMode="contain"
                 />
 
                 <Text style={StylesAll.commom_color}>
-                  {' '}
-                  Valid from {moment(route.params?.dataValue.start_date).format('MMMM Do ')} till {moment(route.params?.dataValue.end_date).format('MMMM Do YYYY')} 
+                {' '}
+                  Valid from {moment(route.params?.dataValue.start_date).format('DMMM')} till {moment(route.params?.dataValue.end_date).format('DMMM YY')} 
                 </Text>
               </View>
  
@@ -190,7 +194,7 @@ navigation.navigate('Rewards')
 
 <View style={{marginTop:40}}>
 <Text style={[StylesAll.commom_color, StylesAll.mediumfont]}>
-                  Redeem Successful! You may view your Voucher at "Rewards"
+                  Redeem Successful! You may view your voucher at "Rewards"
                   section.
                 </Text>
 

@@ -12,6 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		1CEA551563384645A66F8AC4 /* SFMono-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E7050854B4F4137BF72C438 /* SFMono-BoldItalic.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -20,13 +21,24 @@
 		35ACC1248DA1411CAF4AD158 /* Roboto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CCBC57C823CE4ADE90A5A620 /* Roboto-Black.ttf */; };
 		389A2FF94D27497686A07560 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0E86AE5CF9A046D9A5978F43 /* Roboto-Regular.ttf */; };
 		42557FBE5074E90171FF249D /* libPods-AwesomeProject-AwesomeProjectTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A73192664D30288BB17B1F8 /* libPods-AwesomeProject-AwesomeProjectTests.a */; };
+		57ABECBFD60B4108B620E69E /* SFMono-HeavyItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F95E394F2854254B47FDB6D /* SFMono-HeavyItalic.ttf */; };
 		593A2E17D5E94B1398D24B8C /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F64EFA6CBFF34A7F9E8C0572 /* Roboto-Medium.ttf */; };
+		654D1CD1ED7A44A184041AF5 /* SFMono-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9997B63AFD8B45D497650DDB /* SFMono-Semibold.ttf */; };
+		74766AFF647B48E7BC53F15D /* SFMono-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D632220E59F445388BAC342F /* SFMono-Heavy.ttf */; };
 		7A3A51A18A7B99F78122013E /* libPods-AwesomeProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2CCC6DB895745526C40533A /* libPods-AwesomeProject.a */; };
+		7C1D6B675AF44E2BA32ED3FB /* SFMono-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B950FBA6FD1B48649D81B8B9 /* SFMono-MediumItalic.ttf */; };
+		7DDBCAA904CC43DF913AAE04 /* SFMono-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B24F942B77D948BCA1381959 /* SFMono-LightItalic.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		83E80D45D5B14050BA6B755E /* SFMono-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 36AF66C78B854FEC81642CAA /* SFMono-RegularItalic.ttf */; };
+		A36A045F9504418B83807A0F /* SFMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 966404A3023049779E0F9C1C /* SFMono-Regular.ttf */; };
 		A50B305CFB98AD2AB4E4B88B /* libPods-AwesomeProject-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEED784B355B2A6C89AA1CAE /* libPods-AwesomeProject-tvOS.a */; };
+		AE4A92F752DD437580EC920C /* SFMono-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9372851010F440FFAD15EB55 /* SFMono-SemiboldItalic.ttf */; };
 		DAC1104B5B0540229485C549 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4789C28F57CC42BE97C284CC /* Roboto-Light.ttf */; };
+		DF7AB40E1B924B2F9A290982 /* SFMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 296B2269BE884A93B9D8FEE1 /* SFMono-Bold.ttf */; };
+		E023007D9B674C45B7D04980 /* SFMono-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D8E5DAB5F2E4F4FBD2A79A2 /* SFMono-Light.ttf */; };
 		F9D17D40ED54AA29BBBFB64D /* libPods-AwesomeProject-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9578D48C435BDFA844A250A /* libPods-AwesomeProject-tvOSTests.a */; };
 		FC5E853C25FCE82800409B61 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC5E853B25FCE82800409B61 /* GoogleService-Info.plist */; };
+		FDC175A062BA4E78A8890135 /* SFMono-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D6E1CAFD97CD43F79A88EBBA /* SFMono-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,27 +64,39 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* AwesomeProjectTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AwesomeProjectTests.m; sourceTree = "<group>"; };
 		0E86AE5CF9A046D9A5978F43 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Regular.ttf"; path = "../assets/fonts/Roboto-Regular.ttf"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* AwesomeProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AwesomeProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Tokyo Secret.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tokyo Secret.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = AwesomeProject/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = AwesomeProject/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AwesomeProject/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AwesomeProject/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AwesomeProject/main.m; sourceTree = "<group>"; };
 		1B3C309E62A1D1308079F92A /* Pods-AwesomeProject-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-AwesomeProject-tvOSTests/Pods-AwesomeProject-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1F95E394F2854254B47FDB6D /* SFMono-HeavyItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-HeavyItalic.ttf"; path = "../assets/fonts/SFMono-HeavyItalic.ttf"; sourceTree = "<group>"; };
+		296B2269BE884A93B9D8FEE1 /* SFMono-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-Bold.ttf"; path = "../assets/fonts/SFMono-Bold.ttf"; sourceTree = "<group>"; };
 		2A73192664D30288BB17B1F8 /* libPods-AwesomeProject-AwesomeProjectTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AwesomeProject-AwesomeProjectTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* AwesomeProject-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AwesomeProject-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* AwesomeProject-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AwesomeProject-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		36AF66C78B854FEC81642CAA /* SFMono-RegularItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-RegularItalic.ttf"; path = "../assets/fonts/SFMono-RegularItalic.ttf"; sourceTree = "<group>"; };
+		3D8E5DAB5F2E4F4FBD2A79A2 /* SFMono-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-Light.ttf"; path = "../assets/fonts/SFMono-Light.ttf"; sourceTree = "<group>"; };
 		40D6BBAF3AF2FD5EA41821E4 /* Pods-AwesomeProject-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject-tvOS.release.xcconfig"; path = "Target Support Files/Pods-AwesomeProject-tvOS/Pods-AwesomeProject-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		4789C28F57CC42BE97C284CC /* Roboto-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Light.ttf"; path = "../assets/fonts/Roboto-Light.ttf"; sourceTree = "<group>"; };
 		4A3949C195A7356F56A9FCB0 /* Pods-AwesomeProject-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-AwesomeProject-tvOSTests/Pods-AwesomeProject-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		4CB12F04EEEBB2F8D05687AD /* Pods-AwesomeProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject.release.xcconfig"; path = "Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject.release.xcconfig"; sourceTree = "<group>"; };
 		58D0122D9A85B857B7A8E230 /* Pods-AwesomeProject-AwesomeProjectTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject-AwesomeProjectTests.release.xcconfig"; path = "Target Support Files/Pods-AwesomeProject-AwesomeProjectTests/Pods-AwesomeProject-AwesomeProjectTests.release.xcconfig"; sourceTree = "<group>"; };
 		71400346A9590DBE2D49BCB9 /* Pods-AwesomeProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject.debug.xcconfig"; path = "Target Support Files/Pods-AwesomeProject/Pods-AwesomeProject.debug.xcconfig"; sourceTree = "<group>"; };
+		7E7050854B4F4137BF72C438 /* SFMono-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-BoldItalic.ttf"; path = "../assets/fonts/SFMono-BoldItalic.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AwesomeProject/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9372851010F440FFAD15EB55 /* SFMono-SemiboldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-SemiboldItalic.ttf"; path = "../assets/fonts/SFMono-SemiboldItalic.ttf"; sourceTree = "<group>"; };
+		966404A3023049779E0F9C1C /* SFMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-Regular.ttf"; path = "../assets/fonts/SFMono-Regular.ttf"; sourceTree = "<group>"; };
+		9997B63AFD8B45D497650DDB /* SFMono-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-Semibold.ttf"; path = "../assets/fonts/SFMono-Semibold.ttf"; sourceTree = "<group>"; };
+		B24F942B77D948BCA1381959 /* SFMono-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-LightItalic.ttf"; path = "../assets/fonts/SFMono-LightItalic.ttf"; sourceTree = "<group>"; };
+		B950FBA6FD1B48649D81B8B9 /* SFMono-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-MediumItalic.ttf"; path = "../assets/fonts/SFMono-MediumItalic.ttf"; sourceTree = "<group>"; };
 		BE729D43EB6749468383BFEE /* Roboto-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Thin.ttf"; path = "../assets/fonts/Roboto-Thin.ttf"; sourceTree = "<group>"; };
 		C2CCC6DB895745526C40533A /* libPods-AwesomeProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AwesomeProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCBC57C823CE4ADE90A5A620 /* Roboto-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Black.ttf"; path = "../assets/fonts/Roboto-Black.ttf"; sourceTree = "<group>"; };
 		CEED784B355B2A6C89AA1CAE /* libPods-AwesomeProject-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AwesomeProject-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D632220E59F445388BAC342F /* SFMono-Heavy.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-Heavy.ttf"; path = "../assets/fonts/SFMono-Heavy.ttf"; sourceTree = "<group>"; };
+		D6E1CAFD97CD43F79A88EBBA /* SFMono-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "SFMono-Medium.ttf"; path = "../assets/fonts/SFMono-Medium.ttf"; sourceTree = "<group>"; };
 		DC276D30B0CBDBD08D4133EA /* Pods-AwesomeProject-AwesomeProjectTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject-AwesomeProjectTests.debug.xcconfig"; path = "Target Support Files/Pods-AwesomeProject-AwesomeProjectTests/Pods-AwesomeProject-AwesomeProjectTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DCD5D178F14D6CE5C92790E7 /* Pods-AwesomeProject-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AwesomeProject-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-AwesomeProject-tvOS/Pods-AwesomeProject-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -175,6 +199,18 @@
 				BE729D43EB6749468383BFEE /* Roboto-Thin.ttf */,
 				CCBC57C823CE4ADE90A5A620 /* Roboto-Black.ttf */,
 				F02AC935EF21475FBE7B4639 /* Roboto-Bold.ttf */,
+				296B2269BE884A93B9D8FEE1 /* SFMono-Bold.ttf */,
+				7E7050854B4F4137BF72C438 /* SFMono-BoldItalic.ttf */,
+				D632220E59F445388BAC342F /* SFMono-Heavy.ttf */,
+				1F95E394F2854254B47FDB6D /* SFMono-HeavyItalic.ttf */,
+				3D8E5DAB5F2E4F4FBD2A79A2 /* SFMono-Light.ttf */,
+				B24F942B77D948BCA1381959 /* SFMono-LightItalic.ttf */,
+				D6E1CAFD97CD43F79A88EBBA /* SFMono-Medium.ttf */,
+				B950FBA6FD1B48649D81B8B9 /* SFMono-MediumItalic.ttf */,
+				966404A3023049779E0F9C1C /* SFMono-Regular.ttf */,
+				36AF66C78B854FEC81642CAA /* SFMono-RegularItalic.ttf */,
+				9997B63AFD8B45D497650DDB /* SFMono-Semibold.ttf */,
+				9372851010F440FFAD15EB55 /* SFMono-SemiboldItalic.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -205,7 +241,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* AwesomeProject.app */,
+				13B07F961A680F5B00A75B9A /* Tokyo Secret.app */,
 				00E356EE1AD99517003FC87E /* AwesomeProjectTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* AwesomeProject-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* AwesomeProject-tvOSTests.xctest */,
@@ -270,7 +306,7 @@
 			);
 			name = AwesomeProject;
 			productName = AwesomeProject;
-			productReference = 13B07F961A680F5B00A75B9A /* AwesomeProject.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Tokyo Secret.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2D02E47A1E0B4A5D006451C7 /* AwesomeProject-tvOS */ = {
@@ -382,6 +418,18 @@
 				070C505A38DC42D3805C8441 /* Roboto-Thin.ttf in Resources */,
 				35ACC1248DA1411CAF4AD158 /* Roboto-Black.ttf in Resources */,
 				33E35C6C09BE4079875F8D41 /* Roboto-Bold.ttf in Resources */,
+				DF7AB40E1B924B2F9A290982 /* SFMono-Bold.ttf in Resources */,
+				1CEA551563384645A66F8AC4 /* SFMono-BoldItalic.ttf in Resources */,
+				74766AFF647B48E7BC53F15D /* SFMono-Heavy.ttf in Resources */,
+				57ABECBFD60B4108B620E69E /* SFMono-HeavyItalic.ttf in Resources */,
+				E023007D9B674C45B7D04980 /* SFMono-Light.ttf in Resources */,
+				7DDBCAA904CC43DF913AAE04 /* SFMono-LightItalic.ttf in Resources */,
+				FDC175A062BA4E78A8890135 /* SFMono-Medium.ttf in Resources */,
+				7C1D6B675AF44E2BA32ED3FB /* SFMono-MediumItalic.ttf in Resources */,
+				A36A045F9504418B83807A0F /* SFMono-Regular.ttf in Resources */,
+				83E80D45D5B14050BA6B755E /* SFMono-RegularItalic.ttf in Resources */,
+				654D1CD1ED7A44A184041AF5 /* SFMono-Semibold.ttf in Resources */,
+				AE4A92F752DD437580EC920C /* SFMono-SemiboldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -731,7 +779,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pcode.tokyosecret;
-				PRODUCT_NAME = AwesomeProject;
+				PRODUCT_NAME = "Tokyo Secret";
 				PROVISIONING_PROFILE_SPECIFIER = "Tokyo Secret Ad-Hoc2";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -758,7 +806,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.pcode.tokyosecret;
-				PRODUCT_NAME = AwesomeProject;
+				PRODUCT_NAME = "Tokyo Secret";
 				PROVISIONING_PROFILE_SPECIFIER = "Tokyo Secret Ad-Hoc2";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react'
-import  {View,Text,Button,Image,TouchableOpacity,StyleSheet,Share,Dimensions,Linking,StatusBar,SafeAreaView} from 'react-native';
+import  {View,Text,Button,Image,TouchableOpacity,StyleSheet,Share,Dimensions,Linking,StatusBar,SafeAreaView,FlatList} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { TextInput } from 'react-native-gesture-handler';
  import {StylesAll} from './commanStyle/objectStyle';
@@ -21,16 +21,44 @@ const MyInvites = ({navigation}) => {
   const LoginStatus = useSelector((state) => state.loginDetails);
   const{token} = LoginStatus
   const{loginData} = LoginStatus
+  const [referralList , setReferralList] = useState([])
+
+  const EmptyListMessage = ({item}) => {
+
+    if (loginData === null) {
+      return (
+        <View style={{flex:1,justifyContent:'center',alignItems:'center',marginTop: 20}}>
+          <Image
+            resizeMode="cover"
+            style={{width: 40, height: 40}}
+            source={require('./Image/opps.png')}
+          />
+          <Text style={[{marginTop: 5,color:COLORS.grey}, StylesAll.boldFontLight2]}>
+            Oops, login is required!
+          </Text>
+        </View>
+      );
+    } else {
+      return (
+        <View style={{flex:1,justifyContent:'center',alignItems:'center',marginTop: 50}}>
+           
+          <Text style={[{marginTop: 5,color:COLORS.grey}, StylesAll.boldFontLight2]}>
+            Invite your friends and get rewarded!
+          </Text>
+        </View>
+      );
+    }
+  };
 
   useEffect(() => {
 
-    console.log('MyInvites',MyInvites)
+    
 
     if (loginData != null){
    
     let abort = new AbortController();
     var form = new FormData();
-    form.append('transactionid',loginData.token);
+    form.append('api_token',loginData.token);
     fetch(
       'http://tokyo.shiftlogics.com/api/user/referrallist',
       {
@@ -46,9 +74,10 @@ const MyInvites = ({navigation}) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 'success') {
-           
+          setReferralList(data.data)
+          
         } else {
-           
+         
         }
       })
       .catch((e) => console.log(e));
@@ -64,7 +93,7 @@ const MyInvites = ({navigation}) => {
 
     if (loginData != null){
 
-      console.log('tokentokentokentoken',token);
+      
 
     let abort = new AbortController();
     var form = new FormData();
@@ -85,7 +114,7 @@ const MyInvites = ({navigation}) => {
       .then((response) => response.json())
       .then((data) => {
 
-        console.log('datadatadatadatadatadata222222',data.data.referral_code);
+       
 
         if (data.status === 'success') {
           setUserData(data.data);
@@ -99,7 +128,7 @@ const MyInvites = ({navigation}) => {
     };
 
   }else{
-    console.log('no token')
+   
   }
      
   }, [])
@@ -124,34 +153,51 @@ const MyInvites = ({navigation}) => {
         }
       };
 
+
+  const renderItem = ({ item }) => {
+    return(
+     <View style={{flex:1}}>
+ 
+     <View style={{flexDirection:'column'}}>
+      
+      <Text>{item.name} </Text>
+
+      <Text></Text>
+
+      <Text>{item.email} </Text>
+
+      </View>
+   </View>
+    );
+  
+     
+    };
+
+
     return(
       
             <View style={StylesAll.flexScreen}>
             <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
             <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
-        <View style={{marginBottom: 20,paddingHorizontal:20}}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <View
-              style={[
-                StylesAll.commonHeader,
-                {paddingHorizontal: 0, paddingTop: 0},
-              ]}>
-              <Image source={require('./Image/back.png')} />
-              <Text
-                style={[StylesAll.main_Title, {marginBottom: 0, fontSize: 20}]}>
-               INVITE
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+
+            <TouchableOpacity onPress={()=>navigation.goBack()}>
+            <View style={[StylesAll.commonHeader1,{paddingHorizontal:25 ,paddingBottom:30 } ]}>
+            <Image source={require('./Image/back.png')} style={StylesAll.headArrow} resizeMode="contain"/>
+            <Text style={[StylesAll.headTitle]}>INVITE</Text>
+             </View>
+        
+             </TouchableOpacity>
+             
 
             
             <View style={{flexDirection: 'column',alignItems: 'center'}}>
-        
-             <Image source={require('./Image/girls.jpeg')} 
-              style= {{maxWidth: '100%',height: windowHeight/3}} resizeMode= 'cover'
+              <View style={{paddingHorizontal: 40}}>
+            <Image source={require('./Image/girls.jpeg')} 
+              style= {{maxWidth: '100%',height: windowHeight/3.5}} resizeMode= 'stretch'
              >
+               
              </Image>
+             </View>
             <View style={{marginLeft:20,marginRight:20,paddingHorizontal:15,borderRadius: 30,justifyContent: 'space-between',flexDirection: 'row',borderColor:COLORS.app_browntheme,borderWidth:2}}>
 
             <TextInput style={{width :'75%',height:45,color:COLORS.app_browntheme}}>{userData.referral_code}</TextInput>
@@ -209,18 +255,30 @@ const MyInvites = ({navigation}) => {
             </View>
 
             <View style={{backgroundColor: COLORS.profile_list_bg,flex:1,flexDirection: 'column',padding:20}}>
-             <Text style={[{color: 'black',margin: 10,paddingBottom:10},StylesAll.boldFont]}>My invites</Text>
+             <Text style={[{color: 'black',margin: 0,paddingBottom:10},StylesAll.boldFont]}>My invites</Text>
              <TouchableOpacity   onPress={()=>{
                  navigation.navigate('ContactsData',{code: userData.referral_code});
              }}>
-             <View style={{flexDirection: 'row',width:'60%',justifyContent:'center',alignItems:'center',backgroundColor:COLORS.app_browntheme,borderRadius:30,paddingVertical:10}}>
+             <View style={{flexDirection: 'row',width:'50%',justifyContent:'center',alignItems:'center',backgroundColor:COLORS.app_browntheme,borderRadius:50,paddingVertical:9}}>
             
-             <Image source ={require('./Image/conList.png')} resizeMode= 'contain' style={{width: 25,height: 25,marginRight: 10}}>
+             <Image source ={require('./Image/conList.png')} resizeMode= 'contain' style={{width: 20,height: 20,marginRight: 10}}>
              </Image>
-             <Text style={{color: 'white'}}>Invite contact</Text>
+             <Text style={{color: 'white'}}>Invite contacts</Text>
            
             </View>
             </TouchableOpacity>
+
+          <View style={{flex:1}}>
+      <FlatList
+         data={referralList}
+        showsVerticalScrollIndicator={false}
+        //ListHeaderComponent={renderHeader}
+         renderItem={renderItem}
+        //stickyHeaderIndices={[0]}
+        ListEmptyComponent={EmptyListMessage}
+        keyExtractor={item => item.id}
+      />
+      </View>
 
             </View>
             </SafeAreaView>

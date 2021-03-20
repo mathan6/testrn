@@ -40,7 +40,7 @@ const menuDashboard = ({navigation}) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 'success') {
-          console.log('manu data', data.data);
+         
           setCategoryProduct(data.data);
           setIsLoadingList(false);
         } else {
@@ -60,9 +60,9 @@ const menuDashboard = ({navigation}) => {
         style={{flex: 1, flexDirection: 'column'}}>
     <View style={{marginBottom : 30}}>
 <TouchableOpacity onPress={()=>navigation.goBack()}>
-<View style={[StylesAll.commonHeader ,{paddingHorizontal:0 ,paddingTop:0}]}>
-<Image source={require('./Image/back.png')}/>
-<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>MENU</Text>
+<View style={[StylesAll.commonHeader]}>
+<Image source={require('./Image/back.png')}  resizeMode="contain"   style={StylesAll.headArrow}/>
+<Text style={[StylesAll.headTitle ]}>MENU</Text>
 </View>
 </TouchableOpacity>
 

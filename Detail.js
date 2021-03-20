@@ -105,8 +105,9 @@ const Detail = ( {navigation} ) => {
 
       <TouchableOpacity onPress={()=>navigation.goBack()}>
 <View style={[StylesAll.commonHeader ,{paddingHorizontal:25}]}>
-<Image source={require('./Image/back.png')}/>
-<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>PROFILE</Text>
+
+<Image source={require('./Image/back.png')} resizeMode="contain" style={StylesAll.headArrow}/>
+<Text style={[StylesAll.headTitle]}>PROFILE</Text>
 </View>
 </TouchableOpacity>
 

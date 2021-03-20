@@ -1,25 +1,33 @@
 import React from 'react'
 import { View, Text, StyleSheet, Dimensions, Image } from "react-native"
+import { StylesAll } from './commanStyle/objectStyle'
 
 export const SLIDER_WIDTH = Dimensions.get('window').width 
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8)
 
 export const My_Data = 'Mathan'
 
+
+
 const CarouselCardItem = ({ item, index }) => {
   return (
-    <View style={styles.container} key={index}>
+    <View  >
        
     { item.postImage.map((ee) =>{
-          console.log('eeeeeeee',ee.pImage);
+       
           
      return( 
+       <View   style={[{}, ]} key={index}>
+
+
    <Image 
     source={{uri:`http://shiftlogics.com/Tokyo/${ee.pImage}`}}
                       resizeMode= 'cover'
-                       style={styles.imageStyle}
+                       style={[styles.imageStyle ,{borderRadius:11}  ]}
                         key={index}
              />
+
+             </View>
      ) 
    })
    } 
@@ -32,24 +40,28 @@ const styles = StyleSheet.create({
   container: {
 
     width: ITEM_WIDTH,
-    height: '100%',
-    backgroundColor:'white'
+
+    
    
   },
   imageStyle: {
     width: '100%',
     height: '100%',
-    borderRadius: 15,
+  
+  },
+
+
+  shadowLayout:{
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 3,
+      height: 2,
     },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-  },
-
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    
+    elevation: 5, 
+  }
 })
 
 export default CarouselCardItem

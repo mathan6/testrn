@@ -31,11 +31,11 @@ export const loginAction = (values, code, load) => async (dispatch) => {
 
 export const loginSocialAction = (idValue,name,email,navigation) => async(dispatch,myData) => {
   let abort = new AbortController();
-  var form = new FormData();
-  form.append('fb_id',idValue),
-  form.append('name',name),
-  form.append('email',email),
-  form.append('dob',""),
+   var form = new FormData();
+    form.append('fb_id',idValue),
+    form.append('name',name),
+    form.append('email',email),
+    form.append('dob',""),
  
    fetch(
           'http://tokyo.shiftlogics.com/api/user/loginfb',
@@ -65,8 +65,8 @@ export const loginSocialAction = (idValue,name,email,navigation) => async(dispat
                 },
                 { text: "OK", onPress: () => {
                   if (data.status === 'success')  {
-                  if (data.data.phone_verified == "1"){
-                    navigation.navigate('loginWithPhone');
+                  if (data.data.phone_verified == "0"){
+                    navigation.navigate('loginWithPhone',{loginData : data.data});
                   }else{
                     navigation.navigate('Home');
                     console.log("phone verified0");
@@ -86,18 +86,13 @@ export const loginSocialAction = (idValue,name,email,navigation) => async(dispat
               abort.abort();
               };
 }
-
-//    NSString *req = [NSString stringWithFormat:@"google_id=%@&email=%@&name=%@&dob=",userId,email,fullName];
-
-//http://tokyo.shiftlogics.com/api/user/loginapple
-
  
-
-
-
 export const loginSocialAppleAction = (idValue,name,email,navigation) => async(dispatch) => {
 
-  console.log("funcation");
+  console.log("idValueidValue",idValue);
+  console.log("namenamename",name);
+  console.log("emailemailemail",email);
+ 
   let abort = new AbortController();
   var form = new FormData();
   form.append('apple_id',idValue),
@@ -124,9 +119,6 @@ export const loginSocialAppleAction = (idValue,name,email,navigation) => async(d
           .then((data) => { 
             dispatch({type: LOGIN_SOCIAL_APPLE, payload: data});
 
-                 console.log("data value",data);
-
-            
                 Alert.alert(
                   data.status,
                   "",
@@ -138,11 +130,10 @@ export const loginSocialAppleAction = (idValue,name,email,navigation) => async(d
                     },
                     { text: "OK", onPress: () => {
                       if (data.status === 'success')  {
-                      if (data.data.phone_verified == "1"){
-                        navigation.navigate('loginWithPhone');
+                      if (data.data.phone_verified == "0"){
+                        navigation.navigate('loginWithPhone',{loginData : data.data});
                       }else{
                         navigation.navigate('Home');
-                        console.log("phone verified0");
                       }
                     }
                     } }
@@ -193,8 +184,8 @@ export const loginSocialGoogleAction = (idValue,name,email,navigation) => async(
                  console.log("data value",data);
 
               if (data.status === 'success')  {
-                if (data.data.phone_verified == "1"){
-                  navigation.navigate('loginWithPhone');
+                if (data.data.phone_verified == "0"){
+                  navigation.navigate('loginWithPhone',{loginData : data.data});
                 }else{
                   navigation.navigate('Home');
                   console.log("phone verified0");
@@ -213,17 +204,19 @@ export const loginSocialGoogleAction = (idValue,name,email,navigation) => async(
 
 
  
-export const loginPhoneAction = (apiToken, otpData, phone ) => async (dispatch) => {
+export const loginPhoneAction = (apiToken, otpData, phone,apiURL) => async (dispatch) => {
  console.log('apiToken',apiToken);
  console.log('otpData',otpData);
- console.log('apiToken',apiToken);
+ console.log('phone',phone);
+ console.log('apiURL',apiURL);
+ 
  try {
    var form = new FormData();
    form.append('api_token',apiToken),
         form.append('otp', otpData),
         form.append('phone', phone),
    
-   await fetch("http://tokyo.shiftlogics.com/api/user/loginotpverified", {
+   await fetch(apiURL, {
      method: 'POST',
      headers: new Headers({
        Accept: 'application/json',
@@ -257,6 +250,8 @@ export const loginPhoneAction = (apiToken, otpData, phone ) => async (dispatch) 
      dispatch({type: LOGIN_FAIL});
  }
 };
+
+ 
 
 
 export const Ltout = () => async (dispatch) => {

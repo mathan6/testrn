@@ -57,7 +57,8 @@ const ResentOtp = ({navigation, route}) => {
       let abort = new AbortController();
       var form = new FormData();
       form.append('api_token', route?.params.loginData.api_token);
-      form.append('referral_code');
+      form.append('referral_code',referralCode);
+console.log('formformform',form)
 
       fetch(
         'http://tokyo.shiftlogics.com/api/user/referral',
@@ -76,9 +77,13 @@ const ResentOtp = ({navigation, route}) => {
           setIsLoadingList(false);
 
           if (data.status === 'success') {
+
+            console.log('datadatadatadata success',data);
+
             setCurrentOTP('');
             createAlertWithTwoButton1(data.data);
           } else {
+            console.log('datadatadatadata fall',data);
             createAlertWithTwoButton1(data.data);
           }
         })
@@ -109,6 +114,8 @@ const ResentOtp = ({navigation, route}) => {
     };
   }, [secondsTimer, minutesTimer]);
 
+
+  
   const createTwoButttonWithoutOTP = () => {
     Alert.alert('Alert', 'Please Fill OTP Fields', [
       {
@@ -172,7 +179,7 @@ const ResentOtp = ({navigation, route}) => {
     let abort = new AbortController();
     var form = new FormData();
     form.append('api_token', apiToken),
-      form.append('phone', '+' + phoneNumber),
+      form.append('phone', phoneNumber),
 
       console.log('formformformformformformformformformformformform',form);
 
@@ -194,9 +201,11 @@ const ResentOtp = ({navigation, route}) => {
           setIsLoadingList(false);
 
           if (data.status === 'success') {
+            console.log('data',data)
             setCurrentOTP('');
             createAlertWithTwoButton1(data.data);
           } else {
+            console.log('nooo',data)
             setErrormsg(data.data);
           }
         })
@@ -217,14 +226,14 @@ const ResentOtp = ({navigation, route}) => {
 
     console.log('apiTokenapiTokenapiToken',apiToken);
     console.log('phoneNumberphoneNumber',phoneNumber);
-
+ 
     if (currentOTP.length == 4) {
       setIsLoadingList(true);
 
       try {
         dispatch(Ltout(purgeStoredState));
         await dispatch(
-          loginPhoneAction(apiToken, currentOTP, phoneNumber),
+          loginPhoneAction(apiToken, currentOTP, phoneNumber,(route?.params.loginfrom == 'Login') ? 'http://tokyo.shiftlogics.com/api/user/loginotpverified' : 'http://tokyo.shiftlogics.com/api/user/otpverified'),
         ).then(() => {
           setIsLoadingList(false);
           navigation.navigate('Home');
@@ -234,13 +243,20 @@ const ResentOtp = ({navigation, route}) => {
       createTwoButttonWithoutOTP();
     }
   };
-
+  loginfrom: 'Create',
   useEffect(() => {
-    if (route?.params.isCreate == true) {
+    if (route?.params.loginfrom == 'Create') {
         let abort = new AbortController();
         var form = new FormData();
+
+        console.log('route?.params.loginData.token',route?.params.loginData.token);
+        console.log('route.params?.phoneNumberData',route.params?.phoneNumberData)
+
+
         form.append('api_token', route?.params.loginData.token),
-        form.append('phone', '+' + route.params?.phoneNumberData),
+        form.append('phone',route.params?.phoneNumberData),
+
+        console.log('formmmmm',form)
         fetch(
           'http://tokyo.shiftlogics.com/api/user/sendotp',
           {
@@ -257,6 +273,8 @@ const ResentOtp = ({navigation, route}) => {
 
           .then((data) => {
             if (data.status === 'success') {
+
+              console.log('datadatadatadata send otp',data)
  
               setApiToken(route?.params.loginData.token);
               setPhoneNumber(route.params?.phoneNumberData);
@@ -273,6 +291,9 @@ const ResentOtp = ({navigation, route}) => {
         abort.abort();
       };
     } else {
+      console.log('route?.params.loginData.api_token',route?.params.loginData.api_token)
+      console.log('route.params?.phoneNumberData',route.params?.phoneNumberData)
+
       setApiToken(route?.params.loginData.api_token);
       setPhoneNumber(route.params?.phoneNumberData);
     }

@@ -29,8 +29,7 @@ const Outlet = ( {navigation} ) => {
 
     Geolocation.getCurrentPosition((pos) => {
       const crd = pos.coords;
-      console.log('lat',crd.latitude);
-      console.log('long',crd.longitude);
+    
       setPosition({
         latitude: crd.latitude,
         longitude: crd.longitude,
@@ -142,14 +141,20 @@ const gh =(cor)=>{
 
 return(
 
-    <View style={{flex: 1,flexDirection : 'column',backgroundColor:'#fff'}}>
+    <View style={{flex: 1,flexDirection : 'column',backgroundColor:"#fff"}}>
 <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
+
+<View style={StylesAll.headWrapper}>
 <TouchableOpacity onPress={()=>navigation.goBack()}>
 <View style={[StylesAll.commonHeader ,{paddingBottom:15}]}>
-<Image source={require('./Image/back.png')}/>
-<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>OUTLETS</Text>
+<Image source={require('./Image/back.png')} resizeMode="contain"  style={StylesAll.headArrow}/>
+<Text style={[StylesAll.headTitle ]}>OUTLETS</Text>
 </View>
 </TouchableOpacity>
+</View>
+
+
+
 
 
         <View style={{flex: 1.5}}>
@@ -187,7 +192,7 @@ return(
             gh(item.coordinates)
             
             }>
-             <View style={{flex:1,paddingHorizontal: 20,paddingVertical:15 }}>
+             <View style={{flex:1.3,paddingHorizontal: 20,paddingVertical:15 }}>
              <View style={{flexDirection: 'row',justifyContent: 'space-between' ,alignItems:"center"}}>
              <View style={{flex: 0.8,alignContent:'center',alignItems: 'center',justifyContent: 'center',paddingHorizontal:30}}>
              <View style={{width:100,height: 100}}>
@@ -263,7 +268,7 @@ body: {
   },
   outletData:{
 
-  flex:1, backgroundColor: "#fff",marginBottom: 0,width: '100%',borderTopRightRadius: 20 ,borderTopLeftRadius:20,
+  flex:1.4,marginBottom: 0,width: '100%',borderTopRightRadius: 20 ,borderTopLeftRadius:20,
   }
 
 

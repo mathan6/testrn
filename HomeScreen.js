@@ -14,7 +14,6 @@ import { purgeStoredState } from "redux-persist";
 
 const HomeScreen = ( {navigation} ) => {
    
-  const dispatch = useDispatch(); /// ======>>>Redux Hook <<<=====//
   const LoginStatus = useSelector((state) => state.loginDetails);
   const{loginData} = LoginStatus
   const[favourite , setFavourite] = useState([]);
@@ -101,6 +100,9 @@ const HomeScreen = ( {navigation} ) => {
 
     const renderItem = ({item}) => {
       return (
+        <TouchableOpacity onPress={() =>{
+          navigation.navigate('RewardDetails',{dataValue : item, isVoucher : false});
+        }}>
         <View style={StylesAll.rewardLists}>
           <View style={{height: 200}}>
             <Image
@@ -115,23 +117,22 @@ const HomeScreen = ( {navigation} ) => {
   
           <View style={{flexDirection: 'row', padding: 15, alignItems: 'center'}}>
             <View style={{flexDirection: 'column', flex: 1, paddingRight: 10}}>
-              <Text style={StylesAll.md_Title} numberOfLines={3}>
+              <Text style={[StylesAll.md_Title,{marginBottom:10}]} numberOfLines={1} >
                 {item.title}
               </Text>
-              <Text></Text>
-              <Text numberOfLines={2}>Download our app and get this exclusive voucher!</Text>
+             
+              <Text numberOfLines={1}>Download our app and get this exclusive voucher!</Text>
             </View>
             <View>
-              <TouchableOpacity onPress={() =>{
-                navigation.navigate('RewardDetails',{dataValue : item, isVoucher : false});
-              }}>
+              
                 <View style={StylesAll.sm_Button}>
                   <Text style={StylesAll.btnText}>Use now</Text>
                 </View>
-              </TouchableOpacity>
+            
             </View>
           </View>
         </View>
+        </TouchableOpacity>
       );
     };
 
@@ -144,14 +145,26 @@ const HomeScreen = ( {navigation} ) => {
 
       if (loginData === null) {
         return (
+          <TouchableOpacity onPress={()=>navigation.navigate('Detail')}>
+
+
           <View style={[StylesAll.alertMsg,{flex:1}]}>
             <Image
               resizeMode="cover"
               style={{width: 40, height: 40}}
               source={require('./Image/opps.png')}
             />
-            <Text style={[{marginTop: 5}, StylesAll.boldFont]}>Oops, login is required!</Text>
+             <Text style={[{marginVertical: 10}, StylesAll.boldFont]}>
+            Oops, login is required!
+          </Text>
+          <Text>You need to login to access  this feature</Text>
+   
+
+
+
           </View>
+          </TouchableOpacity>
+      
         );
       } else {
         return (

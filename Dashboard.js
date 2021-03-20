@@ -56,16 +56,14 @@ const Dashboard = ({navigation}) => {
 
   const {loginData} = LoginStatus;
 
+
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      console.log('focusfocusfocusfocusfocusfocusfocus');
-
       if (loginData !== null) {
         let abort = new AbortController();
         var form = new FormData();
         form.append('api_token', loginData.token);
-
-        console.log('formformformform', form);
 
         fetch(
           'http://tokyo.shiftlogics.com/api/favourite/viewFavourite',
@@ -82,8 +80,6 @@ const Dashboard = ({navigation}) => {
           .then((response) => response.json())
 
           .then((data) => {
-            console.log('datadatadatadata', data);
-
             if (data.status === 'success') {
               setFavourite(data.data);
             } else {
@@ -105,8 +101,6 @@ const Dashboard = ({navigation}) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      console.log('focusss');
-
       if (loginData != null) {
         let abort = new AbortController();
         var form = new FormData();
@@ -126,16 +120,10 @@ const Dashboard = ({navigation}) => {
           .then((response) => response.json())
 
           .then((data) => {
-            console.log('datadatadatadata44444', data);
-
             if (data.status === 'success') {
               setUserData(data.data);
 
-              Object.entries(data.data).forEach(([key, value]) => {
-                console.log('key value', key, value);
-              });
-
-              console.log('data.datadata.data', data.data);
+              Object.entries(data.data).forEach(([key, value]) => {});
 
               setIsLoadingList(false);
             } else {
@@ -158,7 +146,11 @@ const Dashboard = ({navigation}) => {
 
   const renderItem = ({item}) => {
     return (
-      <View style={[StylesAll.rewardLists,{marginRight:15,width:windowWidth/1.4}]}>
+      <View
+        style={[
+          StylesAll.rewardLists,
+          {marginRight: 15, width: windowWidth / 1.4},
+        ]}>
         <View style={{height: 200, width: '100%'}}>
           <Image
             source={{uri: `http://shiftlogics.com/Tokyo/${item.photo}`}}
@@ -175,23 +167,26 @@ const Dashboard = ({navigation}) => {
         </View>
 
         <View style={{flexDirection: 'row', padding: 15, alignItems: 'center'}}>
-          <View style={{flexDirection: 'column', paddingRight: 10,flex:1}}>
-            <Text style={StylesAll.md_Title} numberOfLines={1} ellipsizeMode={'tail'}>
+          <View style={{flexDirection: 'column', paddingRight: 10, flex: 0.9}}>
+            <Text
+              style={StylesAll.md_Title}
+              numberOfLines={1}
+              ellipsizeMode={'tail'}>
               {item.title}
             </Text>
-            <Text></Text>
-            <Text numberOfLines={2}>
+
+            <Text numberOfLines={1}>
               Download our app and get this exclusive voucher!
             </Text>
           </View>
-          <View style={{flex:0.5}}>
-            <TouchableOpacity onPress={() =>{
-              navigation.navigate('Voucherdetail',{dataValue : item,isVoucher : true});
-            }}>
+          <View style={{flex: 0.7}}>
+            
               <View style={StylesAll.sm_Button}>
-                <Text style={[StylesAll.btnText,{textAlign:'center'}]}>Invite</Text>
+                <Text style={[StylesAll.btnText, {textAlign: 'center'}]} numberOfLines={1}>
+                 {item.redeem_value} Points
+                </Text>
               </View>
-            </TouchableOpacity>
+           
           </View>
         </View>
       </View>
@@ -210,214 +205,251 @@ const Dashboard = ({navigation}) => {
   };
 
   const LoginEmpty = () => {
-
-      return (
-        <View style={StylesAll.alertMsg}>
-          <Image
-            resizeMode="cover"
-            style={{width: 40, height: 40}}
-            source={require('./Image/opps.png')}
-          />
-          <Text style={[{marginTop: 5}, StylesAll.boldFont]}>
+    return (
+<TouchableOpacity onPress={()=>navigation.navigate('Detail')}>
+<View style={StylesAll.alertMsg}>
+        <Image
+          resizeMode="cover"
+          style={{width: 40, height: 40}}
+          source={require('./Image/opps.png')}
+        />
+      <Text style={[{marginVertical: 10}, StylesAll.boldFont]}>
             Oops, login is required!
           </Text>
-        </View>
-      );
+          <Text>You need to login to access  this feature</Text>
    
-  };
+      </View>
 
+
+</TouchableOpacity>
+      
+
+    );
+  };
 
   return (
     <View style={{flexDirection: 'column', flex: 1}}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
 
-        {loginData === null ? <LoginEmpty/> :   
-      <SafeAreaView style={{flex: 1, flexDirection: 'column',backgroundColor:'#FFF'}}>
-  <View style={{marginBottom:10,paddingHorizontal:20}}>
-<TouchableOpacity onPress={()=>navigation.goBack()}>
-<View style={[StylesAll.commonHeader ,{paddingHorizontal:0 ,paddingTop:0}]}>
-<Image source={require('./Image/back.png')}/>
-<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>MEMBER</Text>
-</View>
-</TouchableOpacity>
+      {loginData === null ? (
+        <LoginEmpty />
+      ) : (
+        <SafeAreaView
+          style={{flex: 1, flexDirection: 'column', backgroundColor: '#FFF'}}>
+          <View  style={StylesAll.headWrapper}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <View
+                style={[
+                  StylesAll.commonHeader,
+                 
+                ]}>
+                <Image source={require('./Image/back.png')}  style={StylesAll.headArrow}  resizeMode="contain"/>
+                <Text
+                  style={[
+                    StylesAll.headTitle,
+                    ,
+                  ]}>
+                  MEMBER
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
 
-</View>
+          <View style={StylesAll.Wallet_layer1}>
+            <Text>Wallet Balance</Text>
+            <Text></Text>
 
-        
-        <View style={StylesAll.Wallet_layer1}>
-          <Text>Wallet Balance</Text>
-          <Text></Text>
-        
-          <Text style={StylesAll.wl_ammount}>RM {(Math.round(userData.wallet * 100) / 100).toFixed(2)} </Text>
-        </View>
+            <Text style={StylesAll.wl_ammount}>
+              RM {(Math.round(userData.wallet * 100) / 100).toFixed(2)}{' '}
+            </Text>
+          </View>
 
-        <View style={StylesAll.commonWrapper}>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingVertical: 30,
-              }}>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Payment', {
-                    memberData: userData,
-                    isPayment: true,
-                  });
+          <View style={StylesAll.commonWrapper}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingVertical: 30,
                 }}>
-                <View style={StylesAll.listButton}>
-                  <Image
-                    source={require('./Image/pay.png')}
-                    style={StylesAll.btnIcons}
-                  />
-
-                  <Text style={StylesAll.btnText}>Pay</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('Payment', {
-                    memberData: userData,
-                    isPayment: false,
-                  });
-                }}>
-                <View style={StylesAll.listButton}>
-                  <Image
-                    source={require('./Image/topup.png')}
-                    style={StylesAll.btnIcons}
-                  />
-
-                  <Text style={StylesAll.btnText}>Top Up</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={()=>{
-                  navigation.navigate('History');
-                }}
-              >
-                <View style={StylesAll.listButton}>
-                  <Image
-                    source={require('./Image/history.png')}
-                    style={StylesAll.btnIcons}
-                  />
-
-                  <Text style={StylesAll.btnText}>History</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-
-            <ImageBackground
-               imageStyle={{ borderRadius:15,}}
-              source={require('./Image/member_card.png')}
-              style={{width: '100%', height: 232}}
-              >
-              <View style={{paddingVertical: 30, position: 'relative'}}>
-                <View style={StylesAll.memberStatus}>
-                  <Text
-                    style={[
-                      global.whitecolor,
-                      {fontSize: 18, textAlign: 'center'},
-                    ]}>
-                    {' '}
-                    <Text style={{fontFamily: 'Roboto-Bold', color: '#fff'}}>
-                      {userData.user_type}
-                    </Text>
-                    <Text style={{fontFamily: 'Roboto-Medium', color: '#fff'}}>
-                      {' '}
-                      MEMBER
-                    </Text>
-                  </Text>
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    paddingTop: 30,
-                    paddingHorizontal:20
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('Payment', {
+                      memberData: userData,
+                      isPayment: true,
+                    });
                   }}>
-                  <View>
-                    <Text
-                      style={[
-                        StylesAll.whitecolor,
-                        StylesAll.boldFont,
-                        {fontSize: 15,marginBottom:10},
-                      ]}>
-                      {userData.name}
-                    </Text>
+                  <View style={StylesAll.listButton}>
+                    <Image
+                      source={require('./Image/pay.png')}
+                      style={StylesAll.btnIcons}
+                    />
 
-                    <Text style={[StylesAll.whitecolor,{fontSize:12,paddingBottom:5}]}>
-                      ID:{userData.referral_code}
-                    </Text>
+                    <Text style={StylesAll.btnText}>Pay</Text>
+                  </View>
+                </TouchableOpacity>
 
-                    <Text style={[StylesAll.whitecolor,{fontSize:12}]}>
-                      Member Since :{' '}
-                      {moment(userData.created_at).format('DD:mm:yyyy')}{' '}
-                    </Text>
-                    <Text></Text>
-                    <View style={{flexDirection:'row',alignItems:'center'}}>
-                      <Text style={[StylesAll.whitecolor,{fontSize:12}]}>Your Points: </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('Payment', {
+                      memberData: userData,
+                      isPayment: false,
+                    });
+                  }}>
+                  <View style={StylesAll.listButton}>
+                    <Image
+                      source={require('./Image/topup.png')}
+                      style={StylesAll.btnIcons}
+                    />
+
+                    <Text style={StylesAll.btnText}>Top Up</Text>
+                  </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('History');
+                  }}>
+                  <View style={StylesAll.listButton}>
+                    <Image
+                      source={require('./Image/history.png')}
+                      style={StylesAll.btnIcons}
+                    />
+
+                    <Text style={StylesAll.btnText}>History</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+
+
+<View style={StylesAll.shadowLayout}>
+<ImageBackground
+                imageStyle={{borderRadius: 15}}
+                source={require('./Image/member_card.png')}
+                style={[{width: '100%', height: 232    }]}>
+                 
+                <View style={{paddingVertical: 30, position: 'relative'}}>
+                  <View
+                    style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                    <View style={StylesAll.memberStatus}>
                       <Text
                         style={[
-                          StylesAll.whitecolor,
-                          StylesAll.boldFont,
-                          {fontSize: 18},
+                          global.whitecolor,
+                          {fontSize: 18, textAlign: 'right'},
                         ]}>
-                        {userData.point} Points
+                        {' '}
+                        <Text
+                         
+                          style={{fontFamily: 'SFMono-Bold', color: '#fff',textTransform:'uppercase'}}>
+                          {userData.user_type}
+                        </Text>
+                        <Text
+                          style={{fontFamily: 'SFMono-Medium', color: '#fff'}}>
+                          {' '}
+                          MEMBER
+                        </Text>
                       </Text>
                     </View>
                   </View>
 
-                  <View>
-                  <Image  source={require('./Image/order.png')}
-                       
-                      
-                      />
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      paddingTop: 30,
+                      paddingHorizontal: 20,
+                    }}>
+                    <View>
+                      <Text
+                        style={[
+                          StylesAll.whitecolor,
+                          StylesAll.boldFont,
+                          {fontSize: 15, marginBottom: 10},
+                        ]}>
+                        {userData.name}
+                      </Text>
+
+                      <Text
+                        style={[
+                          StylesAll.whitecolor,
+                          {fontSize: 12, paddingBottom: 5},
+                        ]}>
+                        ID:{userData.referral_code}
+                      </Text>
+
+                      <Text style={[StylesAll.whitecolor, {fontSize: 12}]}>
+                        Member Since :{' '}
+                        {moment(userData.created_at).format('DD/mm/yyyy')}{' '}
+                      </Text>
+                      <Text></Text>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <Text style={[StylesAll.whitecolor, {fontSize: 12}]}>
+                          Your Points:{' '}
+                        </Text>
+                        <Text
+                          style={[
+                            StylesAll.whitecolor,
+                            StylesAll.boldFont,
+                            {fontSize: 18},
+                          ]}>
+                          {userData.point} Points
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View>
+                      <TouchableOpacity
+                        onPress={() => {
+                          navigation.navigate('Payment', {
+                            memberData: userData,
+                            isPayment: true,
+                          });
+                        }}>
+                        <Image source={require('./Image/order.png')} />
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
+              </ImageBackground>
+</View>
+            
+
+              <View style={{marginTop: 20}}>
+                <Text
+                  style={[
+                    StylesAll.boldFont,
+                    {paddingTop: 20, paddingBottom: 15},
+                  ]}>
+                  Voucher
+                </Text>
+
+                <FlatList
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={favourite}
+                  //ListEmptyComponent={EmptyListMessage}
+                  keyExtractor={(item) => item.id}
+                  //keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderItem}
+                  ItemSeparatorComponent={ItemSeparatorView}
+                />
               </View>
-            </ImageBackground>
 
-            <View style={{marginTop: 20}}>
-              <Text
-                style={[
-                  StylesAll.boldFont,
-                  {paddingTop: 20, paddingBottom: 15},
-                ]}>
-                Voucher
-              </Text>
-
-              <FlatList
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={favourite}
-                //ListEmptyComponent={EmptyListMessage}
-                keyExtractor={(item) => item.id}
-                //keyExtractor={(item, index) => index.toString()}
-                renderItem={renderItem}
-                ItemSeparatorComponent={ItemSeparatorView}
-              />
-            </View>
-
-            {/* <FlatList  
+              {/* <FlatList  
            
             showsHorizontalScrollIndicator={false}
             
             data= {favourite}
  
             renderItem={renderItem}/> */}
-          </ScrollView>
-        </View>
-        <View>{isLoadingList ? <ActivityIndi /> : <View></View>}</View>
-       
-      </SafeAreaView>
-      }
+            </ScrollView>
+          </View>
+          <View>{isLoadingList ? <ActivityIndi /> : <View></View>}</View>
+        </SafeAreaView>
+      )}
     </View>
- 
   );
 };
 export default Dashboard;

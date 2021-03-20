@@ -11,7 +11,6 @@ import { purgeStoredState } from "redux-persist";
 
  const Payment = ({ navigation,route}) => {
 
-    const dispatch = useDispatch(); /// ======>>>Redux Hook <<<=====//
     const LoginStatus = useSelector((state) => state.loginDetails);
     const{loginData} = LoginStatus
 
@@ -32,16 +31,16 @@ import { purgeStoredState } from "redux-persist";
       <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
       <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
  
-        <View style={{marginBottom: 20}}>
+        <View >
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <View
               style={[
                 StylesAll.commonHeader,
-                {paddingHorizontal: 0, paddingTop: 0},
+              
               ]}>
-              <Image source={require('./Image/back.png')} />
+              <Image source={require('./Image/back.png')} style={StylesAll.headArrow} resizeMode="contain" />
               <Text
-                style={[StylesAll.main_Title, {marginBottom: 0, fontSize: 20}]}>
+                style={[StylesAll.headTitle]}>
                 {route.params?.isPayment === true ? 'PAY' : 'TOP UP'}
               </Text>
             </View>
@@ -53,7 +52,7 @@ import { purgeStoredState } from "redux-persist";
           <View style={[StylesAll.qrBox,{justifyContent:'center',alignItems:'center'}]}>
           <QRCode
           value={ (loginData != null) ? loginData.token : "No Token Please Login"}
-          size={200}
+          size={240}
           bgColor='#FFFFFF'
           fgColor='#000000'
           />
@@ -63,9 +62,9 @@ import { purgeStoredState } from "redux-persist";
           </View>
 
           <View style={StylesAll.qrbottomBox}>
-            <Text style={StylesAll.btnText}>Wallet</Text>
+            <Text style={StylesAll.btnText}>Wallet Balance</Text>
 
-            <Text style={StylesAll.btnText}>RM {(Math.round(route.params?.memberData.wallet * 100) / 100).toFixed(2)} </Text>
+            <Text style={[StylesAll.mediamFont,StylesAll.whitecolor]}>RM {(Math.round(route.params?.memberData.wallet * 100) / 100).toFixed(2)} </Text>
           </View>
         </View>
       </SafeAreaView>
@@ -73,4 +72,4 @@ import { purgeStoredState } from "redux-persist";
   );
 }
 
-export default Payment;
+export default Payment

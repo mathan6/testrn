@@ -33,15 +33,15 @@ const Rewards = ( {navigation} ) => {
     return (
    
       <View style={{ backgroundColor: '#fafbfb',flex: 1,
-      flexDirection: 'column',paddingVertical: 20}}>
+      flexDirection: 'column'}}>
       <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
       <SafeAreaView style={{flex:  1}}>
 
-      <View style={{marginBottom:20}}>
+      <View style={StylesAll.headWrapper}>
     <TouchableOpacity onPress={()=>navigation.goBack()}>
-<View style={[StylesAll.commonHeader ,{paddingHorizontal:25,paddingTop:0}]}>
-<Image source={require('./Image/back.png')}/>
-<Text style={[StylesAll.main_Title ,{marginBottom:0 ,fontSize:20}]}>REWARDS</Text>
+<View style={[StylesAll.commonHeader]}>
+<Image source={require('./Image/back.png')}  resizeMode="contain" style={StylesAll.headArrow}/>
+<Text style={[StylesAll.headTitle]}>REWARDS</Text>
 </View>
 </TouchableOpacity>
 

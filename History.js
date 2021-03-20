@@ -32,18 +32,18 @@ const History = ({navigation}) => {
  
     return(
           <View style={{ backgroundColor: '#fafbfb',flex: 1,
-          flexDirection: 'column',paddingVertical: 20}}>
+          flexDirection: 'column',}}>
             <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
             <SafeAreaView style={{flex: 1}}>
            
-        <View style={{marginBottom: 20,paddingHorizontal:30,marginBottom:20}}>
+        <View style={StylesAll.headWrapper}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <View
               style={[
                 StylesAll.commonHeader,
-                {paddingHorizontal: 0, paddingTop: 0},
+              
               ]}>
-              <Image source={require('./Image/back.png')} />
+              <Image source={require('./Image/back.png')} resizeMode="contain"  style={StylesAll.headArrow}/>
               <Text
                 style={[StylesAll.main_Title, {marginBottom: 0, fontSize: 20}]}>
                  HISTORY

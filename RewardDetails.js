@@ -185,16 +185,16 @@ const RewardDetails = ({navigation, route}) => {
   };
 
   return (
-    <View style={StylesAll.flexWtrapper}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
+    <View style={[StylesAll.flexWtrapper,{backgroundColor: '#fafbfb',}]}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
       <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
-        <View style={{paddingBottom: 20}}>
+        <View style={ [  StylesAll.headWrapper,   {paddingBottom: 20}]}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <View style={StylesAll.commonHeader}>
-              <Image source={require('./Image/back.png')} />
+              <Image source={require('./Image/back.png')}   style={StylesAll.headArrow} resizeMode="contain"/>
               <Text
-                style={[StylesAll.main_Title, {marginBottom: 0, fontSize: 20}]}>
-                REWARDS
+                style={[StylesAll.headTitle]}>
+                VOUCHER
               </Text>
             </View>
           </TouchableOpacity>
@@ -233,7 +233,7 @@ const RewardDetails = ({navigation, route}) => {
         <View style={StylesAll.innerWrapper}>
           <View style={[StylesAll.flexWtrapper, {}]}>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <Text style={StylesAll.main_Title}>
+              <Text style={StylesAll.md_Title}>
                 {route.params?.dataValue.title}
               </Text>
 
@@ -258,7 +258,7 @@ const RewardDetails = ({navigation, route}) => {
                 </Text>
               </View>
 
-              <Text style={[StylesAll.commom_color, {paddingVertical: 25}]}>
+              <Text style={[StylesAll.commom_color, {paddingVertical:18}]}>
                 Get {route.params?.dataValue.title} for free when you download
                 our app!
               </Text>
@@ -308,9 +308,10 @@ const RewardDetails = ({navigation, route}) => {
               </View>
               <Text></Text>
 
-              <Text style={[StylesAll.main_Title, {textAlign: 'center'}]}>
+              <Text style={[StylesAll.main_Title, {textAlign: 'center' ,fontSize:20}]}>
                 Redeem in 5 minutes
               </Text>
+              <Text></Text>
 
               <TouchableOpacity onPress={() => setreddem()}>
                 <View style={StylesAll.commonButton}>
@@ -362,7 +363,7 @@ const RewardDetails = ({navigation, route}) => {
               </Text>
             </View>
 
-            <View style={[{flex: 0.9, justifyContent: 'flex-end'}]}>
+            <View style={[{flex: 0.1, justifyContent: 'flex-end'}]}>
               <View
                 style={{
                   backgroundColor: '#fff',

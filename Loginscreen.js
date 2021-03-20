@@ -38,6 +38,7 @@ import {
   loginPhoneAction,
   loginSocialAction,
   loginSocialGoogleAction,
+  loginSocialAppleAction
 } from './actions/loginActions';
 import {useDispatch, useSelector} from 'react-redux';
 import {purgeStoredState} from 'redux-persist';
@@ -79,6 +80,14 @@ const Loginscreen = ({navigation}) => {
    const [accessToken ,setAccessToken] = useState('');
 
 
+
+  setTimeout(()=>{
+    if(errorCheck===true){
+      seterrorCheck(false)
+    }
+    },1000)
+
+
   const handleResponse = async () => {
     if (Platform.OS === 'ios') {
       return appleAuth
@@ -87,15 +96,10 @@ const Loginscreen = ({navigation}) => {
           requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
         })
         .then((appleAuthRequestResponse) => {
-
-              dispatch(Ltout(purgeStoredState));
-      dispatch(loginSocialGoogleAction(appleAuthRequestResponse.authorizationCode,appleAuthRequestResponse.fullName.givenName,appleAuthRequestResponse.email,navigation)).then(() => {
-    setIsLoadingList(false);
-    
-  }); 
-
-
-
+          dispatch(Ltout(purgeStoredState));
+          dispatch(loginSocialAppleAction(appleAuthRequestResponse.authorizationCode,appleAuthRequestResponse.fullName.givenName,appleAuthRequestResponse.email,navigation)).then(() => {
+          setIsLoadingList(false);
+         }); 
           let {identityToken, email} = appleAuthRequestResponse;
           console.log('malllll', email);
         });
@@ -265,6 +269,7 @@ const Loginscreen = ({navigation}) => {
   const loginWithFacebook = () => {
     setIsLoadingList(true);
     
+    onLogout();
     LoginManager.logInWithPermissions(['public_profile', 'email']).then(
       function (result) {
         if (result.isCancelled) {
@@ -371,10 +376,11 @@ const Loginscreen = ({navigation}) => {
                       setIsLoadingList(false);
                       seterrorCheck(false);
 
+                      console.log('datadatadatadata mathan',data)
                       navigation.navigate('ResentOtp', {
-                        phoneNumberData: value.slice(1) + values.phoneNumber,
-                        loginData: data.data,
-                        isCreate: false,
+                         phoneNumberData: value.slice(1) + values.phoneNumber,
+                         loginData: data.data,
+                         loginfrom: 'Login',
                       });
 
                       // createAlertWithTwoButton(
@@ -383,12 +389,32 @@ const Loginscreen = ({navigation}) => {
                       //   data.data,
                       // );
                     } else {
+
+                      console.log('datadatadatadatadata',data)
+
+                      /*
+                        navigation.navigate('ReservationOutlet', {
+                            dataValue: currentMyReservation,
+                          });
+                          */
+
                       seterrorCheck(true);
 
                       setIsLoadingList(false);
 
                       setErrormsg(data.msg);
+ 
+                            setTimeout(()=>{
+                if (data.msg === 'Phone number not registered'){
+                       navigation.navigate('CreateAccount', {
+                         phone: values.phoneNumber,
+                   });
+                 }
+                 },1000)
 
+
+
+                     
                       ///createAlertWithTwoButton(data.msg,'','')
                     }
                   })
@@ -521,7 +547,7 @@ const Loginscreen = ({navigation}) => {
                         style={{width: 14, height:14, marginRight: 4}}
                         resizeMode="contain"
                       />
-                      <Text style={[StylesAll.btnText, {fontSize: 11}]}>
+                      <Text style={[StylesAll.btnText, {fontSize: 10}]}>
                         Login with Facebook
                       </Text>
                     </View>
