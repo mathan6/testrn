@@ -38,7 +38,7 @@ import {
   loginPhoneAction,
   loginSocialAction,
   loginSocialGoogleAction,
-  loginSocialAppleAction
+  loginSocialAppleAction,
 } from './actions/loginActions';
 import {useDispatch, useSelector} from 'react-redux';
 import {purgeStoredState} from 'redux-persist';
@@ -48,7 +48,7 @@ import appleAuth, {
   AppleAuthRequestOperation,
   AppleAuthRequestScope,
 } from '@invertase/react-native-apple-authentication';
- 
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -77,16 +77,13 @@ const Loginscreen = ({navigation}) => {
 
   const [errorMsg, setErrormsg] = useState('');
 
-   const [accessToken ,setAccessToken] = useState('');
+  const [accessToken, setAccessToken] = useState('');
 
-
-
-  setTimeout(()=>{
-    if(errorCheck===true){
-      seterrorCheck(false)
+  setTimeout(() => {
+    if (errorCheck === true) {
+      seterrorCheck(false);
     }
-    },1000)
-
+  }, 1000);
 
   const handleResponse = async () => {
     if (Platform.OS === 'ios') {
@@ -96,10 +93,22 @@ const Loginscreen = ({navigation}) => {
           requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
         })
         .then((appleAuthRequestResponse) => {
-          dispatch(Ltout(purgeStoredState));
-          dispatch(loginSocialAppleAction(appleAuthRequestResponse.authorizationCode,appleAuthRequestResponse.fullName.givenName,appleAuthRequestResponse.email,navigation)).then(() => {
-          setIsLoadingList(false);
-         }); 
+          try {
+            dispatch(Ltout(purgeStoredState));
+            dispatch(
+              loginSocialAppleAction(
+                appleAuthRequestResponse.authorizationCode,
+                appleAuthRequestResponse.fullName.givenName,
+                appleAuthRequestResponse.email,
+                navigation,
+              ),
+            ).then(() => {
+              setIsLoadingList(false);
+            });
+          } catch {
+            setIsLoadingList(false);
+            console.log('no return');
+          }
           let {identityToken, email} = appleAuthRequestResponse;
           console.log('malllll', email);
         });
@@ -135,11 +144,11 @@ const Loginscreen = ({navigation}) => {
     );
   };
 
- const _signIn = async () => {
+  const _signIn = async () => {
+    setIsLoadingList(true);
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-
       try {
         dispatch(Ltout(purgeStoredState));
         await dispatch(
@@ -154,16 +163,21 @@ const Loginscreen = ({navigation}) => {
           signOut();
         });
       } catch {
+        setIsLoadingList(false);
         console.log('no return');
       }
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        setIsLoadingList(false);
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
+        setIsLoadingList(false);
         // operation (f.e. sign in) is in progress already
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        setIsLoadingList(false);
         // play services not available or outdated
       } else {
+        setIsLoadingList(false);
         // some other error happened
       }
     }
@@ -187,37 +201,37 @@ const Loginscreen = ({navigation}) => {
 
   const getResponseInfo = async (error, result) => {
     if (error) {
-      //Alert for the Error
       alert('Error fetching data: ' + error.toString());
     } else {
       console.log('checking mathan');
-     
       //response alert
       console.log('test mathan', JSON.stringify(result));
+
       setUserEmail('Email', +result.email);
+
       setUserName('Welcome ' + result.name);
+
       setToken('User Token: ' + result.id);
+
       setProfilePic(result.picture.data.url);
- 
-       console.log('result.emailresult.emailresult.emailresult.emailresult.email',result.email);
-       
+
       setIsLoadingList(true);
 
-      const userInfo = JSON.stringify(result)
-        console.log('resultresultresultresultresultresult111',result);
+      const userInfo = JSON.stringify(result);
 
-      console.log('userInfo.iduserInfo.id',userInfo.id);
+      console.log('resultresultresultresultresultresult111', result);
+
+      console.log('userInfo.iduserInfo.id', userInfo.id);
       try {
         dispatch(Ltout(purgeStoredState));
         await dispatch(
           loginSocialAction(result.id, result.name, result.email, navigation),
         ).then(() => {
           setIsLoadingList(false);
-      
           onLogout();
-          // navigation.navigate('Home');
         });
       } catch {
+        setIsLoadingList(false);
         console.log('no return');
       }
     }
@@ -268,7 +282,7 @@ const Loginscreen = ({navigation}) => {
 
   const loginWithFacebook = () => {
     setIsLoadingList(true);
-    
+
     onLogout();
     LoginManager.logInWithPermissions(['public_profile', 'email']).then(
       function (result) {
@@ -276,10 +290,11 @@ const Loginscreen = ({navigation}) => {
           setIsLoadingList(false);
           console.log('==> Login cancelled');
         } else {
+          setIsLoadingList(false);
           AccessToken.getCurrentAccessToken().then((data) => {
             console.log('mathan', data);
-            console.log('token.......',data.accessToken.toString());
-            setAccessToken(data.accessToken.toString())
+            console.log('token.......', data.accessToken.toString());
+            setAccessToken(data.accessToken.toString());
             const processRequest = new GraphRequest(
               '/me?fields=name,email,picture.type(large)',
               null,
@@ -354,7 +369,10 @@ const Loginscreen = ({navigation}) => {
 
                 let abort = new AbortController();
                 var form = new FormData();
-                form.append('phone', value.slice(1) + values.phoneNumber);
+                form.append(
+                  'phone',
+                  value.replace('+', '') + values.phoneNumber,
+                );
                 fetch(
                   'http://tokyo.shiftlogics.com/api/user/loginphone',
                   {
@@ -376,46 +394,29 @@ const Loginscreen = ({navigation}) => {
                       setIsLoadingList(false);
                       seterrorCheck(false);
 
-                      console.log('datadatadatadata mathan',data)
+                      console.log('datadatadatadata mathan', data);
                       navigation.navigate('ResentOtp', {
-                         phoneNumberData: value.slice(1) + values.phoneNumber,
-                         loginData: data.data,
-                         loginfrom: 'Login',
+                        phoneNumberData:
+                          value.replace('+', '') + values.phoneNumber,
+                        loginData: data.data,
+                        loginfrom: 'Login',
                       });
-
-                      // createAlertWithTwoButton(
-                      //   data.msg,
-                      //   value.slice(1) + values.phoneNumber,
-                      //   data.data,
-                      // );
                     } else {
-
-                      console.log('datadatadatadatadata',data)
-
-                      /*
-                        navigation.navigate('ReservationOutlet', {
-                            dataValue: currentMyReservation,
-                          });
-                          */
+                      console.log('datadatadatadatadata', data);
 
                       seterrorCheck(true);
 
                       setIsLoadingList(false);
 
                       setErrormsg(data.msg);
- 
-                            setTimeout(()=>{
-                if (data.msg === 'Phone number not registered'){
-                       navigation.navigate('CreateAccount', {
-                         phone: values.phoneNumber,
-                   });
-                 }
-                 },1000)
 
-
-
-                     
-                      ///createAlertWithTwoButton(data.msg,'','')
+                      setTimeout(() => {
+                        if (data.msg === 'Phone number not registered') {
+                          navigation.navigate('CreateAccount', {
+                            phone: values.phoneNumber,
+                          });
+                        }
+                      }, 1000);
                     }
                   })
                   .catch((e) => {
@@ -461,10 +462,10 @@ const Loginscreen = ({navigation}) => {
 
                   <TouchableOpacity
                     onPress={props.handleSubmit}
-                    disabled={!props.dirty}>
+                    disabled={ props.values.phoneNumber.length >= 9 ? false : true}>
                     <View
                       style={
-                        props.dirty
+                        props.values.phoneNumber.length >= 9
                           ? StylesAll.commonButton
                           : StylesAll.commonButtondisabled
                       }>
@@ -475,19 +476,21 @@ const Loginscreen = ({navigation}) => {
               )}
             </Formik>
             <Text></Text>
-            <TouchableOpacity onPress={() =>{
-              navigation.navigate('Home')
-            }}>   
-            <Text style={[StylesAll.mediamFont, {textAlign: 'center'}]}>
-              Continue as guest
-            </Text>
-            </TouchableOpacity>   
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Home');
+              }}>
+              <Text style={[StylesAll.mediamFont, {textAlign: 'center'}]}>
+                Continue as guest
+              </Text>
+            </TouchableOpacity>
             <View style={StylesAll.ltguestWrapper}>
               <View
                 style={{
                   flexDirection: 'row',
                   alignItems: 'center',
-                  paddingHorizontal: 10, paddingTop:10
+                  paddingHorizontal: 10,
+                  paddingTop: 10,
                 }}>
                 <View
                   style={{
@@ -514,23 +517,23 @@ const Loginscreen = ({navigation}) => {
                   }}
                 />
               </View>
-              {Platform.OS==="ios" ?
-              <TouchableOpacity
-                onPress={() => {
-                  handleResponse();
-                }}>
-                <View style={StylesAll.appleButton}>
-                  <Image
-                    source={require('./Image/icons8-apple-logo.png')}
-                    style={{width: 20, height: 20, marginRight: 5}}
-                    resizeMode="contain"
-                  />
-                  <Text style={[StylesAll.btnText, {textAlign: 'center'}]}>
-                    Continue with Apple
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            :null}        
+              {Platform.OS === 'ios' ? (
+                <TouchableOpacity
+                  onPress={() => {
+                    handleResponse();
+                  }}>
+                  <View style={StylesAll.appleButton}>
+                    <Image
+                      source={require('./Image/icons8-apple-logo.png')}
+                      style={{width: 20, height: 20, marginRight: 5}}
+                      resizeMode="contain"
+                    />
+                    <Text style={[StylesAll.btnText, {textAlign: 'center'}]}>
+                      Continue with Apple
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              ) : null}
               <View
                 style={{
                   flexDirection: 'row',
@@ -544,7 +547,7 @@ const Loginscreen = ({navigation}) => {
                     <View style={StylesAll.fbButton}>
                       <Image
                         source={require('./Image/icons8-facebook-f.png')}
-                        style={{width: 14, height:14, marginRight: 4}}
+                        style={{width: 14, height: 14, marginRight: 4}}
                         resizeMode="contain"
                       />
                       <Text style={[StylesAll.btnText, {fontSize: 10}]}>
@@ -554,7 +557,7 @@ const Loginscreen = ({navigation}) => {
                   </TouchableOpacity>
                 </View>
 
-                <View style={{width:"50%", marginLeft: 2}}>
+                <View style={{width: '50%', marginLeft: 2}}>
                   <TouchableOpacity onPress={_signIn}>
                     <View style={StylesAll.googleButton}>
                       <Image
@@ -577,80 +580,6 @@ const Loginscreen = ({navigation}) => {
       </ImageBackground>
       <View>{isLoadingList ? <ActivityIndi /> : <View></View>}</View>
     </View>
-
-    //       <SafeAreaView style={{backgroundColor: COLORS.app_theme,flex: 1,}}>
-
-    //       <View style={{flex:1 ,backgroundColor:'white'}}>
-    //        <View style = {styles.topHeaderView}>
-    //        <Text style = {[styles.toptext,StylesAll.LoginBoldFont]}>Tokyo Secret</Text>
-    //        <Text style = {[styles.toptext1,StylesAll.LoginBoldFont]}>People are queing up for our freshly half-backed  Hanjuku Cheese Tart!</Text>
-
-    //       <View style = {styles.imageView}>
-    //       <TouchableOpacity onPress={dimissAction}>
-    //       <Image style={styles.list}
-    //         source={require('./Image/close.png')}/>
-    //       </TouchableOpacity>
-    //       </View>
-
-    //       </View>
-    //       <View style = {styles.bottomHeaderView}>
-    //       <View>
-    //       <Text styles = {styles.textMala}>MALAYSIA</Text>
-    //       <Text style = {styles.textLets}>Let's get started </Text>
-    //       </View>
-
-    //       <View style={styles.text}>
-    //       <TouchableOpacity  onPress={onPressLoginWithPhone}  style={{borderRadius:20}}>
-    //       <Text style={[{color :'white'},StylesAll.boldFont]}>
-    //         Login with Phone Number
-    //      </Text>
-    //      </TouchableOpacity>
-    //      </View>
-
-    //      <Text style = {styles.textOr}>
-    //       ---- or ----
-    //      </Text>
-
-    //        <View style = {styles.apple}>
-    //        <TouchableOpacity>
-    //        <Text style={[{color :'white'},StylesAll.boldFont]}>
-    //        Continue with apple
-    //        </Text>
-    //        </TouchableOpacity>
-    //        </View>
-
-    //       <View style= {styles.faceGoogleButton}>
-    //       <TouchableOpacity style = {styles.faceBook} onPress={onPress3}>
-    //       <Text style={[{color :'white'},StylesAll.boldFont]}>
-    //       Facebook
-    //       </Text>
-    //       </TouchableOpacity>
-
-    //     <TouchableOpacity style = {styles.google} onPress={_signIn}>
-    //      <Text style={[{color :'black'},StylesAll.boldFont]}>
-    //      Google
-    //      </Text>
-    //      </TouchableOpacity>
-
-    // </View>
-
-    //      <TouchableOpacity onPress={onPress2}>
-    //      <Text style = {styles.textClear}>
-    //       Register with email
-    //      </Text>
-    //     </TouchableOpacity >
-
-    //     <TouchableOpacity onPress={() =>{
-    //       navigation.goBack()
-    //     }}>
-    //      <Text style = {styles.textClear}>
-    //     Continue as guest
-    //     </Text>
-    //     </TouchableOpacity>
-    //       </View>
-    //       <View>{isLoadingList ? <ActivityIndi/>:<View></View> }</View>
-    //       </View>
-    //       </SafeAreaView>
   );
 };
 
@@ -807,7 +736,6 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
 
-  
   errorSnackbar: {
     backgroundColor: '#C02925',
     padding: 12,
@@ -815,8 +743,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 35,
   },
-
-
-
 });
 export default Loginscreen;

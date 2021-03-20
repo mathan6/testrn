@@ -42,6 +42,7 @@
     "react-native-otp-textinput": "^0.0.8",
     "react-native-paper": "^4.7.2",
     "react-native-permissions": "^2.2.2",
+    "react-native-push-notification": "^7.2.3",
     "react-native-qrcode-image": "^0.2.8",
     "react-native-qrcode-scanner": "^1.5.3",
     "react-native-raw-bottom-sheet": "^2.2.0",

@@ -156,7 +156,7 @@ const CreateAccount = ({navigation, route}) => {
             var form = new FormData();
             form.append('name', values.name);
             form.append('email', values.email);
-            form.append('phone', value.slice(1) + values.phoneNumber);
+            form.append('phone', value.replace('+','') + values.phoneNumber);
             form.append('password', '00000000');
             form.append('app_secret', 'tokenhere');
             form.append(
@@ -187,13 +187,13 @@ const CreateAccount = ({navigation, route}) => {
 
                   createAlertWithTwoButton(
                     data.status,
-                    value.slice(1) + values.phoneNumber,
+                     value.replace('+','') + values.phoneNumber,
                     data.data,
                   );
                 } else {
                   console.log('datadata', data.data);
 
-                  if (data.data?.email.length > 0) {
+                  if (data.data.email?.length > 0) {
                     let myData = data.data.email;
 
                     seterrorCheck(true);
@@ -201,8 +201,8 @@ const CreateAccount = ({navigation, route}) => {
                   } else {
                     console.log('kavi');
                   }
-
-                  if (data.data?.phone.length > 0) {
+//phone
+                  if (data.data.phone?.length > 0) {
                     let myData = data.data.phone;
                     console.log('ph' ,myData)
 
@@ -346,7 +346,7 @@ const CreateAccount = ({navigation, route}) => {
                       : true
                   }
                   onPress={props.handleSubmit}
-                  disabled={!props.dirty}>
+                  >
                   <View
                     style={[
                       {
@@ -359,7 +359,7 @@ const CreateAccount = ({navigation, route}) => {
                       },
                       props.values.name != '' &&
                       props.values.email != '' &&
-                      props.values.phoneNumber != ''
+                      props.values.phoneNumber.length >= 9
                         ? StylesAll.commonButton
                         : StylesAll.commonButtondisabled,
                     ]}>

@@ -5,6 +5,7 @@ import {
   LOGIN_SOCIAL,
   LOGIN_SOCIAL_GOOGLE,
   LOG_OUT,
+  LOGIN_SOCIAL_APPLE
 } from '../actions/Constants';
 
 
@@ -108,6 +109,20 @@ function loginReducer(
               status : extractStatus4,
             };
 
+            case LOGIN_SOCIAL_APPLE :
+
+              let jsonData5 = action.payload;
+  
+              let extractData5 = jsonData5.data;
+    
+              let extractStatus5 = jsonData5.status;
+    
+              return{
+                loginData : extractData5,
+                status : extractStatus5,
+              };
+
+              
 
     case LOG_OUT:
        return {token: '',status: null,loginData: null};

@@ -3,10 +3,7 @@ import {
   Alert} from "react-native";
 export const loginAction = (values, code, load) => async (dispatch) => {
  
-   //let myValue =  values.slice(1) 
-
-  // console.log("myValue",myValue);
-   
+ 
   try {
     var form = new FormData();
     form.append('phone',code+values.phoneNumber)
@@ -36,7 +33,7 @@ export const loginSocialAction = (idValue,name,email,navigation) => async(dispat
     form.append('name',name),
     form.append('email',email),
     form.append('dob',""),
- 
+  
    fetch(
           'http://tokyo.shiftlogics.com/api/user/loginfb',
            {
@@ -52,22 +49,16 @@ export const loginSocialAction = (idValue,name,email,navigation) => async(dispat
           .then((response) => response.json())
           .then((data) => {
  
-            dispatch({type: LOGIN_SOCIAL, payload: data});
-  
             Alert.alert(
               data.status,
               "",
               [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-                },
                 { text: "OK", onPress: () => {
                   if (data.status === 'success')  {
                   if (data.data.phone_verified == "0"){
                     navigation.navigate('loginWithPhone',{loginData : data.data});
                   }else{
+                    dispatch({type: LOGIN_SOCIAL, payload: data});
                     navigation.navigate('Home');
                     console.log("phone verified0");
                   }
@@ -75,11 +66,12 @@ export const loginSocialAction = (idValue,name,email,navigation) => async(dispat
                 } }
               ],
               { cancelable: false }
-            );
+               );
 
 
               })
               .catch((e) => {
+                dispatch({type: LOGIN_FAIL});
                console.log(e);   
               })
               return () => {
@@ -88,10 +80,6 @@ export const loginSocialAction = (idValue,name,email,navigation) => async(dispat
 }
  
 export const loginSocialAppleAction = (idValue,name,email,navigation) => async(dispatch) => {
-
-  console.log("idValueidValue",idValue);
-  console.log("namenamename",name);
-  console.log("emailemailemail",email);
  
   let abort = new AbortController();
   var form = new FormData();
@@ -99,10 +87,7 @@ export const loginSocialAppleAction = (idValue,name,email,navigation) => async(d
   form.append('name',email),
   form.append('email',name),
   form.append('dob',""),
-
-
-  console.log("formformformform",form);
-
+ 
        fetch(
           'http://tokyo.shiftlogics.com/api/user/loginapple',
            {
@@ -116,23 +101,18 @@ export const loginSocialAppleAction = (idValue,name,email,navigation) => async(d
           {signal: abort.signal}, 
            )
           .then((response) => response.json())
-          .then((data) => { 
-            dispatch({type: LOGIN_SOCIAL_APPLE, payload: data});
-
+          .then((data) => {
+        
                 Alert.alert(
                   data.status,
                   "",
                   [
-                    {
-                      text: "Cancel",
-                      onPress: () => console.log("Cancel Pressed"),
-                      style: "cancel"
-                    },
                     { text: "OK", onPress: () => {
                       if (data.status === 'success')  {
                       if (data.data.phone_verified == "0"){
                         navigation.navigate('loginWithPhone',{loginData : data.data});
                       }else{
+                        dispatch({type: LOGIN_SOCIAL_APPLE, payload: data});
                         navigation.navigate('Home');
                       }
                     }
@@ -144,6 +124,7 @@ export const loginSocialAppleAction = (idValue,name,email,navigation) => async(d
 
               })
               .catch((e) => {
+                dispatch({type: LOGIN_FAIL});
                console.log(e);   
               })
               return () => {
@@ -179,22 +160,37 @@ export const loginSocialGoogleAction = (idValue,name,email,navigation) => async(
            )
           .then((response) => response.json())
           .then((data) => { 
-            dispatch({type: LOGIN_SOCIAL_GOOGLE, payload: data});
+           
+       console.log('datadatadata google',data);
 
-                 console.log("data value",data);
 
+            
+            Alert.alert(
+              data.status,
+              "",
+              [
+                { text: "OK", onPress: () => {
+                   
               if (data.status === 'success')  {
                 if (data.data.phone_verified == "0"){
                   navigation.navigate('loginWithPhone',{loginData : data.data});
                 }else{
+                  dispatch({type: LOGIN_SOCIAL_GOOGLE, payload: data});
                   navigation.navigate('Home');
                   console.log("phone verified0");
                 }
-               } else {
-                 console.log("data value",data);
                }
+                } }
+              ],
+              { cancelable: false }
+            );
+
+
+ 
+
               })
               .catch((e) => {
+                dispatch({type: LOGIN_FAIL});
                console.log(e);   
               })
               return () => {
@@ -226,7 +222,9 @@ export const loginPhoneAction = (apiToken, otpData, phone,apiURL) => async (disp
    })
      .then((response) => response.json())
      .then((data) => {
+
        console.log('datadatadata',data);
+
        dispatch({type: LOGIN_PHONE, payload: data});
      
        Alert.alert(

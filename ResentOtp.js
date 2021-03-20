@@ -49,14 +49,24 @@ const ResentOtp = ({navigation, route}) => {
   const [secondsTimer, setSecondsTimer] = useState(60);
   const foo = useRef();
 
+
+  setTimeout(()=>{
+    if(errorCheck===true){
+      seterrorCheck(false)
+    }
+    },1000)
+
+
   const applyRefercode = () => {
     setIsLoadingList(true);
     if (referralCode === '') {
-      createAlertWithTwoButton1('Kindly enter your referral code');
+      seterrorCheck(true);
+      setErrormsg('Kindly enter your referral code')
+      //createAlertWithTwoButton1('Kindly enter your referral code');
     } else {
       let abort = new AbortController();
       var form = new FormData();
-      form.append('api_token', route?.params.loginData.api_token);
+      form.append('api_token', apiToken);
       form.append('referral_code',referralCode);
 console.log('formformform',form)
 
@@ -84,7 +94,9 @@ console.log('formformform',form)
             createAlertWithTwoButton1(data.data);
           } else {
             console.log('datadatadatadata fall',data);
-            createAlertWithTwoButton1(data.data);
+            //createAlertWithTwoButton1(data.data);
+            seterrorCheck(true);
+            setErrormsg(data.data)
           }
         })
         .catch((e) => console.log(e));
@@ -169,7 +181,12 @@ console.log('formformform',form)
       {cancelable: false},
     );
 
-  const resendOTPAPI = () => {
+  const resendOTPAPI = (apiUrl) => {
+
+    console.log('apiUrlapiUrlapiUrlapiUrlapiUrl',apiUrl)
+
+
+    console.log('route?.params.loginfrom',route?.params.loginfrom);
     setSecondsTimer(60);
     setMinutesTimer(0);
     setDone(false);
@@ -184,7 +201,7 @@ console.log('formformform',form)
       console.log('formformformformformformformformformformformform',form);
 
       fetch(
-        'http://tokyo.shiftlogics.com/api/user/sendotp',
+        apiUrl,
         {
           method: 'POST',
           headers: new Headers({
@@ -201,11 +218,17 @@ console.log('formformform',form)
           setIsLoadingList(false);
 
           if (data.status === 'success') {
-            console.log('data',data)
+
+            if(route?.params.loginfrom == 'Login'){
+              createAlertWithTwoButton1(data.msg);
+            }else{
+              createAlertWithTwoButton1(data.data);
+            }
+            console.log('data datadatadata resend',data)
             setCurrentOTP('');
-            createAlertWithTwoButton1(data.data);
+            
           } else {
-            console.log('nooo',data)
+            
             setErrormsg(data.data);
           }
         })
@@ -228,6 +251,7 @@ console.log('formformform',form)
     console.log('phoneNumberphoneNumber',phoneNumber);
  
     if (currentOTP.length == 4) {
+      seterrorCheck(false);
       setIsLoadingList(true);
 
       try {
@@ -240,7 +264,10 @@ console.log('formformform',form)
         });
       } catch {}
     } else {
-      createTwoButttonWithoutOTP();
+      seterrorCheck(true);
+ 
+      setErrormsg('Kindly Fill OTP Fields');
+      //createTwoButttonWithoutOTP();
     }
   };
   loginfrom: 'Create',
@@ -272,17 +299,30 @@ console.log('formformform',form)
           .then((response) => response.json())
 
           .then((data) => {
-            if (data.status === 'success') {
 
-              console.log('datadatadatadata send otp',data)
+            setIsLoadingList(false);
+            Alert.alert(
+              data.data,
+              '',
+              [
+                {
+                  text: 'ok',
+                  onPress: () => {
+                    if (data.status === 'success') {
+                      console.log('token',route?.params.loginData.token);
+                      console.log('phoneNumberData',route.params?.phoneNumberData);
+                      setApiToken(route?.params.loginData.token);
+                      setPhoneNumber(route.params?.phoneNumberData);
+                    }else{
+                      
+                    }
+                   
+                  },
+                },
+              ],
+              {cancelable: false},
+            );
  
-              setApiToken(route?.params.loginData.token);
-              setPhoneNumber(route.params?.phoneNumberData);
-
-              setIsLoadingList(false);
-            } else {
-              setIsLoadingList(false);
-            }
           })
           .catch((e) => {
             console.log(e);
@@ -292,9 +332,13 @@ console.log('formformform',form)
       };
     } else {
       console.log('route?.params.loginData.api_token',route?.params.loginData.api_token)
+      console.log('route?.params.loginData.api_token2222',route?.params.loginData.token)
       console.log('route.params?.phoneNumberData',route.params?.phoneNumberData)
-
-      setApiToken(route?.params.loginData.api_token);
+      if (route?.params.loginfrom == 'Social') {
+        setApiToken(route?.params.loginData.token);
+      }else{
+        setApiToken(route?.params.loginData.api_token);
+      }
       setPhoneNumber(route.params?.phoneNumberData);
     }
   }, []);
@@ -320,6 +364,19 @@ console.log('formformform',form)
             </View>
           </View>
         ) : null}
+
+     <View style={{marginBottom: 10, marginHorizontal: 20}}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <View style={[StylesAll.commonHeader1]}>
+              <Image
+                source={require('./Image/back.png')}
+                style={StylesAll.headArrow}
+                resizeMode="contain"
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
+
 
         <View style={{flex: 1, margin: 20, marginTop: 30}}>
           <Text
@@ -363,7 +420,7 @@ console.log('formformform',form)
           {done == false ? (
             <View></View>
           ) : (
-            <TouchableOpacity onPress={() => resendOTPAPI()}>
+            <TouchableOpacity onPress={() => resendOTPAPI((route?.params.loginfrom == 'Login') ? 'http://tokyo.shiftlogics.com/api/user/loginphone' : 'http://tokyo.shiftlogics.com/api/user/sendotp')}>
               <View
                 style={[
                   {
@@ -401,14 +458,16 @@ console.log('formformform',form)
           />
         </View>
         <View style={{flex: 1, justifyContent: 'flex-end', margin: 20}}>
-          <TouchableOpacity
+
+          {(route?.params.loginfrom == 'Login') ? null : <TouchableOpacity
             onPress={() => {
               setModalVisible(true);
             }}>
             <Text style={{padding: 20, textAlign: 'center'}}>
               I have a referral code
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity>}
+          
           <TouchableOpacity onPress={() => submitOTPAPI()}>
             <View
               style={{
