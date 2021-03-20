@@ -40,6 +40,11 @@ const RewardDetails = ({navigation, route}) => {
   const LoginStatus = useSelector((state) => state.loginDetails);
   const {loginData} = LoginStatus;
 
+const [qrCode,setQrcode ]=useState({})
+
+
+
+
   //console.log(loginData.token)
 
   useEffect(() => {
@@ -87,8 +92,15 @@ const RewardDetails = ({navigation, route}) => {
         .then((response) => response.json())
         .then((data) => {
           //  console.log(data)
+
+
           if (data.status === 'success') {
+
+            setQrcode(data.data.qr_code)
             setQR(data);
+
+
+
           } else if (data.status === 'failure') {
             console.log('fail');
 
@@ -140,6 +152,13 @@ const RewardDetails = ({navigation, route}) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 'success') {
+          console.log(data)
+
+          setQrcode(data.data.qr_code)
+
+
+
+
           setQR(data);
 
           setModalVisible1(true);
@@ -218,7 +237,7 @@ const RewardDetails = ({navigation, route}) => {
                 <QRCode
                   value={
                     loginData != null
-                      ? loginData.token
+                      ? qrCode
                       : 'No Token Please Login'
                   }
                   size={160}
@@ -343,7 +362,7 @@ const RewardDetails = ({navigation, route}) => {
                 <QRCode
                   value={
                     loginData != null
-                      ? loginData.token
+                      ? qrCode
                       : 'No Token Please Login'
                   }
                   size={200}

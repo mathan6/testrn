@@ -49,6 +49,10 @@ import appleAuth, {
   AppleAuthRequestScope,
 } from '@invertase/react-native-apple-authentication';
 
+// import PushNotificationIOS from "@react-native-community/push-notification-ios";
+// import PushNotification from "react-native-push-notification";
+
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -56,7 +60,11 @@ const phoneSchema = yup.object({
   phoneNumber: yup.string(),
 });
 
+
 const Loginscreen = ({navigation}) => {
+
+
+
   const [value, onChangeText] = React.useState('+60');
   const [value1, onChangeText1] = React.useState('');
 
@@ -78,6 +86,99 @@ const Loginscreen = ({navigation}) => {
   const [errorMsg, setErrormsg] = useState('');
 
   const [accessToken, setAccessToken] = useState('');
+ 
+
+
+  // PushNotification.createChannel(
+  //   {
+  //     channelId: 'driver_app_notification_123', // (required)
+  //     channelName: 'tokyosecret', // (required)
+  //     channelDescription: 'A channel to categorise your notifications', // (optional) default: undefined.
+  //     soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
+  //     importance: 4, // (optional) default: 4. Int value of the Android notification importance
+  //     vibrate: true, // (optional) default: true. Creates the default vibration patten if true.
+  //   },
+  //   //  (created) => alert(`createChannel returned '${created}'`), // (optional) callback returns whether the channel was created, false means it already existed.
+  // );
+
+  // PushNotification.configure({
+  //   onRegister: function (uniqueData) {
+  //  //  console.log(uniqueData)
+
+  //     setdeviceToken(uniqueData.token);
+  //     setdeviceType(uniqueData.os);
+
+  //     // console.log(uniqueData)
+  //   },
+
+  //   onNotification: function (notification) {
+  //     const {title, body} = notification.data;
+
+  //     PushNotification.localNotification({
+  //       /* Android Only Properties */
+  //       channelId: 'tokyosecret_notification_123', // (required) channelId, if the channel doesn't exist, it will be created with options passed above (importance, vibration, sound). Once the channel is created, the channel will not be update. Make sure your channelId is different if you change these options. If you have created a custom channel, it will apply options of the channel.
+  //       largeIcon: 'ic_launcher', // (optional) default: "ic_launcher". Use "" for no large icon.
+  //       largeIconUrl: 'https://www.example.tld/picture.jpg', // (optional) default: undefined
+  //       smallIcon: 'ic_notification', // (optional) default: "ic_notification" with fallback for "ic_launcher". Use "" for default small icon.
+  //       bigText: 'My big text that will be shown when notification is expanded', // (optional) default: "message" prop
+  //       subText: 'This is a subText', // (optional) default: none
+  //       bigPictureUrl: 'https://www.example.tld/picture.jpg', // (optional) default: undefined
+  //       color: 'red', // (optional) default: system default
+  //       priority: 'high', // (optional) set notification priority, default: high
+  //       visibility: 'private', // (optional) set notification visibility, default: private
+  //       ignoreInForeground: false, // (optional) if true, the notification will not be visible when the app is in the foreground (useful for parity with how iOS notifications appear)
+  //       onlyAlertOnce: false,
+  //       /* iOS only properties */
+  //       alertAction: 'view', // (optional) default: view
+  //       category: '', // (optional) default: empty string
+
+  //       /* iOS and Android properties */
+  //       title: title, // (optional)
+  //       message: body, // (required)
+  //       playSound: true, // (optional) default: true
+  //       soundName: 'default', // (optional) Sound to play when the notification is shown. Value of 'default' plays the default sound. It can be set to a custom sound such as 'android.resource://com.xyz/raw/my_sound'. It will look for the 'my_sound' audio file in 'res/raw' directory and play it. default: 'default' (default sound is played)
+  //     },()=>{
+
+  //       console.log("okjkkkk")
+
+
+
+  //     });
+
+     
+
+  //     PushNotification.popInitialNotification((notification) => {
+
+
+  //       console.log('Initial Notification', notification);
+
+
+  //     });
+     
+  //    notification.finish(PushNotificationIOS.FetchResult.NoData);
+
+  //   },
+
+
+
+
+  //   senderID:'945025541582',
+
+  //   permissions: {
+  //     alert: true,
+  //     badge: true,
+  //     sound: true,
+  //   },
+
+  //   popInitialNotification: true,
+  //   requestPermissions: true,
+  // });
+
+  // const notificationValues = {
+  //   tok: deviceToken,
+  //   os: deviceType,
+  // };
+
 
   setTimeout(() => {
     if (errorCheck === true) {

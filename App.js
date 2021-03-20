@@ -51,6 +51,11 @@ import SplashScreen from './SplashScreen';
 import Reserve from './Reservation';
 import RewardDetails from './RewardDetails';
 
+import TermsandConditions from './TermsandConditions';
+
+import Menusubcategory from './Menusubcategory';
+
+
 
 
 
@@ -72,6 +77,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import Home from './Home';
+import PrivacyPolicy from './PrivacyPolicy';
 
 const Stack = createStackNavigator();
 //const Drawer = createDrawerNavigator();
@@ -348,6 +354,34 @@ const App = () => {
           options={{title: 'TopUp'}}
           component={TopUp}
         />
+
+<Stack.Screen
+          name="TermsandConditions"
+          options={{title: 'TermsandConditions'}}
+          component={TermsandConditions}
+        />
+
+
+<Stack.Screen
+          name="PrivacyPolicy"
+          options={{title: 'PrivacyPolicy'}}
+          component={PrivacyPolicy}
+        />
+
+
+
+<Stack.Screen
+          name="Menusubcategory"
+          options={{title: 'Menusubcategory'}}
+          component={Menusubcategory}
+        />
+
+
+
+
+
+
+
     
       </Stack.Navigator>
     </NavigationContainer>

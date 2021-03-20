@@ -12,6 +12,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;  // <--- Import Package
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.reactcommunity.rndatetimepicker.RNDateTimePickerPackage;
 
@@ -32,7 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
           // packages.add(new MyReactNativePackage());
           new ReactNativeContacts();
           new RNDateTimePickerPackage();
-           
+            new ReactNativePushNotificationPackage();
           return packages;
         }
 

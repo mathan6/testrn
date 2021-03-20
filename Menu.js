@@ -34,16 +34,6 @@ const Menu = ({navigation, route}) => {
     </TouchableOpacity>
   );
 
-  render_FlatList_header = () => {
-    var header_View = (
-      <View style={styles.header_footer_style}>
-        <Text style={styles.textStyle}> FlatList Header </Text>
-      </View>
-    );
-
-    return header_View;
-  };
-
   const [isLoadingList, setIsLoadingList] = useState(true);
   const [CategoryProduct, setCategoryProduct] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
@@ -55,48 +45,43 @@ const Menu = ({navigation, route}) => {
   const [dataSourceCords, setDataSourceCords] = useState([]);
 
   useEffect(() => {
-    navigation.setOptions({title: route.params?.productId.name});
- 
+    //navigation.setOptions({title: route.params?.productId.name});
 
-    if (route.params?.productId.id) {
-   
+    //{productcd: item  ,yu: globalCatid  })
 
-      let abort = new AbortController();
+    let abort = new AbortController();
 
-      var form = new FormData();
-      form.append('cateid', route.params?.productId.id);
+    var form = new FormData();
+    form.append('cateid', route.params?.subCat);
+    form.append('subcateid', route.params?.productId.id);
+    fetch(
+      'http://tokyo.shiftlogics.com/api/product/betaproductbyid',
+      {
+        method: 'POST',
+        headers: new Headers({
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        }),
+        body: form,
+      },
+      {signal: abort.signal},
+    )
+      .then((response) => response.json())
 
-      fetch(
-        'http://tokyo.shiftlogics.com/api/product/betaproduct',
-        {
-          method: 'POST',
-          headers: new Headers({
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data',
-          }),
-          body: form,
-        },
-        {signal: abort.signal},
-      )
-        .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 'success') {
+          setCategoryProduct(data.data);
+          setDataSource(data.data);
 
-        .then((data) => {
-          if (data.status === 'success') {
-          
-
-            setCategoryProduct(data.data);
-            setDataSource(data.data);
-
-            setIsLoadingList(false);
-          } else {
-            setIsLoadingList(false);
-          }
-        })
-        .catch((e) => console.log(e));
-      return () => {
-        abort.abort();
-      };
-    }
+          setIsLoadingList(false);
+        } else {
+          setIsLoadingList(false);
+        }
+      })
+      .catch((e) => console.log(e));
+    return () => {
+      abort.abort();
+    };
   }, []);
 
   const renderItem = ({item}) => {
@@ -140,8 +125,6 @@ const Menu = ({navigation, route}) => {
               <View
                 style={{
                   flex: 0.5,
-              
-                  
                 }}>
                 {eee.image.map((ee) => {
                   return (
@@ -155,14 +138,15 @@ const Menu = ({navigation, route}) => {
                   );
                 })}
               </View>
-              <View style={{flex: 1  ,paddingLeft:10}}>
-                <View >
-                  <Text numberOfLines={3} style={StylesAll.md_Title}>
-                    {eee.cateName}
+              <View style={{flex: 1, paddingLeft: 10}}>
+                <View>
+                  <Text
+                    numberOfLines={3}
+                    style={[StylesAll.md_Title, {fontSize: 12}]}>
+                    {eee.productName}
                   </Text>
-                
 
-                  <Text numberOfLines={3}>{eee.productName}</Text>
+                  <Text numberOfLines={3}>{eee.sku}</Text>
                 </View>
                 <View
                   style={{
@@ -171,8 +155,13 @@ const Menu = ({navigation, route}) => {
                     flex: 1,
                     alignItems: 'flex-end',
                   }}>
-                  
-                  <Text style={[ StylesAll.mediamFont,  {color:COLORS.app_browntheme}]}>RM {(Math.round(eee.sellingPrice * 100) / 100).toFixed(2)}</Text>
+                  <Text
+                    style={[
+                      StylesAll.mediamFont,
+                      {color: COLORS.app_browntheme},
+                    ]}>
+                    RM {(Math.round(eee.sellingPrice * 100) / 100).toFixed(2)}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -188,20 +177,19 @@ const Menu = ({navigation, route}) => {
   };
 
   return (
-    <View style={[StylesAll.commonWrapper ,{paddingTop:0}]}>
+    <View style={[StylesAll.commonWrapper, {paddingTop: 0}]}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff"></StatusBar>
       <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
-        <View >
+        <View>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <View
-              style={[
-                StylesAll.commonHeader,
-              
-              ]}>
-              <Image source={require('./Image/back.png')}  resizeMode="contain"  style={StylesAll.headArrow}/>
-              <Text
-                style={[StylesAll.headTitle, {textTransform:"uppercase"}]}>
-                {(route.params?.productId.name)}
+            <View style={[StylesAll.commonHeader]}>
+              <Image
+                source={require('./Image/back.png')}
+                resizeMode="contain"
+                style={StylesAll.headArrow}
+              />
+              <Text style={[StylesAll.headTitle, {textTransform: 'uppercase'}]}>
+                {route.params?.productId.subcatename}
               </Text>
             </View>
           </TouchableOpacity>
@@ -212,7 +200,7 @@ const Menu = ({navigation, route}) => {
             setRef(ref);
           }}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingHorizontal: 6 ,paddingTop:30}}>
+          contentContainerStyle={{paddingHorizontal: 6, paddingTop: 30}}>
           {dataSource.map(ItemView)}
         </ScrollView>
       </SafeAreaView>

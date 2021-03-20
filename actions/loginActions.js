@@ -1,6 +1,7 @@
 import {LOGIN_FAIL, LOGIN_REQ, LOGIN_RESPONSE, LOG_OUT,LOGIN_PHONE,LOGIN_SOCIAL,LOGIN_SOCIAL_GOOGLE,LOGIN_SOCIAL_APPLE} from './Constants';
 import {
   Alert} from "react-native";
+ 
 export const loginAction = (values, code, load) => async (dispatch) => {
  
  

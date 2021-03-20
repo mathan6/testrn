@@ -16,33 +16,53 @@ import {COLORS} from './Styles/colors';
 import {StylesAll} from './commanStyle/objectStyle';
 
 
-const menuDashboard = ({navigation}) => {
+const Menusubcategory = ({navigation ,route}) => {
+
+
   const [isLoadingList, setIsLoadingList] = useState(true);
   const [CategoryProduct, setCategoryProduct] = useState([]);
+ 
+
+  let globalCatid = route.params?.productId.id
+
+
+
+
+  console.log(globalCatid)
+
+
 
   useEffect(() => {
+
+
     let abort = new AbortController();
     var form = new FormData();
-    form.append('cateid', '2');
+
+
+    form.append('cateid', route.params?.productId.id);
+
+
     fetch(
-      'http://tokyo.shiftlogics.com/api/category/betacategory',
+      'http://tokyo.shiftlogics.com/api/category/betasubcategory',
       {
         method: 'POST',
         headers: new Headers({
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
         }),
-        //body: form,
+        body: form,
       },
       {signal: abort.signal},
     )
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 'success') {
-         
+       
           setCategoryProduct(data.data);
+
           setIsLoadingList(false);
         } else {
+
           setIsLoadingList(false);
         }
       })
@@ -61,7 +81,7 @@ const menuDashboard = ({navigation}) => {
 <TouchableOpacity onPress={()=>navigation.goBack()}>
 <View style={[StylesAll.commonHeader]}>
 <Image source={require('./Image/back.png')}  resizeMode="contain"   style={StylesAll.headArrow}/>
-<Text style={[StylesAll.headTitle ]}>MENU</Text>
+  <Text style={[StylesAll.headTitle ,{textTransform:"uppercase"}]}>{route.params?.productId.name}</Text>
 </View>
 </TouchableOpacity>
 
@@ -76,7 +96,10 @@ const menuDashboard = ({navigation}) => {
           renderItem={({item, index}) => (
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate('Menusubcategory', {productId: item});
+                navigation.navigate('Menu', {productId: item  , subCat : route.params?.productId.id});
+
+
+
               }}>
               <View style={StylesAll.listBox}>
                 <Image
@@ -93,7 +116,7 @@ const menuDashboard = ({navigation}) => {
                       justifyContent: 'center',
                       paddingTop: 80,
                     }}>
-                    <Text style={StylesAll.btnText}>{item.name}</Text>
+                    <Text style={StylesAll.btnText}>{item.subcatename}</Text>
                   </View>
                 </View>
               </View>
@@ -106,4 +129,4 @@ const menuDashboard = ({navigation}) => {
   );
 };
 
-export default menuDashboard;
+export default Menusubcategory;

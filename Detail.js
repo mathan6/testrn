@@ -79,12 +79,18 @@ const Detail = ( {navigation} ) => {
   
       const onPress4 = () => {
       
-       navigation.navigate('WebViewComman',{urlString : 'https://tokyosecret.com/index.php?route=information/information&information_id=5'})
+
+navigation.navigate('TermsandConditions')
+
+        
+      //  navigation.navigate('WebViewComman',{urlString : 'https://tokyosecret.com/index.php?route=information/information&information_id=5'})
      }
   
       const onPress5 = () => {
-        console.log("kavin")
-        navigation.navigate('WebViewComman',{urlString : 'https://tokyosecret.com/index.php?route=information/information&information_id=5'})
+
+        navigation.navigate('PrivacyPolicy')
+        
+       // navigation.navigate('WebViewComman',{urlString : 'https://tokyosecret.com/index.php?route=information/information&information_id=5'})
      }
 
      
