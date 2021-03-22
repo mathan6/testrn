@@ -1,7 +1,10 @@
 import {LOGIN_FAIL, LOGIN_REQ, LOGIN_RESPONSE, LOG_OUT,LOGIN_PHONE,LOGIN_SOCIAL,LOGIN_SOCIAL_GOOGLE,LOGIN_SOCIAL_APPLE} from './Constants';
 import {
   Alert} from "react-native";
- 
+  
+ import {pushAction} from '../PushAction';
+
+
 export const loginAction = (values, code, load) => async (dispatch) => {
  
  
@@ -27,7 +30,7 @@ export const loginAction = (values, code, load) => async (dispatch) => {
   }
 };
 
-export const loginSocialAction = (idValue,name,email,navigation) => async(dispatch,myData) => {
+export const loginSocialAction = (idValue,name,email,navigation,notificationValues) => async(dispatch,myData) => {
   let abort = new AbortController();
    var form = new FormData();
     form.append('fb_id',idValue),
@@ -55,10 +58,13 @@ export const loginSocialAction = (idValue,name,email,navigation) => async(dispat
               "",
               [
                 { text: "OK", onPress: () => {
+                  let uniqueToken= data.data.token
+
                   if (data.status === 'success')  {
                   if (data.data.phone_verified == "0"){
                     navigation.navigate('loginWithPhone',{loginData : data.data});
                   }else{
+                    pushAction(uniqueToken,notificationValues.tok,notificationValues.os,"user")
                     dispatch({type: LOGIN_SOCIAL, payload: data});
                     navigation.navigate('Home');
                     console.log("phone verified0");
@@ -80,7 +86,7 @@ export const loginSocialAction = (idValue,name,email,navigation) => async(dispat
               };
 }
  
-export const loginSocialAppleAction = (idValue,name,email,navigation) => async(dispatch) => {
+export const loginSocialAppleAction = (idValue,name,email,navigation,notificationValues) => async(dispatch) => {
  
   let abort = new AbortController();
   var form = new FormData();
@@ -110,10 +116,20 @@ export const loginSocialAppleAction = (idValue,name,email,navigation) => async(d
                   [
                     { text: "OK", onPress: () => {
                       if (data.status === 'success')  {
+
+                        let uniqueToken= data.data.token
+
                       if (data.data.phone_verified == "0"){
                         navigation.navigate('loginWithPhone',{loginData : data.data});
                       }else{
                         dispatch({type: LOGIN_SOCIAL_APPLE, payload: data});
+
+                        console.log("Phone verification 1111")
+                        console.log('uniqueTokenuniqueToken',uniqueToken);
+                        console.log('notificationValues.tok',notificationValues.tok);
+                        console.log('notificationValues.os',notificationValues.os);
+                        
+                        pushAction(uniqueToken,notificationValues.tok,notificationValues.os,"user")
                         navigation.navigate('Home');
                       }
                     }
@@ -134,7 +150,7 @@ export const loginSocialAppleAction = (idValue,name,email,navigation) => async(d
 }
 
 
-export const loginSocialGoogleAction = (idValue,name,email,navigation) => async(dispatch) => {
+export const loginSocialGoogleAction = (idValue,name,email,navigation,notificationValues) => async(dispatch) => {
 
   console.log("funcation");
   let abort = new AbortController();
@@ -164,8 +180,6 @@ export const loginSocialGoogleAction = (idValue,name,email,navigation) => async(
            
        console.log('datadatadata google',data);
 
-
-            
             Alert.alert(
               data.status,
               "",
@@ -173,9 +187,13 @@ export const loginSocialGoogleAction = (idValue,name,email,navigation) => async(
                 { text: "OK", onPress: () => {
                    
               if (data.status === 'success')  {
+
+                let uniqueToken= data.data.token
+ 
                 if (data.data.phone_verified == "0"){
                   navigation.navigate('loginWithPhone',{loginData : data.data});
                 }else{
+                  pushAction(uniqueToken,notificationValues.tok,notificationValues.os,"user")
                   dispatch({type: LOGIN_SOCIAL_GOOGLE, payload: data});
                   navigation.navigate('Home');
                   console.log("phone verified0");
@@ -184,11 +202,7 @@ export const loginSocialGoogleAction = (idValue,name,email,navigation) => async(
                 } }
               ],
               { cancelable: false }
-            );
-
-
- 
-
+               );
               })
               .catch((e) => {
                 dispatch({type: LOGIN_FAIL});
@@ -201,7 +215,7 @@ export const loginSocialGoogleAction = (idValue,name,email,navigation) => async(
 
 
  
-export const loginPhoneAction = (apiToken, otpData, phone,apiURL) => async (dispatch) => {
+export const loginPhoneAction = (apiToken, otpData, phone,apiURL,notificationValues) => async (dispatch) => {
  console.log('apiToken',apiToken);
  console.log('otpData',otpData);
  console.log('phone',phone);
@@ -223,23 +237,23 @@ export const loginPhoneAction = (apiToken, otpData, phone,apiURL) => async (disp
    })
      .then((response) => response.json())
      .then((data) => {
-
-       console.log('datadatadata',data);
-
-       dispatch({type: LOGIN_PHONE, payload: data});
-     
        Alert.alert(
         data.status,
         "",
         [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
-          },
           { text: "OK", onPress: () => {
             
-          } }
+            if (data.status === 'success')  {
+              let uniqueToken= data.data.token
+              dispatch({type: LOGIN_PHONE, payload: data});
+              pushAction(uniqueToken,notificationValues.tok,notificationValues.os,"user")
+
+            }else{
+
+            }
+
+          } 
+         }
         ],
         { cancelable: false }
       );

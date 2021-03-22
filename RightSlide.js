@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState,useEffect}from 'react';
 import {
   View,
   Text,
@@ -18,12 +18,49 @@ import {
 
 
 export default function Drawer({navigation}) {
+
+  const [seconds, setSeconds] = useState(0)
+  const [minutes, setMinutes] = useState(5)
+
+
+
+
+
+  const updateTime=()=> {
+    if (minutes == 0 && seconds == 0) {
+      //reset
+      setSeconds(0);
+      setMinutes(5);
+    }
+    else {
+      if (seconds == 0) {
+        setMinutes(minutes => minutes - 1);
+        setSeconds(59);
+      } else {
+        setSeconds(seconds => seconds - 1);
+      }
+    }
+  }
+
+  useEffect(() => {
+    // use set timeout and be confident because updateTime will cause rerender
+    // rerender mean re call this effect => then it will be similar to how setinterval works
+    // but with easy to understand logic
+    const token = setTimeout(updateTime, 1000)
+
+    // return function cleanUp() {
+    //   clearTimeout(token);
+    // }
+  })
+
   return (
     <View style={StylesAll.commonWrapper}>
       <StatusBar barStyle="dark-content" backgroundColor="#fafbfb"></StatusBar>
 
 
       <SafeAreaView style={[StylesAll.flexWtrapper]}>
+
+      <Text> time: {minutes}:{seconds}</Text>
       <View style={{flexDirection:'row',justifyContent:'flex-end'}}>
       <TouchableOpacity  onPress={() => navigation.goBack()}>
        <View style={{padding:20}}>

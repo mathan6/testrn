@@ -9,7 +9,7 @@ import {
   StatusBar,
   SafeAreaView,
 } from 'react-native';
-import React, {Component, useState} from 'react';
+import React, {Component, useState,useEffect} from 'react';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 import {StylesAll} from './commanStyle/objectStyle';

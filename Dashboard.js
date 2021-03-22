@@ -413,7 +413,7 @@ const Dashboard = ({navigation}) => {
                   </View>
                 </View>
               </ImageBackground>
-</View>
+              </View>
             
 
               <View style={{marginTop: 20}}>

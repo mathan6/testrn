@@ -11,19 +11,19 @@ export const My_Data = 'Mathan'
 
 const CarouselCardItem = ({ item, index }) => {
   return (
-    <View  >
+    <View   style={[{ padding:3 ,borderRadius:11}, StylesAll.shadowLayout]}>
        
     { item.postImage.map((ee) =>{
        
           
      return( 
-       <View   style={[{}, ]} key={index}>
+       <View     key={index}>
 
 
    <Image 
     source={{uri:`http://shiftlogics.com/Tokyo/${ee.pImage}`}}
                       resizeMode= 'cover'
-                       style={[styles.imageStyle ,{borderRadius:11}  ]}
+                       style={[styles.imageStyle ,{borderRadius:6}  ]}
                         key={index}
              />
 

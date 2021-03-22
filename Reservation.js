@@ -222,6 +222,8 @@ const Reservation = ({navigation}) => {
       )
         .then((response) => response.json())
         .then((data) => {
+          console.log('datadatadatadatadatadata ViewReservation',data);
+          
           if (data.status === 'success') {
             setViewReservation(data.data);
             setIsLoadingList(false);
@@ -242,6 +244,8 @@ const Reservation = ({navigation}) => {
    }, [isFocused]);
 
    const getOutlet = () =>{
+
+    console.log('getOutletgetOutletgetOutletgetOutlet');
      
     let abort = new AbortController();
     fetch(
@@ -258,9 +262,11 @@ const Reservation = ({navigation}) => {
       .then((response) => response.json())
 
       .then((data) => {
+        console.log('datadatadatadatadata',data);
+
         if (data.status === 'success') {
           setOutlet(data.data);
-           
+           console.log('datadatadata',data);
         } else {
           
         }
@@ -532,6 +538,23 @@ const Reservation = ({navigation}) => {
     }
   };
 
+
+  const EmptyListMessage1 = ({item}) => {
+ 
+      return (
+        <View style={StylesAll.alertMsg1}>
+          <Image
+            style={{width: 40, height: 40}}
+            source={require('./Image/opps.png')}
+            resizeMode="cover"
+          />
+          <Text style={[{marginTop: 5}, StylesAll.boldFont]}>
+             No Data Available at this time!
+          </Text>
+        </View>
+      ); 
+  };
+ 
   return (
     <View
       style={{
@@ -1852,6 +1875,7 @@ const Reservation = ({navigation}) => {
                   ListHeaderComponent={ListHeader}
                   ItemSeparatorComponent={FlatListItemSeparator}
                   data={outlet}
+                  ListEmptyComponent={EmptyListMessage1}
                   //keyExtractor={(item) => item.id}
                   keyExtractor={(item) => item.id.toString()}
                   renderItem={({item}) => (

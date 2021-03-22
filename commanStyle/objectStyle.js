@@ -447,6 +447,14 @@ boldFontLight2: {
      marginTop: Dimensions.get('window').height/2.7,
      alignContent:'center',
  },
+
+ alertMsg1: {
+  flexDirection:'column',
+  justifyContent:'center',
+  alignItems:'center',
+   marginTop: Dimensions.get('window').height/3.2,
+   alignContent:'center',
+},
  
  shadowLayout:{
   shadowColor: "#000",

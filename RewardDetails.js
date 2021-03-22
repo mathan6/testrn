@@ -96,6 +96,12 @@ const [qrCode,setQrcode ]=useState({})
 
           if (data.status === 'success') {
 
+            console.log('datadatadataRewardsss',data)
+
+
+            console.log('QR Code.....',data.data.qr_code);
+
+
             setQrcode(data.data.qr_code)
             setQR(data);
 
@@ -152,15 +158,9 @@ const [qrCode,setQrcode ]=useState({})
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 'success') {
-          console.log(data)
-
+          console.log('setreddemsetreddemsetreddem',data)
           setQrcode(data.data.qr_code)
-
-
-
-
           setQR(data);
-
           setModalVisible1(true);
           setModalVisible(false);
         } else if (data.status === 'failure') {
